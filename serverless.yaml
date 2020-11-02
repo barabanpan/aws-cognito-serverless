@@ -1,0 +1,38 @@
+# For full config options, check the docs:
+# https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
+
+service: learn-serverless
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.7
+  stage: dev
+  region: eu-central-1
+
+functions:
+  add:
+    handler: code/add.add
+    events:
+      - http:
+          path: /calculations/add
+          method: post
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/add/**
+  subtract:
+    handler: code/subtract.subtract
+    events:
+      - http:
+          path: /calculations/subtract
+          method: post
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/subtract/**
