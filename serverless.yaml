@@ -5,6 +5,9 @@ service: learn-serverless
 
 frameworkVersion: '2'
 
+package:
+  individually: true
+
 provider:
   name: aws
   runtime: python3.7
