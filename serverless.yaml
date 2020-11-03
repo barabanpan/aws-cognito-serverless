@@ -24,11 +24,16 @@ functions:
           path: /calculations/add
           method: post
           cors: true
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+         - dynamodb:*
     package:
       exclude:
         - ./**
       include:
         - code/addition/**
+
   subtract:
     handler: code/subtraction/subtract.subtract
     layers:
@@ -38,6 +43,10 @@ functions:
           path: /calculations/subtract
           method: post
           cors: true
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+         - dynamodb:*
     package:
       exclude:
         - ./**
