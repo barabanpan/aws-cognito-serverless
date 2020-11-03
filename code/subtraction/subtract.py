@@ -13,4 +13,3 @@ def subtract(event, context):
         'statusCode': 200,
         'body': json.dumps({'res': res})
     }
-
