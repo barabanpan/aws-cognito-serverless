@@ -23,7 +23,7 @@ functions:
       exclude:
         - ./**
       include:
-        - code/add/**
+        - code/addition/**
   subtract:
     handler: code/subtraction/subtract.subtract
     events:
@@ -35,4 +35,4 @@ functions:
       exclude:
         - ./**
       include:
-        - code/subtract/**
+        - code/subtraction/**
