@@ -53,6 +53,28 @@ functions:
       include:
         - code/subtraction/**
 
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: logs_dev
+        AttributeDefinitions:
+          - AttributeName: uid
+            AttributeType: S
+          - AttributeName: request_body
+            AttributeType: S
+          - AttributeName: res
+            AttributeType: N
+          - AttributeName: timestamp
+            AttributeType: N
+        KeySchema:
+          - AttributeName: uid
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+
 layers:
   basic:
     path: ./code/layers/basic_layer
