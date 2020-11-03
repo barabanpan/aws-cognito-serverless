@@ -13,7 +13,7 @@ provider:
 
 functions:
   add:
-    handler: code/add.add
+    handler: code/addition/add.add
     events:
       - http:
           path: /calculations/add
@@ -25,7 +25,7 @@ functions:
       include:
         - code/add/**
   subtract:
-    handler: code/subtract.subtract
+    handler: code/subtraction/subtract.subtract
     events:
       - http:
           path: /calculations/subtract
