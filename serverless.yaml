@@ -62,12 +62,6 @@ resources:
         AttributeDefinitions:
           - AttributeName: uid
             AttributeType: S
-          - AttributeName: request_body
-            AttributeType: S
-          - AttributeName: res
-            AttributeType: N
-          - AttributeName: timestamp
-            AttributeType: N
         KeySchema:
           - AttributeName: uid
             KeyType: HASH
