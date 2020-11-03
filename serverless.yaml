@@ -6,7 +6,7 @@ service: learn-serverless
 frameworkVersion: '2'
 
 package:
-  individually: true
+  individually: true  # for each lambda to be packaged individually
 
 provider:
   name: aws
@@ -17,6 +17,8 @@ provider:
 functions:
   add:
     handler: code/addition/add.add
+    layers:
+      - { Ref: BasicLambdaLayer }
     events:
       - http:
           path: /calculations/add
@@ -29,6 +31,8 @@ functions:
         - code/addition/**
   subtract:
     handler: code/subtraction/subtract.subtract
+    layers:
+      - { Ref: BasicLambdaLayer }
     events:
       - http:
           path: /calculations/subtract
@@ -39,3 +43,12 @@ functions:
         - ./**
       include:
         - code/subtraction/**
+
+layers:
+  basic:
+    path: ./code/layers/basic_layer
+    name: basic_layer
+    compatibleRuntimes:
+      - python3.6
+      - python3.7
+      - python3.8
