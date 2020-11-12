@@ -1,9 +1,6 @@
 import json
 
-from decorators import log_request
 
-
-@log_request
 def add(event, context):
     args = json.loads(event['body'])
     a, b = args.get('a'), args.get('b')
