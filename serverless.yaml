@@ -14,7 +14,30 @@ provider:
   stage: dev
   region: eu-central-1
 
+custom:
+  USERS_TABLE_NAME: users_${opt:stage, self:provider.stage, 'dev'}
+
 functions:
+  sign_up:
+    handler: code/sign_up/sign_up.handler
+    layers:
+      - { Ref: BasicLambdaLayer }
+    events:
+      - http:
+          path: /users/sign_up
+          method: post
+          cors: true
+    iamRoleStatements:
+      - Sid: ${self:custom.USERS_TABLE_NAME}
+        Effect: "Allow"
+        Action:
+         - dynamodb:PutItem
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/sign_up/**
+
   add:
     handler: code/addition/add.add
     layers:
@@ -54,16 +77,38 @@ functions:
         - code/subtraction/**
 
 resources:
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      MfaConfiguration: OFF   # multi-factor authentication
+      UserPoolName: my-user-pool
+      UsernameAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: True
+          RequireNumbers: True
+          RequireSymbols: False
+          RequireUppercase: True
+  CognitoUserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      ClientName: my-user-pool-client
+      GenerateSecret: False
+      UserPoolId:
+        Ref: CognitoUserPool
+
   Resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: logs_dev
+        TableName: ${self:custom.USERS_TABLE_NAME}
         AttributeDefinitions:
-          - AttributeName: uid
+          - AttributeName: email
             AttributeType: S
         KeySchema:
-          - AttributeName: uid
+          - AttributeName: email
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 5
