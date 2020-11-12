@@ -77,28 +77,6 @@ functions:
         - code/subtraction/**
 
 resources:
-  CognitoUserPool:
-    Type: AWS::Cognito::UserPool
-    Properties:
-      MfaConfiguration: OFF   # multi-factor authentication
-      UserPoolName: my-user-pool
-      UsernameAttributes:
-        - email
-      Policies:
-        PasswordPolicy:
-          MinimumLength: 8
-          RequireLowercase: True
-          RequireNumbers: True
-          RequireSymbols: False
-          RequireUppercase: True
-  CognitoUserPoolClient:
-    Type: "AWS::Cognito::UserPoolClient"
-    Properties:
-      ClientName: my-user-pool-client
-      GenerateSecret: False
-      UserPoolId:
-        Ref: CognitoUserPool
-
   Resources:
     usersTable:
       Type: AWS::DynamoDB::Table
