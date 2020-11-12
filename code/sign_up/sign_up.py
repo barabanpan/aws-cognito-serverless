@@ -1,5 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError, ParamValidationError
+import json
 import re
 
 from cognito import CLIENT_ID, get_secret_hash
@@ -12,7 +13,7 @@ client = boto3.client('cognito-idp')
 
 # TODO: add validation of json data
 def handler(event, context):
-    body = event['body']
+    body = json.loads(event['body'])
     username = body['email']
     if not re.fullmatch(r'[^@]+@[^@]+\.[^@]+', username):
         return bad_request('Invalid email address')

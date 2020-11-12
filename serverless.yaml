@@ -13,9 +13,8 @@ provider:
   runtime: python3.7
   stage: dev
   region: eu-central-1
-
-custom:
-  USERS_TABLE_NAME: users_${opt:stage, self:provider.stage, 'dev'}
+  environment:
+    USERS_TABLE_NAME: users_${opt:stage, self:provider.stage, 'dev'}
 
 functions:
   sign_up:
@@ -28,7 +27,7 @@ functions:
           method: post
           cors: true
     iamRoleStatements:
-      - Sid: ${self:custom.USERS_TABLE_NAME}
+      - Sid: ${self:provider.environment.USERS_TABLE_NAME}
         Effect: "Allow"
         Action:
          - dynamodb:PutItem
@@ -81,7 +80,7 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.USERS_TABLE_NAME}
+        TableName: ${self:provider.environment.USERS_TABLE_NAME}
         AttributeDefinitions:
           - AttributeName: email
             AttributeType: S
