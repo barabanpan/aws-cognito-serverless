@@ -2,7 +2,7 @@ import base64
 import hashlib
 import hmac
 
-from bq_constants import CLIENT_ID, CLIENT_SECRET
+from constants import CLIENT_ID, CLIENT_SECRET
 
 
 def get_secret_hash(username):
