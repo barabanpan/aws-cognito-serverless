@@ -15,6 +15,11 @@ provider:
   region: eu-central-1
   environment:
     USERS_TABLE_NAME: users_${opt:stage, self:provider.stage, 'dev'}
+  iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+         - dynamodb:*
+        Resource: "*"
 
 functions:
   sign_up:
@@ -26,11 +31,6 @@ functions:
           path: /users/sign_up
           method: post
           cors: true
-    iamRoleStatements:
-      - Sid: ${self:provider.environment.USERS_TABLE_NAME}
-        Effect: "Allow"
-        Action:
-         - dynamodb:PutItem
     package:
       exclude:
         - ./**
@@ -46,10 +46,6 @@ functions:
           path: /calculations/add
           method: post
           cors: true
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-         - dynamodb:*
     package:
       exclude:
         - ./**
@@ -65,10 +61,6 @@ functions:
           path: /calculations/subtract
           method: post
           cors: true
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-         - dynamodb:*
     package:
       exclude:
         - ./**
