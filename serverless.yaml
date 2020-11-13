@@ -19,7 +19,7 @@ provider:
       - Effect: "Allow"
         Action:
          - dynamodb:*
-        Resource: "*"
+        Resource: arn:aws:dynamodb:eu-central-1:343179190615:table/users_dev
 
 functions:
   sign_up:
