@@ -37,6 +37,18 @@ functions:
       include:
         - code/sign_up/**
 
+  custom_message:
+    handler: code/custom_verification_message/custom_message.handler
+    events:
+      - cognitoUserPool:
+          pool: user_pool_${opt:stage, self:provider.stage, 'dev'}
+          trigger: CustomMessage
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/custom_verification_message/**
+
   add:
     handler: code/addition/add.add
     layers:
