@@ -58,20 +58,20 @@ functions:
       include:
         - code/custom_verification_message/**
 
-  add:
-    handler: code/addition/add.add
+  common_resource:
+    handler: code/common_resource/common_resource.handler
     layers:
       - { Ref: BasicLambdaLayer }
     events:
       - http:
-          path: /calculations/add
-          method: post
+          path: /common_resource
+          method: get
           cors: true
     package:
       exclude:
         - ./**
       include:
-        - code/addition/**
+        - code/common_resource/**
 
 resources:
   Resources:
