@@ -20,13 +20,14 @@ provider:
   iamRoleStatements:
       - Effect: "Allow"
         Action:
-         - dynamodb:*
-        Resource: arn:aws:dynamodb:eu-central-1:343179190615:table/users_dev
+         - dynamodb:PutItem
+        Resource: "*"
 
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
   userPoolName: user-pool-${self:custom.currentStage}
   userPoolClientName: user-pool-client-${self:custom.currentStage}
+  cognitoUserPoolDomainName: example199754-${self:custom.currentStage}
 
 functions:
   sign_up:
@@ -71,21 +72,6 @@ functions:
         - ./**
       include:
         - code/addition/**
-
-  subtract:
-    handler: code/subtraction/subtract.subtract
-    layers:
-      - { Ref: BasicLambdaLayer }
-    events:
-      - http:
-          path: /calculations/subtract
-          method: post
-          cors: true
-    package:
-      exclude:
-        - ./**
-      include:
-        - code/subtraction/**
 
 resources:
   Resources:
@@ -144,7 +130,7 @@ resources:
     CognitoUserPoolDomain:  # for verification link instead of code
       Type: AWS::Cognito::UserPoolDomain
       Properties:
-        Domain: example199754
+        Domain: ${self:custom.cognitoUserPoolDomainName}
         UserPoolId:
           Ref: CognitoUserPool
 

@@ -2,9 +2,7 @@ def handler(event, context):
     if not event['triggerSource'] == 'CustomMessage_SignUp':
         return event
 
-    # darkblue button with white letters
-    verify_button_html = '<button style="background-color: darkblue; color: white">Verify email address</button>'
-    event['request']['linkParameter'] = event['request']['linkParameter'].replace('Click Here', verify_button_html)
+    event['request']['linkParameter'] = event['request']['linkParameter'].replace('Click Here', 'Verify email.')
 
     email = event['request']['userAttributes']['email']
     email_lines = [
@@ -20,8 +18,6 @@ def handler(event, context):
         '',
         'You’re receiving this email because you recently created a new account.',
         'If this wasn’t you, please ignore this email.',
-        '',
-        ''
     ]
 
     event['response']['emailSubject'] = 'Please verify your email address.'
