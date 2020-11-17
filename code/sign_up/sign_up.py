@@ -1,14 +1,15 @@
 import boto3
 from botocore.exceptions import ClientError, ParamValidationError
 import json
+import os
 import re
 
-from cognito import CLIENT_ID, get_secret_hash
 from db_manager import DatabaseManager
 from utils import bad_request, response
 
 
 client = boto3.client('cognito-idp')
+CLIENT_ID = os.environ.get('COGNITO_CLIENT_ID')
 
 
 # TODO: add validation of json data
@@ -22,11 +23,9 @@ def handler(event, context):
     db = DatabaseManager(username)
     db.write_new_user_info()
 
-    secret_hash = get_secret_hash(username)
     try:
         client.sign_up(
             ClientId=CLIENT_ID,
-            SecretHash=secret_hash,
             Username=username,
             Password=body['password']
         )

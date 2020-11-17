@@ -1,7 +1,9 @@
 import boto3
 import time
+import os
 
-from constants import USERS_TABLE_NAME
+
+USERS_TABLE_NAME = os.environ.get('USERS_TABLE_NAME')
 
 
 class DatabaseManager:

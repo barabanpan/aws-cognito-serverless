@@ -14,12 +14,19 @@ provider:
   stage: dev
   region: eu-central-1
   environment:
-    USERS_TABLE_NAME: users_${opt:stage, self:provider.stage, 'dev'}
+    USERS_TABLE_NAME: users_${self:custom.currentStage}
+    COGNITO_CLIENT_ID: 
+      Ref: CognitoUserPoolClient
   iamRoleStatements:
       - Effect: "Allow"
         Action:
          - dynamodb:*
         Resource: arn:aws:dynamodb:eu-central-1:343179190615:table/users_dev
+
+custom:
+  currentStage: ${opt:stage, self:provider.stage, 'dev'}
+  userPoolName: user-pool-${self:custom.currentStage}
+  userPoolClientName: user-pool-client-${self:custom.currentStage}
 
 functions:
   sign_up:
@@ -41,8 +48,9 @@ functions:
     handler: code/custom_verification_message/custom_message.handler
     events:
       - cognitoUserPool:
-          pool: user_pool_${opt:stage, self:provider.stage, 'dev'}
+          pool: ${self:custom.userPoolName}
           trigger: CustomMessage
+          existing: true
     package:
       exclude:
         - ./**
@@ -94,6 +102,51 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
+    CognitoUserPool:
+      Type: "AWS::Cognito::UserPool"
+      Properties:
+        MfaConfiguration: OFF
+        UserPoolName: ${self:custom.userPoolName}
+        UsernameAttributes:
+          - email
+        EmailConfiguration: 
+          EmailSendingAccount: DEVELOPER  # COGNITO_DEFAULT
+          #arn:aws:ses:us-east-1:1234567890:identity/john@myemail.com - like that for DEVELOPER
+          #SourceArn: # sourceARN to verified email address in SES
+          From: nataliia.dyshko@ukr.net
+          SourceArn: arn:aws:ses:eu-west-1:343179190615:identity/nataliia.dyshko@ukr.net
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 8
+            RequireLowercase: True
+            RequireNumbers: True
+            RequireSymbols: False
+            RequireUppercase: True
+        AccountRecoverySetting:
+          RecoveryMechanisms:
+            -  Name: verified_email
+               Priority: 1
+        AutoVerifiedAttributes:
+          - email
+        UsernameConfiguration:
+          CaseSensitive: False
+        VerificationMessageTemplate:
+          DefaultEmailOption: CONFIRM_WITH_LINK
+        
+    CognitoUserPoolClient:
+      Type: "AWS::Cognito::UserPoolClient"
+      Properties:
+        ClientName: ${self:custom.userPoolClientName}
+        GenerateSecret: False
+        UserPoolId:
+          Ref: CognitoUserPool
+
+    CognitoUserPoolDomain:  # for verification link instead of code
+      Type: AWS::Cognito::UserPoolDomain
+      Properties:
+        Domain: example199754
+        UserPoolId:
+          Ref: CognitoUserPool
 
 layers:
   basic:
