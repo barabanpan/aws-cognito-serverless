@@ -60,6 +60,21 @@ functions:
       include:
         - code/tokens/sign_in/**
 
+  refresh_token:
+    handler: code/tokens/refresh/refresh.handler
+    layers:
+      - { Ref: BasicLambdaLayer }
+    events:
+      - http:
+          path: /tokens/refresh
+          method: get
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/tokens/refresh/**
+
   custom_message:
     handler: code/custom_verification_message/custom_message.handler
     events:
