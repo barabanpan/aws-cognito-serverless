@@ -45,6 +45,21 @@ functions:
       include:
         - code/sign_up/**
 
+  sign_in:
+    handler: code/tokens/sign_in/sign_in.handler
+    layers:
+      - { Ref: BasicLambdaLayer }
+    events:
+      - http:
+          path: /tokens/sign_in
+          method: get
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/tokens/sign_in/**
+
   custom_message:
     handler: code/custom_verification_message/custom_message.handler
     events:

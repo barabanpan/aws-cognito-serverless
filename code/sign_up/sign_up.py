@@ -19,10 +19,6 @@ def handler(event, context):
     if not re.fullmatch(r'[^@]+@[^@]+\.[^@]+', username):
         return bad_request('Invalid email address')
 
-    # should be last, is first here for testing purposes only
-    db = DatabaseManager(username)
-    db.write_new_user_info()
-
     try:
         client.sign_up(
             ClientId=CLIENT_ID,
@@ -34,4 +30,7 @@ def handler(event, context):
     except ParamValidationError as error:
         return bad_request(str(error.kwargs['report']))
 
-    return response(200, {'message': 'Please check your email for verification link.'})
+    db = DatabaseManager(username)
+    db.write_new_user_info()
+
+    return response(200, 'Please check your email for verification link.')
