@@ -73,6 +73,21 @@ functions:
       include:
         - code/common_resource/**
 
+  secret_resource:
+    handler: code/secret_resource/secret_resource.handler
+    layers:
+      - { Ref: BasicLambdaLayer }
+    events:
+      - http:
+          path: /secret_resource
+          method: get
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/secret_resource/**
+
 resources:
   Resources:
     usersTable:
@@ -126,6 +141,10 @@ resources:
         GenerateSecret: False
         UserPoolId:
           Ref: CognitoUserPool
+        ExplicitAuthFlows:
+          - ALLOW_CUSTOM_AUTH
+          - ALLOW_USER_PASSWORD_AUTH
+          - ALLOW_REFRESH_TOKEN_AUTH
 
     CognitoUserPoolDomain:  # for verification link instead of code
       Type: AWS::Cognito::UserPoolDomain
