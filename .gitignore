@@ -50,3 +50,7 @@ Thumbs.db
 
 # Serverless
 .serverless/
+
+# flake8
+.flake8
+
