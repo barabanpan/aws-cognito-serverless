@@ -1,8 +1,8 @@
 # Create API using AWS API Gateway, Lambda, Cognito, DynamoDB and Serverless
 
-In one button press creates a small project with sign up and a page for unregistered users.
+In one button press creates a small project with sign up, sign in, a page for unregistered users and a protected page (only accessible with an access token).
 
-*TODO*: Add pages only for registered users.
+**TODO**: Add logout.
 
 ## How To Run It
 
