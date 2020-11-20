@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "test common resource",
+			"name": "health check",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://<API ID>.execute-api.<region>.amazonaws.com/dev/common_resource",
+					"raw": "https://<API ID>.execute-api.<region>.amazonaws.com/dev/health_check",
 					"protocol": "https",
 					"host": [
 						"6ybijdfhw3",

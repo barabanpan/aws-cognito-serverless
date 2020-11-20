@@ -88,20 +88,20 @@ functions:
       include:
         - code/custom_verification_message/**
 
-  common_resource:
-    handler: code/common_resource/common_resource.handler
+  health_check:
+    handler: code/health_check/health_check.handler
     layers:
       - { Ref: BasicLambdaLayer }
     events:
       - http:
-          path: /common_resource
+          path: /health_check
           method: get
           cors: true
     package:
       exclude:
         - ./**
       include:
-        - code/common_resource/**
+        - code/health_check/**
 
   secret_resource:
     handler: code/secret_resource/secret_resource.handler
@@ -155,9 +155,9 @@ resources:
           - email
         EmailConfiguration: 
           EmailSendingAccount: DEVELOPER  # COGNITO_DEFAULT
+          From: nataliia.dyshko@ukr.net
           #arn:aws:ses:us-east-1:1234567890:identity/john@myemail.com - like that for DEVELOPER
           #SourceArn: # sourceARN to verified email address in SES
-          From: nataliia.dyshko@ukr.net
           SourceArn: arn:aws:ses:eu-west-1:343179190615:identity/nataliia.dyshko@ukr.net
         Policies:
           PasswordPolicy:
