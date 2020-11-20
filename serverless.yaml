@@ -36,7 +36,7 @@ functions:
       - { Ref: BasicLambdaLayer }
     events:
       - http:
-          path: /users/sign_up
+          path: /sign_up
           method: post
           cors: true
     package:
@@ -112,6 +112,19 @@ functions:
           path: /secret_resource
           method: get
           cors: true
+          authorizer:
+            name: cognito_authorizer
+            identitySource: method.request.header.Authorization
+            type: COGNITO_USER_POOLS  # use TOKEN for custom authorizer
+            arn:
+              Fn::GetAtt:
+                - CognitoUserPool
+                - Arn
+            #ProviderARNs:
+            #  - Ref: CognitoUserPool
+            scopes:
+              - aws.cognito.signin.user.admin
+
     package:
       exclude:
         - ./**
@@ -175,6 +188,8 @@ resources:
           - ALLOW_CUSTOM_AUTH
           - ALLOW_USER_PASSWORD_AUTH
           - ALLOW_REFRESH_TOKEN_AUTH
+        PreventUserExistenceErrors: ENABLED  # recommended option
+
 
     CognitoUserPoolDomain:  # for verification link instead of code
       Type: AWS::Cognito::UserPoolDomain
