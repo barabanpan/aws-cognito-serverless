@@ -8,23 +8,28 @@ frameworkVersion: '2'
 package:
   individually: true  # for each lambda to be packaged individually
 
+
 provider:
   name: aws
   runtime: python3.7
   stage: dev
   region: eu-central-1
+  apiGateway:
+    shouldStartNameWithService: true
   environment:
-    USERS_TABLE_NAME: users_${self:custom.currentStage}
+    USERS_TABLE_NAME: ${self:custom.usersTableName}
     COGNITO_CLIENT_ID: 
       Ref: CognitoUserPoolClient
   iamRoleStatements:
       - Effect: "Allow"
         Action:
          - dynamodb:PutItem
-        Resource: "*"
+        Resource:
+          Fn::GetAtt: [UsersTable, Arn]
 
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
+  usersTableName: users_${self:custom.currentStage}
   userPoolName: user-pool-${self:custom.currentStage}
   userPoolClientName: user-pool-client-${self:custom.currentStage}
   cognitoUserPoolDomainName: example199754-${self:custom.currentStage}
@@ -133,7 +138,7 @@ functions:
 
 resources:
   Resources:
-    usersTable:
+    UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:provider.environment.USERS_TABLE_NAME}
@@ -189,7 +194,6 @@ resources:
           - ALLOW_USER_PASSWORD_AUTH
           - ALLOW_REFRESH_TOKEN_AUTH
         PreventUserExistenceErrors: ENABLED  # recommended option
-
 
     CognitoUserPoolDomain:  # for verification link instead of code
       Type: AWS::Cognito::UserPoolDomain
