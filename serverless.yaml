@@ -18,6 +18,7 @@ provider:
     shouldStartNameWithService: true
   environment:
     USERS_TABLE_NAME: ${self:custom.usersTableName}
+    CRUD_ENTITY_TABLE_NAME: ${self:custom.crudEntityTableName}
     COGNITO_CLIENT_ID: 
       Ref: CognitoUserPoolClient
   iamRoleStatements:
@@ -29,10 +30,12 @@ provider:
 
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
-  usersTableName: users_${self:custom.currentStage}
+  usersTableName: users_${self:custom.currentStage}  # for users' information
   userPoolName: user-pool-${self:custom.currentStage}
   userPoolClientName: user-pool-client-${self:custom.currentStage}
   cognitoUserPoolDomainName: example199754-${self:custom.currentStage}
+  crudEntityName: crud  # for crud
+  crudEntityTableName: ${self:custom.crudEntityName}_${self:custom.currentStage}
 
 functions:
   sign_up:
@@ -125,9 +128,7 @@ functions:
               Fn::GetAtt:
                 - CognitoUserPool
                 - Arn
-            #ProviderARNs:
-            #  - Ref: CognitoUserPool
-            scopes:
+            scopes:  # can be table1.write or table2.read
               - aws.cognito.signin.user.admin
 
     package:
@@ -141,7 +142,7 @@ resources:
     UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.USERS_TABLE_NAME}
+        TableName: ${self:custom.usersTableName}
         AttributeDefinitions:
           - AttributeName: email
             AttributeType: S
@@ -151,6 +152,21 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
+
+    CrudEntityTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.crudEntityTableName}
+        AttributeDefinitions:
+          - AttributeName: uid
+            AttributeType: S
+        KeySchema:
+          - AttributeName: uid
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+
     CognitoUserPool:
       Type: "AWS::Cognito::UserPool"
       Properties:
