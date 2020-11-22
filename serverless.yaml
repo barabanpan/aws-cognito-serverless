@@ -30,12 +30,12 @@ provider:
 
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
-  usersTableName: users_${self:custom.currentStage}  # for users' information
+  usersTableName: users-${self:custom.currentStage}  # for users' information
   userPoolName: user-pool-${self:custom.currentStage}
   userPoolClientName: user-pool-client-${self:custom.currentStage}
-  cognitoUserPoolDomainName: example199754-${self:custom.currentStage}
+  cognitoUserPoolDomainName: domain-example-1984-${self:custom.currentStage}
   crudEntityName: crud  # for crud
-  crudEntityTableName: ${self:custom.crudEntityName}_${self:custom.currentStage}
+  crudEntityTableName: ${self:custom.crudEntityName}-${self:custom.currentStage}
 
 functions:
   sign_up:
@@ -130,13 +130,31 @@ functions:
                 - Arn
             scopes:  # can be table1.write or table2.read
               - aws.cognito.signin.user.admin
-
     package:
       exclude:
         - ./**
       include:
         - code/secret_resource/**
-
+  
+  entities_get:
+    handler: code/entities/get/get.handler
+    layers:
+      - { Ref: BasicLambdaLayer }
+    events:
+      - http:
+          path: /entities
+          method: get
+          cors: true
+      - http:
+          path: /entities/{id}
+          method: get
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/entities/get/**
+          
 resources:
   Resources:
     UsersTable:
@@ -221,7 +239,7 @@ resources:
 layers:
   basic:
     path: ./code/layers/basic_layer
-    name: basic_layer
+    name: basic_layer_${self:custom.currentStage}
     compatibleRuntimes:
       - python3.6
       - python3.7
