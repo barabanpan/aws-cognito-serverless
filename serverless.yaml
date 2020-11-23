@@ -22,11 +22,19 @@ provider:
     COGNITO_CLIENT_ID: 
       Ref: CognitoUserPoolClient
   iamRoleStatements:
-      - Effect: "Allow"
+      - Effect: Allow
         Action:
          - dynamodb:PutItem
         Resource:
           Fn::GetAtt: [UsersTable, Arn]
+      - Effect: Allow
+        Action:
+         - dynamodb:Scan
+         - dynamodb:GetItem 
+         - dynamodb:PutItem
+         - dynamodb:DeleteItem
+        Resource:
+          Fn::GetAtt: [CrudEntityTable, Arn]
 
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
@@ -146,7 +154,7 @@ functions:
           method: get
           cors: true
       - http:
-          path: /entities/{id}
+          path: /entities/{username}
           method: get
           cors: true
     package:
@@ -155,6 +163,36 @@ functions:
       include:
         - code/entities/get/**
           
+  entities_post:
+    handler: code/entities/post/post.handler
+    layers:
+      - { Ref: BasicLambdaLayer }
+    events:
+      - http:
+          path: /entities
+          method: post
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/entities/post/**
+
+  entities_delete:
+    handler: code/entities/delete/delete.handler
+    layers:
+      - { Ref: BasicLambdaLayer }
+    events:
+      - http:
+          path: /entities/{username}
+          method: delete
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/entities/delete/**
+
 resources:
   Resources:
     UsersTable:
@@ -176,10 +214,10 @@ resources:
       Properties:
         TableName: ${self:custom.crudEntityTableName}
         AttributeDefinitions:
-          - AttributeName: uid
+          - AttributeName: username
             AttributeType: S
         KeySchema:
-          - AttributeName: uid
+          - AttributeName: username
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 5

@@ -10,6 +10,7 @@ from utils import bad_request, response
 
 client = boto3.client('cognito-idp')
 CLIENT_ID = os.environ.get('COGNITO_CLIENT_ID')
+USERS_TABLE_NAME = os.environ.get('USERS_TABLE_NAME')
 
 
 # TODO: add validation of json data
@@ -30,7 +31,7 @@ def handler(event, context):
     except ParamValidationError as error:
         return bad_request(str(error.kwargs['report']))
 
-    db = DatabaseManager(username)
+    db = DatabaseManager(USERS_TABLE_NAME, key=username)
     db.write_new_user_info()
 
     return response(200, 'Please check your email for verification link.')
