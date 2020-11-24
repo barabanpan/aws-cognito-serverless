@@ -4,7 +4,7 @@ import json
 import os
 import re
 
-from db_manager import DatabaseManager
+from db_manager import UsersDatabaseManager
 from utils import bad_request, response
 
 
@@ -30,7 +30,7 @@ def handler(event, context):
     except ParamValidationError as error:
         return bad_request(str(error.kwargs['report']))
 
-    db = DatabaseManager(username)
-    db.write_new_user_info()
+    db = UsersDatabaseManager(username)
+    db.add_new_user()
 
-    return response(200, 'Please check your email for verification link.')
+    return response(200, {'message': 'Please check your email for verification link.'})
