@@ -6,23 +6,23 @@
 	},
 	"item": [
 		{
-			"name": "test common resource",
+			"name": "test health check",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://rsinxawdid.execute-api.eu-central-1.amazonaws.com/new/common_resource",
+					"raw": "https://lm60g46369.execute-api.eu-central-1.amazonaws.com/dev/health_check",
 					"protocol": "https",
 					"host": [
-						"rsinxawdid",
+						"lm60g46369",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"new",
-						"common_resource"
+						"dev",
+						"health_check"
 					]
 				}
 			},
@@ -43,17 +43,17 @@
 					}
 				},
 				"url": {
-					"raw": "https://rsinxawdid.execute-api.eu-central-1.amazonaws.com/new/sign_up",
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/sign_up",
 					"protocol": "https",
 					"host": [
-						"rsinxawdid",
+						"f9rtsy4jmi",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"new",
+						"dev",
 						"sign_up"
 					]
 				}
@@ -81,17 +81,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://rsinxawdid.execute-api.eu-central-1.amazonaws.com/new/tokens/sign_in",
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/tokens/sign_in",
 					"protocol": "https",
 					"host": [
-						"rsinxawdid",
+						"f9rtsy4jmi",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"new",
+						"dev",
 						"tokens",
 						"sign_in"
 					]
@@ -185,6 +185,109 @@
 					"path": [
 						"new",
 						"secret_resource"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test get all entities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/entities",
+					"protocol": "https",
+					"host": [
+						"f9rtsy4jmi",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test get a particular entity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/entities/Larry",
+					"protocol": "https",
+					"host": [
+						"f9rtsy4jmi",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"entities",
+						"Larry"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test add entity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"Larryy\",\n    \"description\": \"good enough\",\n    \"email\": \"Larry@example.com\",\n    \"value\": 21,\n    \"date\": \"1990-12-30\",\n    \"is_good_boy\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/entities",
+					"protocol": "https",
+					"host": [
+						"f9rtsy4jmi",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test delete a particular entity",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/entities/Larryy",
+					"protocol": "https",
+					"host": [
+						"f9rtsy4jmi",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"entities",
+						"Larryy"
 					]
 				}
 			},
