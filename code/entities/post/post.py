@@ -15,9 +15,9 @@ def handler(event, context):
 
     # add a better validation
     try:
-        entity = Entity(new_entity['username'], new_entity['email'],
-                        new_entity['description'], new_entity['value'],
-                        new_entity['date'], new_entity['is_good_boy'])
+        entity = Entity(new_entity["username"], new_entity["email"],
+                        new_entity["description"], new_entity["value"],
+                        new_entity["date"], new_entity["is_good_boy"])
         db.add_new_entity(entity)
 
     except Exception as e:

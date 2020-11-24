@@ -2,18 +2,18 @@ import json
 
 
 def response(code, body):
-    return {'statusCode': code,
-            'headers': {
-                'X-Requested-With': '*',
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*'
+    return {"statusCode": code,
+            "headers": {
+                "X-Requested-With": "*",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*"
             },
-            'body': json.dumps(body)}
+            "body": json.dumps(body)}
 
 
 def bad_request(message):
-    return response(400, {'message': message})
+    return response(400, {"message": message})
 
 
 class Entity:

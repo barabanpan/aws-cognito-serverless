@@ -3,6 +3,6 @@ import json
 
 def handler(event, context):
     return {
-        'statusCode': 200,
-        'body': json.dumps({'message': "Hi! That's a health check!"})
+        "statusCode": 200,
+        "body": json.dumps({"message": "Hi! That's a health check!"})
     }
