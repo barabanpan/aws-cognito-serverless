@@ -8,7 +8,6 @@ frameworkVersion: '2'
 package:
   individually: true  # for each lambda to be packaged individually
 
-
 provider:
   name: aws
   runtime: python3.7
@@ -44,7 +43,7 @@ custom:
   cognitoUserPoolDomainName: domain-example-1984-${self:custom.currentStage}
   crudEntityName: crud  # for crud
   crudEntityTableName: ${self:custom.crudEntityName}-${self:custom.currentStage}
-
+ 
 functions:
   sign_up:
     handler: code/sign_up/sign_up.handler
