@@ -1,8 +1,16 @@
 # Create API using AWS API Gateway, Lambda, Cognito, DynamoDB and Serverless
 
-In one button press creates a small project with sign up, sign in, a page for unregistered users and a protected page (only accessible with an access token).
+In one button press creates a small project with 
+ - sign up, 
+ - sign in, 
+ - a resource for unregistered users, 
+ - a protected resource (only accessible with an access token).
+For CRUD operations:
+ - get all (entities/) and get by username (entities/{username}),
+ - post a new entity (entities/),
+ - delete by username (entities/{username}).
 
-**TODO**: Add logout.
+**TODO**: validation with Marshmallow, s3 interaction, add CookieCutter.
 
 ## How To Run It
 
@@ -17,7 +25,11 @@ In one button press creates a small project with sign up, sign in, a page for un
 For Windows use `set` instead of `export`.
 
 3. Go here ([AWS SES configuration](https://eu-west-1.console.aws.amazon.com/ses/home?region=eu-west-1#verified-senders-email:)) to create and verify an email address.
-Replace `From` and `SourceArn` with your email address and its arn in `serverless.yaml` file.
+Replace `From` and `SourceArn` with your email address and its arn in `serverless.yaml` file (Resources.CognitoUserPool.Properties.EmailConfiguration)
+
+It's needed for sending verification emails and usually email looks like *no-reply@ourcompanyname.com*.
+For tests you can use your own email.
+You only need one email for all stages. 
 
 4. Run with:
 
@@ -27,4 +39,4 @@ or whatever stage name you want.
 Running the command again with a different name will create a seperate API.
 
 5. Use Postman collection to test API.
-Better use a real email to receive a verification message.
+For sign up better use a real email to receive a verification message.
