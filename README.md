@@ -5,6 +5,7 @@ In one button press creates a small project with
  - sign in, 
  - a resource for unregistered users, 
  - a protected resource (only accessible with an access token).
+
 For CRUD operations:
  - get all (entities/) and get by username (entities/{username}),
  - post a new entity (entities/),
