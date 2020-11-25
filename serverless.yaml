@@ -18,22 +18,31 @@ provider:
   environment:
     USERS_TABLE_NAME: ${self:custom.usersTableName}
     CRUD_ENTITY_TABLE_NAME: ${self:custom.crudEntityTableName}
+    WRITE_TO_BUCKET_NAME: ${self:custom.bucketForWriting}
     COGNITO_CLIENT_ID: 
       Ref: CognitoUserPoolClient
   iamRoleStatements:
-      - Effect: Allow
-        Action:
-         - dynamodb:PutItem
-        Resource:
-          Fn::GetAtt: [UsersTable, Arn]
-      - Effect: Allow
-        Action:
-         - dynamodb:Scan
-         - dynamodb:GetItem 
-         - dynamodb:PutItem
-         - dynamodb:DeleteItem
-        Resource:
-          Fn::GetAtt: [CrudEntityTable, Arn]
+    - Effect: Allow  # for writing users' info
+      Action:
+        - dynamodb:PutItem
+      Resource:
+        Fn::GetAtt: [UsersTable, Arn]
+    - Effect: Allow  # for CRUD
+      Action:
+        - dynamodb:Scan
+        - dynamodb:GetItem 
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+      Resource:
+        Fn::GetAtt: [CrudEntityTable, Arn]
+    - Effect: Allow
+      Action:
+        - s3:ListBucket  # for Read
+        - s3:GetObject
+        - s3:PutObject
+      Resource:
+        - Fn::Join: [ '/', [ Fn::GetAtt: [BucketForWriting, Arn], '*' ] ]
+        - Fn::GetAtt: [BucketForWriting, Arn]
 
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
@@ -43,6 +52,7 @@ custom:
   cognitoUserPoolDomainName: domain-example-1984-${self:custom.currentStage}
   crudEntityName: crud  # for crud
   crudEntityTableName: ${self:custom.crudEntityName}-${self:custom.currentStage}
+  bucketForWriting: bucket-for-writing-${self:custom.currentStage}
  
 functions:
   sign_up:
@@ -103,6 +113,21 @@ functions:
       include:
         - code/custom_verification_message/**
 
+  write_to_bucket:
+    handler: code/write_to_bucket/write_to_bucket.handler
+    layers:
+      - { Ref: BasicLambdaLayer }
+    events:
+      - http:
+          path: /write_to_bucket
+          method: post
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/write_to_bucket/**
+
   health_check:
     handler: code/health_check/health_check.handler
     layers:
@@ -161,9 +186,7 @@ functions:
             identitySource: method.request.header.Authorization
             type: COGNITO_USER_POOLS  # use TOKEN for custom authorizer
             arn:
-              Fn::GetAtt:
-                - CognitoUserPool
-                - Arn
+              Fn::GetAtt: [CognitoUserPool, Arn]
             #ProviderARNs:
             #  - Ref: CognitoUserPool
             scopes:
@@ -235,6 +258,14 @@ resources:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
 
+    BucketForWriting:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.bucketForWriting}
+        VersioningConfiguration: 
+          Status: Suspended  # no versioning, other option Enabled
+
+
     CognitoUserPool:
       Type: "AWS::Cognito::UserPool"
       Properties:
@@ -257,8 +288,8 @@ resources:
             RequireUppercase: True
         AccountRecoverySetting:
           RecoveryMechanisms:
-            -  Name: verified_email
-               Priority: 1
+            - Name: verified_email
+              Priority: 1
         AutoVerifiedAttributes:
           - email
         UsernameConfiguration:

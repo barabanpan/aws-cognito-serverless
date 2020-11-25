@@ -10,4 +10,4 @@ def handler(event, context):
     username = params.get("username", None)
 
     db.delete_entity(username)
-    return response(200, {"message": "Deleted succesfully"})
+    return response(200, {"message": "Deleted succesfully."})
