@@ -50,6 +50,7 @@ Thumbs.db
 
 # Serverless
 .serverless/
+package-lock.json
 
 # flake8
 .flake8
