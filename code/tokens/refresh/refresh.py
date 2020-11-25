@@ -20,7 +20,7 @@ def handler(event, context):
         )
     except Exception as e:
         print("-----------EXCEPTION:", e)
-        return bad_request(str(e))
+        return bad_request(repr(e))
 
         # Common exceptions:
         # (NotAuthorizedException) when calling the InitiateAuth operation: Invalid Refresh Token
@@ -33,6 +33,7 @@ def handler(event, context):
             "ExpiresIn": res["AuthenticationResult"]["ExpiresIn"],
             # "IdToken": res["AuthenticationResult"]["IdToken"],
             # if we need IdToken, we can just do res = res["AuthenticationResult"]
+            "RefreshToken": res["AuthenticationResult"]["RefreshToken"],
             "TokenType": res["AuthenticationResult"]["TokenType"]
         }
         return response(200, res)

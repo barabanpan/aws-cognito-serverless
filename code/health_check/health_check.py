@@ -1,8 +1,5 @@
-import json
+from utils import response
 
 
 def handler(event, context):
-    return {
-        "statusCode": 200,
-        "body": json.dumps({"message": "Hi! That's a health check!"})
-    }
+    return response(200, {"message": "Hi! That's a health check!"})
