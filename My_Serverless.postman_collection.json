@@ -11,10 +11,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://lm60g46369.execute-api.eu-central-1.amazonaws.com/dev/health_check",
+					"raw": "https://wkioy46s54.execute-api.eu-central-1.amazonaws.com/dev/health_check",
 					"protocol": "https",
 					"host": [
-						"lm60g46369",
+						"wkioy46s54",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
@@ -43,10 +43,10 @@
 					}
 				},
 				"url": {
-					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/sign_up",
+					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/sign_up",
 					"protocol": "https",
 					"host": [
-						"f9rtsy4jmi",
+						"iitmuuu105",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
@@ -68,7 +68,7 @@
 					"basic": [
 						{
 							"key": "username",
-							"value": "nataliia.dyshko+3@ukr.net",
+							"value": "email@example.com",
 							"type": "string"
 						},
 						{
@@ -110,7 +110,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.KQwX1CP_mqO5OpkI2eEkvxbwc655gRu1CxYS8dyoetwH7dTYIGDJa2u2PIFRrzuWM0iSVifG6P4pKwfr-CXAIoZIcoqmlwwml0Xb1p78vPdBkBJemJ8EOn6xE-RWtTA-LCf1GeQcXx8wxFvh5XtIfIBALUZ5Gwv05_RBXKGZNwLnp2LJPgPhrar9cTpUcUW1-sFrIAREZNshYz_e9OxAex2sS6yoRnGGyesbORun0MLFrcRc8mHdwyDjNo6A8Jf0-i1EpyhE1-ufK4GAZbLhmLzKSfSVR5SrWesPk93g437-H9gBfvsNkZANY8-u3fngsLFvktCnmp1CFjzk9LulZg.XyEMtU5ImYMlsZN-.XTjDkMoJ1o9tTF8MnUC5S2v_dsgEt6gAddQ18RfvMn_cC6MBlKedCM-A_LihSMLi6FbNwT5nWcICqQSBBipd0ZLK0mmDdMO1ZwzgtwbLfHpyEVlnUqOmj4gD0Jr_iBdQByhYP9OTG6nbDhrTo6TEl9qdY3NzGDWI-5VeF6tlimhIHt8YYl2co8Avub1MimnPKkv0HyfuVdzjz9NPv83AjOVTINI-GG9__8CkKVTes-M9G1EdwGE8tcrvBgjkdl-GAnm4IEsHpGeuIhj8T5dfHZhsHNIDIyRTWwM1mWqD1hZL2MmK1fsZQOqqIHugIj43hVRnUKC1SMruPLNJfSj6khykrfaL7VOnsq0d_3eurCwJn5hcxyuHiD9FtV3xqEd5Ieso4OsOve_FfV2kMlvMuY7OBidMNCEYpQYxzA09eR-JbH3Bv41_gFlfUgpt2lNhxI04-NKajIQlj8KLx9xq20a3fdw-6YlR_9eed6jrVy2emp36vUmFmmKF_3yusDvgIBgwezPsN4uhMn4Ea_9VmVcaqTiL_5f3x5kvF-Cfd50BP34U6mdeyDO4eSgmrRQIR3u10eFcERYo86rIRrvXlf7ffr3z2AhZVO-wKzmRV6EeNPP37NwNEphRJkJlgmhogHj75c3ROOpMsPfnBoSE77OAvGBcpXx2uGzsD7eS5ZxmHfufaXlYNqU9jyHpgGmyTK1IOdgSwoGLk2EnmsImuR02QT4K7LxjjNplZ7tEI2VReAoRh9nhIIMzHuKKvOM77T1NeaS-RO58Nt1TBrFk9utUh2DZeMFEQiq-ijD9THWHixUgnC0oElUaobudJDaROuAT9HYNwPx77Sl3EDVPWZEzzcaxN6VX3CCn78MKEjhgRgUv2iDtTFFc-DBaYYm6ohIxYD-9XYXUu9OcMrdiJLwn1EjcU2Q1my8Y7mPlNUzvY--wGjcjJfWwiptf5oH-ROOcvhhXEpu2Yn4TU67_5QJh6XBDzWcAEB4JOFM1cIL63i1VvAnjMDcTJ27pgJjp8a8wSuWe604zCYaL2NFW6fbLBEtxF0Ed9qopPh4dSmLO6XKcG_l8dVkrNmAs_lB-HX1VOoanshDrFXdH-2fbPXwEWFk65EUkT-kNkiWy6DYWM6k-pew-hkBNlWfHGTd9SVV_tjDXvohqEbwU5RAJqpRxUjbLU1oqwAb05r2JNwMB7AzOmkjZcmMGmLjQ9iD-1zZMTS43WqZ2-a9I6MggC3yKi0rXp5co1d35nOanBWhY0GP2S3TVPTro62RQI896pg0Mlo8PlErFuK5NifON8dhzYujNyvNCgGXClrjYust0oXgOCytXE1swVqJiA6sOTc-dkA.Ql9cUsyj-XHJqdQlf50-hw",
+							"value": "eyJjdkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.KQwX1CP_mqO5OpkI2eEkvxbwc655gRu1CxYS8dyoetwH7dTYIGDJa2u2PIFRrzuWM0iSVifG6P4pKwfr-CXAIoZIcoqmlwwml0Xb1p78vPdBkBJemJ8EOn6xE-RWtTA-LCf1GeQcXx8wxFvh5XtIfIBALUZ5Gwv05_RBXKGZNwLnp2LJPgPhrar9cTpUcUW1-sFrIAREZNshYz_e9OxAex2sS6yoRnGGyesbORun0MLFrcRc8mHdwyDjNo6A8Jf0-i1EpyhE1-ufK4GAZbLhmLzKSfSVR5SrWesPk93g437-H9gBfvsNkZANY8-u3fngsLFvktCnmp1CFjzk9LulZg.XyEMtU5ImYMlsZN-.XTjDkMoJ1o9tTF8MnUC5S2v_dsgEt6gAddQ18RfvMn_cC6MBlKedCM-A_LihSMLi6FbNwT5nWcICqQSBBipd0ZLK0mmDdMO1ZwzgtwbLfHpyEVlnUqOmj4gD0Jr_iBdQByhYP9OTG6nbDhrTo6TEl9qdY3NzGDWI-5VeF6tlimhIHt8YYl2co8Avub1MimnPKkv0HyfuVdzjz9NPv83AjOVTINI-GG9__8CkKVTes-M9G1EdwGE8tcrvBgjkdl-GAnm4IEsHpGeuIhj8T5dfHZhsHNIDIyRTWwM1mWqD1hZL2MmK1fsZQOqqIHugIj43hVRnUKC1SMruPLNJfSj6khykrfaL7VOnsq0d_3eurCwJn5hcxyuHiD9FtV3xqEd5Ieso4OsOve_FfV2kMlvMuY7OBidMNCEYpQYxzA09eR-JbH3Bv41_gFlfUgpt2lNhxI04-NKajIQlj8KLx9xq20a3fdw-6YlR_9eed6jrVy2emp36vUmFmmKF_3yusDvgIBgwezPsN4uhMn4Ea_9VmVcaqTiL_5f3x5kvF-Cfd50BP34U6mdeyDO4eSgmrRQIR3u10eFcERYo86rIRrvXlf7ffr3z2AhZVO-wKzmRV6EeNPP37NwNEphRJkJlgmhogHj75c3ROOpMsPfnBoSE77OAvGBcpXx2uGzsD7eS5ZxmHfufaXlYNqU9jyHpgGmyTK1IOdgSwoGLk2EnmsImuR02QT4K7LxjjNplZ7tEI2VReAoRh9nhIIMzHuKKvOM77T1NeaS-RO58Nt1TBrFk9utUh2DZeMFEQiq-ijD9THWHixUgnC0oElUaobudJDaROuAT9HYNwPx77Sl3EDVPWZEzzcaxN6VX3CCn78MKEjhgRgUv2iDtTFFc-DBaYYm6ohIxYD-9XYXUu9OcMrdiJLwn1EjcU2Q1my8Y7mPlNUzvY--wGjcjJfWwiptf5oH-ROOcvhhXEpu2Yn4TU67_5QJh6XBDzWcAEB4JOFM1cIL63i1VvAnjMDcTJ27pgJjp8a8wSuWe604zCYaL2NFW6fbLBEtxF0Ed9qopPh4dSmLO6XKcG_l8dVkrNmAs_lB-HX1VOoanshDrFXdH-2fbPXwEWFk65EUkT-kNkiWy6DYWM6k-pew-hkBNlWfHGTd9SVV_tjDXvohqEbwU5RAJqpRxUjbLU1oqwAb05r2JNwMB7AzOmkjZcmMGmLjQ9iD-1zZMTS43WqZ2-a9I6MggC3yKi0rXp5co1d35nOanBWhY0GP2S3TVPTro62RQI896pg0Mlo8PlErFuK5NifON8dhzYujNyvNCgGXClrjYust0oXgOCytXE1swVqJiA6sOTc-dkA.Ql9cUsyj-XHJqdQlf50-hw",
 							"type": "string"
 						}
 					]
@@ -156,7 +156,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJraWQiOiJZWVRzdkZcL3cxVWVmZUNacmJpUzdJT0JyQUlhcjVFd2s1OSs0clE1NXloMD0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYzFjNGNlMi05YjBjLTQxYzktOGVhYi02ZmJlN2Q3ZjhhOWIiLCJldmVudF9pZCI6ImUyYWFmNTMyLTlhMmQtNDQzOS1hOWJmLTY1NWNkZDZiM2NjOSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDU4NjU2NzIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX2RGd2lWVzg2UCIsImV4cCI6MTYwNTg2OTI3MiwiaWF0IjoxNjA1ODY1NjcyLCJqdGkiOiI3N2RhYzAzZS0zMTA3LTRmN2EtYTNjZS1mYmZmNzhkMTE4NjUiLCJjbGllbnRfaWQiOiI3bmlwYWh2Z2M5dmdqNTVlZ2FrbzZlMGExaSIsInVzZXJuYW1lIjoiZmMxYzRjZTItOWIwYy00MWM5LThlYWItNmZiZTdkN2Y4YTliIn0.UoTvSxcZrGZYzwaT7P-KvXVXanGDUkxFB9xIU0lbVLFcJ72TuRqCKJEbinC4sHvO4osHMWrFTU2irbedmgM2uAPMkZa16a--FvWg1sPlCoBfx6uwK8bSU4Q2PtsmbQpwcV7YgAXOnhaU0wnGPHVzOkhGFVGboD6a1MDrwQaAnnP3mwFCoEwmW3Z_aZ8VHO9pDpgXnDfLYqTDdLo0oPjT3cS5iflw195wHmd722xRS1FqI3LezbUzUH-a0Ort6tsAOmvACxHVlRRpVu4MAauKblAEMSaPxf8dMPM17Wg3KcLCjakVf4GRJDGvUGqYan2eFo9VJRyzAxxBeGRw2aA7lg",
+							"value": "eyJrWQiOiJZWVRzdkZcL3cxVWVmZUNacmJpUzdJT0JyQUlhcjVFd2s1OSs0clE1NXloMD0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmYzFjNGNlMi05YjBjLTQxYzktOGVhYi02ZmJlN2Q3ZjhhOWIiLCJldmVudF9pZCI6ImUyYWFmNTMyLTlhMmQtNDQzOS1hOWJmLTY1NWNkZDZiM2NjOSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDU4NjU2NzIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX2RGd2lWVzg2UCIsImV4cCI6MTYwNTg2OTI3MiwiaWF0IjoxNjA1ODY1NjcyLCJqdGkiOiI3N2RhYzAzZS0zMTA3LTRmN2EtYTNjZS1mYmZmNzhkMTE4NjUiLCJjbGllbnRfaWQiOiI3bmlwYWh2Z2M5dmdqNTVlZ2FrbzZlMGExaSIsInVzZXJuYW1lIjoiZmMxYzRjZTItOWIwYy00MWM5LThlYWItNmZiZTdkN2Y4YTliIn0.UoTvSxcZrGZYzwaT7P-KvXVXanGDUkxFB9xIU0lbVLFcJ72TuRqCKJEbinC4sHvO4osHMWrFTU2irbedmgM2uAPMkZa16a--FvWg1sPlCoBfx6uwK8bSU4Q2PtsmbQpwcV7YgAXOnhaU0wnGPHVzOkhGFVGboD6a1MDrwQaAnnP3mwFCoEwmW3Z_aZ8VHO9pDpgXnDfLYqTDdLo0oPjT3cS5iflw195wHmd722xRS1FqI3LezbUzUH-a0Ort6tsAOmvACxHVlRRpVu4MAauKblAEMSaPxf8dMPM17Wg3KcLCjakVf4GRJDGvUGqYan2eFo9VJRyzAxxBeGRw2aA7lg",
 							"type": "string"
 						}
 					]
@@ -173,17 +173,17 @@
 					}
 				},
 				"url": {
-					"raw": "https://rsinxawdid.execute-api.eu-central-1.amazonaws.com/new/secret_resource",
+					"raw": "https://wkioy46s54.execute-api.eu-central-1.amazonaws.com/dev/secret_resource",
 					"protocol": "https",
 					"host": [
-						"rsinxawdid",
+						"wkioy46s54",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"new",
+						"dev",
 						"secret_resource"
 					]
 				}
@@ -244,7 +244,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"Larryy\",\n    \"description\": \"good enough\",\n    \"email\": \"Larry@example.com\",\n    \"value\": 21,\n    \"date\": \"1990-12-30\",\n    \"is_good_boy\": false\n}",
+					"raw": "{\n    \"username\": \"Donny2\",\n    \"description\": \"good enough\",\n    \"email\": \"Donny@example.com\",\n    \"value\": 22,\n    \"date\": \"1991-12-30\",\n    \"is_good_boy\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -252,10 +252,10 @@
 					}
 				},
 				"url": {
-					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/entities",
+					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/entities",
 					"protocol": "https",
 					"host": [
-						"f9rtsy4jmi",
+						"iitmuuu105",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
@@ -275,10 +275,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/entities/Larryy",
+					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/entities/Larryy",
 					"protocol": "https",
 					"host": [
-						"f9rtsy4jmi",
+						"iitmuuu105",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
@@ -288,6 +288,38 @@
 						"dev",
 						"entities",
 						"Larryy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test write_to_diary",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"entry\": \"Here is my first entry!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nr9gq01hf8.execute-api.eu-central-1.amazonaws.com/dev3/write_to_bucket",
+					"protocol": "https",
+					"host": [
+						"nr9gq01hf8",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev3",
+						"write_to_bucket"
 					]
 				}
 			},
