@@ -1,7 +1,7 @@
 # For full config options, check the docs:
 # https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
 
-service: learn-serverless
+service: {{cookiecutter.project_name}}
 
 frameworkVersion: '2'
 
@@ -12,7 +12,7 @@ provider:
   name: aws
   runtime: python3.7
   stage: dev
-  region: eu-central-1
+  region: {{cookiecutter.aws_region}}
   apiGateway:
     shouldStartNameWithService: true
   environment:
@@ -50,9 +50,9 @@ custom:
   userPoolName: user-pool-${self:custom.currentStage}
   userPoolClientName: user-pool-client-${self:custom.currentStage}
   cognitoUserPoolDomainName: domain-example-1984-${self:custom.currentStage}
-  crudEntityName: crud  # for crud
+  crudEntityName: {{cookiecutter.crud_entity_name}}  # for crud
   crudEntityTableName: ${self:custom.crudEntityName}-${self:custom.currentStage}
-  bucketForWriting: bucket-for-writing-${self:custom.currentStage}
+  bucketForWriting: {{cookiecutter.s3_bucket_name}}-${self:custom.currentStage}
  
 functions:
   sign_up:
@@ -169,64 +169,53 @@ functions:
         - code/secret_resource/**
   
   entities_get:
-    handler: code/entities/get/get.handler
+    handler: code/{{cookiecutter.crud_entity_name}}/get/get.handler
     layers:
       - { Ref: BasicLambdaLayer }
     events:
       - http:
-          path: /entities
+          path: /{{cookiecutter.crud_entity_name}}
           method: get
           cors: true
       - http:
-          path: /entities/{username}
+          path: /{{cookiecutter.crud_entity_name}}/{username}
           method: get
           cors: true
-          authorizer:
-            name: cognito_authorizer
-            identitySource: method.request.header.Authorization
-            type: COGNITO_USER_POOLS  # use TOKEN for custom authorizer
-            arn:
-              Fn::GetAtt: [CognitoUserPool, Arn]
-            #ProviderARNs:
-            #  - Ref: CognitoUserPool
-            scopes:
-              - aws.cognito.signin.user.admin
-
     package:
       exclude:
         - ./**
       include:
-        - code/entities/get/**
+        - code/{{cookiecutter.crud_entity_name}}/get/**
           
   entities_post:
-    handler: code/entities/post/post.handler
+    handler: code/{{cookiecutter.crud_entity_name}}/post/post.handler
     layers:
       - { Ref: BasicLambdaLayer }
     events:
       - http:
-          path: /entities
+          path: /{{cookiecutter.crud_entity_name}}
           method: post
           cors: true
     package:
       exclude:
         - ./**
       include:
-        - code/entities/post/**
+        - code/{{cookiecutter.crud_entity_name}}/post/**
 
   entities_delete:
-    handler: code/entities/delete/delete.handler
+    handler: code/{{cookiecutter.crud_entity_name}}/delete/delete.handler
     layers:
       - { Ref: BasicLambdaLayer }
     events:
       - http:
-          path: /entities/{username}
+          path: /{{cookiecutter.crud_entity_name}}/{username}
           method: delete
           cors: true
     package:
       exclude:
         - ./**
       include:
-        - code/entities/delete/**
+        - code/{{cookiecutter.crud_entity_name}}/delete/**
 
 resources:
   Resources:
@@ -263,8 +252,7 @@ resources:
       Properties:
         BucketName: ${self:custom.bucketForWriting}
         VersioningConfiguration: 
-          Status: Suspended  # no versioning, other option Enabled
-
+          Status: Suspended  # no versioning, other option - Enabled
 
     CognitoUserPool:
       Type: "AWS::Cognito::UserPool"

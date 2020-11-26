@@ -1,0 +1,7 @@
+{
+    "project_name": "serverless_project",
+    "aws_region": "eu-central-1",
+    "crud_entity_name": "crud",
+    "s3_bucket_name": "bucket_for_writing",
+    "s3_file_name": "diary"
+}

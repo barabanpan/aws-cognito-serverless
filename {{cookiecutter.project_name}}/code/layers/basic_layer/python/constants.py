@@ -5,4 +5,4 @@ DATE_FORMAT = "%Y-%m-%d"
 DEFAULT_IS_GOOD_BOY = False
 
 # file name in bucket for writing
-FILE_NAME = "diary.txt"
+FILE_NAME = "{{cookie_cutter.s3_file_name}}.txt"

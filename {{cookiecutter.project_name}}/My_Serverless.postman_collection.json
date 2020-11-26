@@ -35,7 +35,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"email\": \"nataliia.dyshko+3@ukr.net\",\n  \"password\": \"Secret1234\"\n}",
+					"raw": "{\n  \"email\": \"email@example.com\",\n  \"password\": \"Secret1234\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -191,12 +191,12 @@
 			"response": []
 		},
 		{
-			"name": "test get all entities",
+			"name": "test get all: {{cookiecutter.crud_entity_name}}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/entities",
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.crud_entity_name}}",
 					"protocol": "https",
 					"host": [
 						"f9rtsy4jmi",
@@ -207,19 +207,19 @@
 					],
 					"path": [
 						"dev",
-						"entities"
+						"{{cookiecutter.crud_entity_name}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "test get a particular entity",
+			"name": "test get a particular {{cookiecutter.crud_entity_name}}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/entities/Larry",
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.crud_entity_name}}/Larry",
 					"protocol": "https",
 					"host": [
 						"f9rtsy4jmi",
@@ -230,7 +230,7 @@
 					],
 					"path": [
 						"dev",
-						"entities",
+						"{{cookiecutter.crud_entity_name}}",
 						"Larry"
 					]
 				}
@@ -238,7 +238,7 @@
 			"response": []
 		},
 		{
-			"name": "test add entity",
+			"name": "test add {{cookiecutter.crud_entity_name}}",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -252,7 +252,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/entities",
+					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.crud_entity_name}}",
 					"protocol": "https",
 					"host": [
 						"iitmuuu105",
@@ -263,19 +263,19 @@
 					],
 					"path": [
 						"dev",
-						"entities"
+						"{{cookiecutter.crud_entity_name}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "test delete a particular entity",
+			"name": "test delete a particular {{cookiecutter.crud_entity_name}}",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/entities/Larryy",
+					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.crud_entity_name}}/Larryy",
 					"protocol": "https",
 					"host": [
 						"iitmuuu105",
@@ -286,7 +286,7 @@
 					],
 					"path": [
 						"dev",
-						"entities",
+						"{{cookiecutter.crud_entity_name}}",
 						"Larryy"
 					]
 				}
@@ -294,7 +294,7 @@
 			"response": []
 		},
 		{
-			"name": "test write_to_diary",
+			"name": "test write to {{cookiecutter.s3_bucket_name}}",
 			"request": {
 				"method": "POST",
 				"header": [],
