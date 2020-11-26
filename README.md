@@ -4,14 +4,15 @@ In one button press creates a small project with
  - sign up, 
  - sign in, 
  - a resource for unregistered users, 
- - a protected resource (only accessible with an access token).
+ - a protected resource (only accessible with an access token),
+ - URL for writing entries to s3 bucket file.
 
 For CRUD operations:
  - get all (entities/) and get by username (entities/{username}),
  - post a new entity (entities/),
  - delete by username (entities/{username}).
 
-**TODO**: validation with Marshmallow, s3 interaction, add CookieCutter.
+**TODO**: add s3 bucket with Swagger documentation. Add CookieCutter.
 
 ## How To Run It
 
