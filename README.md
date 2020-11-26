@@ -1,6 +1,6 @@
 # Create API using AWS API Gateway, Lambda, Cognito, DynamoDB and Serverless
 
-In one button press creates a small project with 
+Create a project that in one button press creates a small project with 
  - sign up, 
  - sign in, 
  - a resource for unregistered users, 
@@ -16,35 +16,18 @@ For CRUD operations:
 
 ## How To Run It
 
-1. Install Serverless
+1. Install python and pip
 
-2. Set your AWS credentials:
-
+2. Install cookiecutter:
 ```
-export AWS_ACCESS_KEY_ID=<your_key_id_here>
-```
-
-```
-export AWS_SECRET_ACCESS_KEY=<your_secret_key_here>
+pip istall cookiecutter
 ```
 
-For Windows use `set` instead of `export`.
-
-3. Go here ([AWS SES configuration](https://eu-west-1.console.aws.amazon.com/ses/home?region=eu-west-1#verified-senders-email:)) to create and verify an email address.
-Replace `From` and `SourceArn` with your email address and its arn in `serverless.yaml` file (Resources.CognitoUserPool.Properties.EmailConfiguration)
-
-It's needed for sending verification emails and usually email looks like *no-reply@ourcompanyname.com*.
-For tests you can use your own email.
-You only need one email for all stages. 
-
-4. Run with:
-
+3. Create project from template (in a folder, seperate from template):
 ```
-sls deploy --stage dev
+cookiecutter <path_to_template_here>
 ```
 
-or whatever stage name you want.
-Running the command again with a different name will create a seperate API.
+Choose parameters. Better write entity_name in plural from. No pressure though:)
 
-5. Use Postman collection to test API.
-For sign up better use a real email to receive a verification message.
+4. For further steps see REAME.md inside of {{cookiecutter.project_name}} folder.
