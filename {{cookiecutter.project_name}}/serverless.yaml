@@ -8,6 +8,9 @@ frameworkVersion: '2'
 package:
   individually: true  # for each lambda to be packaged individually
 
+plugins:
+  - serverless-python-requirements
+
 provider:
   name: aws
   runtime: python3.7
@@ -17,7 +20,7 @@ provider:
     shouldStartNameWithService: true
   environment:
     USERS_TABLE_NAME: ${self:custom.usersTableName}
-    CRUD_ENTITY_TABLE_NAME: ${self:custom.crudEntityTableName}
+    CUSTOM_ENTITY_TABLE_NAME: ${self:custom.customEntityTableName}
     WRITE_TO_BUCKET_NAME: ${self:custom.bucketForWriting}
     COGNITO_CLIENT_ID: 
       Ref: CognitoUserPoolClient
@@ -34,15 +37,15 @@ provider:
         - dynamodb:PutItem
         - dynamodb:DeleteItem
       Resource:
-        Fn::GetAtt: [CrudEntityTable, Arn]
+        Fn::GetAtt: [CustomEntityTable, Arn]
     - Effect: Allow
       Action:
         - s3:ListBucket  # for Read
         - s3:GetObject
         - s3:PutObject
       Resource:
-        - Fn::Join: [ '/', [ Fn::GetAtt: [BucketForWriting, Arn], '*' ] ]
-        - Fn::GetAtt: [BucketForWriting, Arn]
+        - Fn::Join: [ '/', [ Fn::GetAtt: [BucketForWriting, Arn], '*' ] ]  # for Write
+        - Fn::GetAtt: [BucketForWriting, Arn] 
 
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
@@ -50,15 +53,25 @@ custom:
   userPoolName: user-pool-${self:custom.currentStage}
   userPoolClientName: user-pool-client-${self:custom.currentStage}
   cognitoUserPoolDomainName: domain-example-1984-${self:custom.currentStage}
-  crudEntityName: {{cookiecutter.crud_entity_name}}  # for crud
-  crudEntityTableName: ${self:custom.crudEntityName}-${self:custom.currentStage}
-  bucketForWriting: {{cookiecutter.s3_bucket_name}}-${self:custom.currentStage}
- 
+  customEntityName: {{cookiecutter.custom_entity_name}}  # for crud
+  customEntityTableName: ${self:custom.customEntityName}-${self:custom.currentStage}
+  bucketForWriting: {{cookiecutter.s3_bucket_name}}-${self:custom.currentStage}"
+  pythonRequirements:  # for layer with python requirements
+    dockerizePip: non-linux
+    useDownloadCache: true
+    useStaticCache: true
+    layer:
+      description: Python requirements lambda layer
+      compatibleRuntimes:
+        - python3.7
+        - python3.8
+
 functions:
   sign_up:
     handler: code/sign_up/sign_up.handler
     layers:
-      - { Ref: BasicLambdaLayer }
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           path: /sign_up
@@ -73,7 +86,8 @@ functions:
   sign_in:
     handler: code/tokens/sign_in/sign_in.handler
     layers:
-      - { Ref: BasicLambdaLayer }
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           path: /tokens/sign_in
@@ -88,7 +102,8 @@ functions:
   refresh_token:
     handler: code/tokens/refresh/refresh.handler
     layers:
-      - { Ref: BasicLambdaLayer }
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           path: /tokens/refresh
@@ -116,7 +131,8 @@ functions:
   write_to_bucket:
     handler: code/write_to_bucket/write_to_bucket.handler
     layers:
-      - { Ref: BasicLambdaLayer }
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           path: /write_to_bucket
@@ -131,7 +147,8 @@ functions:
   health_check:
     handler: code/health_check/health_check.handler
     layers:
-      - { Ref: BasicLambdaLayer }
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           path: /health_check
@@ -146,7 +163,8 @@ functions:
   secret_resource:
     handler: code/secret_resource/secret_resource.handler
     layers:
-      - { Ref: BasicLambdaLayer }
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           path: /secret_resource
@@ -162,60 +180,86 @@ functions:
                 - Arn
             scopes:  # can be table1.write or table2.read
               - aws.cognito.signin.user.admin
+              # Cognito checks if access token includes these scopes
     package:
       exclude:
         - ./**
       include:
         - code/secret_resource/**
   
-  entities_get:
-    handler: code/{{cookiecutter.crud_entity_name}}/get/get.handler
+  {{cookiecutter.custom_entity_name}}_get:
+    handler: code/{{cookiecutter.custom_entity_name}}/get/get.handler
     layers:
-      - { Ref: BasicLambdaLayer }
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
-          path: /{{cookiecutter.crud_entity_name}}
+          path: /{{cookiecutter.custom_entity_name}}
           method: get
           cors: true
       - http:
-          path: /{{cookiecutter.crud_entity_name}}/{username}
+          path: /{{cookiecutter.custom_entity_name}}/{username}
           method: get
           cors: true
     package:
       exclude:
         - ./**
       include:
-        - code/{{cookiecutter.crud_entity_name}}/get/**
+        - code/{{cookiecutter.custom_entity_name}}/get/**
           
-  entities_post:
-    handler: code/{{cookiecutter.crud_entity_name}}/post/post.handler
+  {{cookiecutter.custom_entity_name}}_post:
+    handler: code/{{cookiecutter.custom_entity_name}}/post/post.handler
     layers:
-      - { Ref: BasicLambdaLayer }
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
-          path: /{{cookiecutter.crud_entity_name}}
+          path: /{{cookiecutter.custom_entity_name}}
           method: post
           cors: true
+          authorizer:
+            name: cognito_authorizer
+            identitySource: method.request.header.Authorization
+            type: COGNITO_USER_POOLS  # use TOKEN for custom authorizer
+            arn:
+              Fn::GetAtt:
+                - CognitoUserPool
+                - Arn
+            scopes:  # can be table1.write or table2.read
+              - aws.cognito.signin.user.admin
+              # Cognito checks if access token includes these scopes
     package:
       exclude:
         - ./**
       include:
-        - code/{{cookiecutter.crud_entity_name}}/post/**
+        - code/{{cookiecutter.custom_entity_name}}/post/**
 
-  entities_delete:
-    handler: code/{{cookiecutter.crud_entity_name}}/delete/delete.handler
+  {{cookiecutter.custom_entity_name}}_delete:
+    handler: code/{{cookiecutter.custom_entity_name}}/delete/delete.handler
     layers:
-      - { Ref: BasicLambdaLayer }
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
-          path: /{{cookiecutter.crud_entity_name}}/{username}
+          path: /{{cookiecutter.custom_entity_name}}/{username}
           method: delete
           cors: true
+          authorizer:
+            name: cognito_authorizer
+            identitySource: method.request.header.Authorization
+            type: COGNITO_USER_POOLS  # use TOKEN for custom authorizer
+            arn:
+              Fn::GetAtt:
+                - CognitoUserPool
+                - Arn
+            scopes:  # can be table1.write or table2.read
+              - aws.cognito.signin.user.admin
+              # Cognito checks if access token includes these scopes
     package:
       exclude:
         - ./**
       include:
-        - code/{{cookiecutter.crud_entity_name}}/delete/**
+        - code/{{cookiecutter.custom_entity_name}}/delete/**
 
 resources:
   Resources:
@@ -233,10 +277,10 @@ resources:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
 
-    CrudEntityTable:
+    CustomEntityTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.crudEntityTableName}
+        TableName: ${self:custom.customEntityTableName}
         AttributeDefinitions:
           - AttributeName: username
             AttributeType: S
@@ -259,10 +303,8 @@ resources:
       Properties:
         MfaConfiguration: OFF
         UserPoolName: ${self:custom.userPoolName}
-        UsernameAttributes:
-          - email
         EmailConfiguration: 
-          EmailSendingAccount: DEVELOPER  # COGNITO_DEFAULT
+          EmailSendingAccount: DEVELOPER  # other option - COGNITO_DEFAULT
           From: nataliia.dyshko@ukr.net
           #arn:aws:ses:us-east-1:1234567890:identity/john@myemail.com - like that for DEVELOPER
           #SourceArn: # sourceARN to verified email address in SES
@@ -280,10 +322,12 @@ resources:
               Priority: 1
         AutoVerifiedAttributes:
           - email
+        UsernameAttributes:
+          - email
         UsernameConfiguration:
           CaseSensitive: False
         VerificationMessageTemplate:
-          DefaultEmailOption: CONFIRM_WITH_LINK
+          DefaultEmailOption: CONFIRM_WITH_LINK  # for verify_email link
         
     CognitoUserPoolClient:
       Type: "AWS::Cognito::UserPoolClient"
@@ -310,6 +354,5 @@ layers:
     path: ./code/layers/basic_layer
     name: basic_layer_${self:custom.currentStage}
     compatibleRuntimes:
-      - python3.6
       - python3.7
       - python3.8

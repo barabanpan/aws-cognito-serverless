@@ -16,12 +16,11 @@ def handler(event, context):
         "<b>Thank you!</b>",
         "",
         "",
-        "You’re receiving this email because you recently created",
-        "a new {{cookiecutter.project_name}} account.",
+        "You’re receiving this email because you recently created a new {{cookiecutter.project_name}} account.",
         "If this wasn’t you, please ignore this email.",
     ]
 
-    event["response"]["emailSubject"] = "[{{cookiecutter.project_name}}]Please verify your email address."
+    event["response"]["emailSubject"] = "[{{cookiecutter.project_name}}] Please verify your email address."
     event["response"]["emailMessage"] = "<br>".join(email_lines)
 
     return event

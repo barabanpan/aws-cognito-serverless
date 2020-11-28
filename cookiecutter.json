@@ -1,5 +1,5 @@
 {
-    "project_name": "serverless_project",
+    "project_name": "serverless-project",
     "aws_region": "eu-central-1",
     "crud_entity_name": "crud",
     "s3_bucket_name": "bucket_for_writing",
