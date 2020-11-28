@@ -1,6 +1,6 @@
-# Create API using AWS API Gateway, Lambda, Cognito, DynamoDB and Serverless
+# Template for API using AWS API Gateway, Lambda, Cognito, DynamoDB and Serverless
 
-Create a project that in one button press creates a small project with 
+Create a project with 
  - sign up, 
  - sign in, 
  - a resource for unregistered users, 
@@ -12,7 +12,7 @@ For CRUD operations:
  - post a new entity (entities/),
  - delete by username (entities/{username}).
 
-**TODO**: add s3 bucket with Swagger documentation. Add CookieCutter.
+**TODO**: add s3 bucket with Swagger documentation.
 
 ## How To Run It
 
@@ -29,5 +29,6 @@ cookiecutter <path_to_template_here>
 ```
 
 Choose parameters. Better write entity_name in plural from. No pressure though:)
+> project_name should match the next pattern should "[a-zA-Z][0-9a-zA-Z-]+$"
 
-4. For further steps see REAME.md inside of {{cookiecutter.project_name}} folder.
+4. For further steps see README.md inside of {{cookiecutter.project_name}} folder.

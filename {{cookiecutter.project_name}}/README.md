@@ -12,25 +12,31 @@ For CRUD operations:
  - post a new entity (entities/),
  - delete by username (entities/{username}).
 
-**TODO**: add s3 bucket with Swagger documentation. Add CookieCutter.
+**TODO**: add s3 bucket with Swagger documentation.
 
 ## How To Run It
+1. Install things:)
+1.1. Install npm.
+1.2. Install Serverless:
+```
+npm install -g serverless
+```
+  > If there is an error with "node<10.00", first run:
+  > `apt-get install nodejs:i386`
 
-1. Install Serverless
-
+1.3. Install plugin for python requirements:
+```
+sls plugin install -n serlverless-python-requirements
+```
 2. Set your AWS credentials:
-
 ```
 export AWS_ACCESS_KEY_ID=<your_key_id_here>
 ```
-
 ```
 export AWS_SECRET_ACCESS_KEY=<your_secret_key_here>
 ```
-
-For Windows use `set` instead of `export`.
-
 3. Go here ([AWS SES configuration](https://eu-west-1.console.aws.amazon.com/ses/home?region=eu-west-1#verified-senders-email:)) to create and verify an email address.
+
 Replace `From` and `SourceArn` with your email address and its arn in `serverless.yaml` file (Resources.CognitoUserPool.Properties.EmailConfiguration)
 
 It's needed for sending verification emails and usually email looks like *no-reply@ourcompanyname.com*.
@@ -38,11 +44,9 @@ For tests you can use your own email.
 You only need one email for all stages. 
 
 4. Run with:
-
 ```
 sls deploy --stage dev
 ```
-
 or whatever stage name you want.
 Running the command again with a different name will create a seperate API.
 
