@@ -1,0 +1,313 @@
+openapi: 3.0.0
+info:
+  title: ExampleAPI 
+  description: API description
+  version: 1.0.0
+servers:
+  - url: 'https://wkioy46s54.execute-api.eu-central-1.amazonaws.com/dev'
+tags:
+  - name: Health check
+  - name: Sign up
+  - name: Tokens
+  - name: Secret resource
+  - name: CRUD
+  - name: Write to s3
+paths:
+  /health_check:
+    get:
+      tags:
+        - Health check
+      summary: "Just to check all's good:)"
+      responses:
+        '200': 
+          description: Successful Health Check
+                
+  /sign_up:
+    post:
+      tags:
+        - Sign up 
+      summary: "Sign up"
+      requestBody:
+        required: true
+        description: |
+          Creates a new user if there is no user with the same email. </br> </br>
+          Takes email and password as a request body. 
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1            
+            examples:
+              'Valid sign up':
+                description: Creates a user with these email and password and sends a verification letter to this email.
+                value:
+                  email: your.email@example.com
+                  password: SomeGoodPass1234
+      responses:
+        '200': 
+          description: Successful sign up
+          content:
+            application/json:
+              example:
+                message: "Please check your email for verification link."
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              example: 
+                message: 'An account with the given email already exists.'
+  
+  /tokens/sign_in:
+    get:
+      tags:
+        - Tokens
+      summary: 'Get access and refresh tokens'
+      description: "Operation requires authorization header (Basic email:password)"
+      responses:
+        "200":
+          description: Successful Operation
+            Returns `AccessToken`, `ExpiresIn`, `RefreshToken`, and `TokenType`.
+          content:
+            application/json:
+              example: 
+                AccessToken: some.long.string
+                ExpiresIn: 3600
+                RefreshToken: other.long.string
+                TokenType: Bearer
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
+      security:
+        - basicAuth: []
+        
+  /tokens/refresh:
+    get:
+      tags:
+        - Tokens
+      summary: "Refresh access token"
+      description: "Operation requires authorization header (Bearer)"
+      responses:
+        "200":
+          description: Successful Operation
+            Returns new `AccessToken`, `ExpiresIn`, `RefreshToken`, and `TokenType`.
+          content:
+            application/json:
+              example: 
+                AccessToken: some.long.string
+                ExpiresIn: 3600
+                RefreshToken: other.long.string
+                TokenType: Bearer
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
+      security:
+        - bearerAuth: []
+
+  /secret_resource:
+    get:
+      tags:
+        - Secret resource
+      summary: "Can be accessed only with access token"
+      description: "Operation requires authorization header (Bearer)"
+      responses:
+        '200': 
+          description: Successful Operation
+      security:
+        - bearerAuth: []
+    
+  /entities:
+    get: 
+      tags:
+        - CRUD
+      summary: Get all entities
+      responses:
+        '200': 
+          description:  Successful Operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  description: List of entities
+    post:
+      tags:
+        - CRUD
+      summary: Add a new entity
+      requestBody:
+        required: true
+        description: |
+          Creates a new entity if there is no entity with the same username. </br> </br>
+          Otherwise re-writes the existing entity.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/entity'      
+            example:
+              username: Donny
+              email: donny@example.com
+              description: Good enough as well
+              value: 21
+              date: "1992-08-17"
+              is_good_boy: true
+      responses:
+        '201': 
+          description: Successful Operation
+          content:
+            application/json:
+              example:
+                message: Added successfully.
+  
+  
+  /entities/{username}:
+    get: 
+      tags:
+        - CRUD
+      summary: Get one entity by username
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: String username that is case-sensitive
+      responses:
+        '200': 
+          description: |
+            Successful Operation </br> 
+            __Table 1.__  Successfull response structure:
+            | Field | Description |
+            | ------- | -------- |
+            | `username*` | Required string parameter. Defines an entity. |
+            | `email*` | Required. Entity's email. |
+            | `description*`| Required. Entity's description. Min length is 1, max length is 500. |
+            | `value*` | Required numberic that describes entity. |
+            | `date*` | Required string date in format YYYY-MM-DD. |
+            | `is_good_boy` | Non-required boolean that describes entity. Default value is false.|
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/entity'
+              example:
+                username: Larry
+                email: larry@example.com
+                description: Good enough
+                value: 22
+                date: "1991-10-22"
+                is_good_boy: true
+        '404':
+          description: Entity with given username was not found.
+          content: 
+            application/json:
+              example:
+                message: No such entity.
+    delete:  
+      tags:
+        - CRUD
+      summary: Delete one entity
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: String username that is case-sensitive
+      responses:
+        '200': 
+          description: Successful Cancellation
+          content:
+            application/json:
+              example:
+                message: "Deleted succesfully."
+  
+  /write_to_bucket:
+    post: 
+      tags:
+        - Write to s3
+      summary: Add an entry to the file from s3 bucket
+      responses:
+        '200': 
+          description:  Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/entry'
+              example:
+                entry: This is my first entry!
+        
+components:
+  schemas:
+    'entity':
+      type: object
+      additionalProperties: false
+      required:
+        - username
+        - email
+        - description
+        - value
+        - date
+      properties:
+        username:
+          type: string
+          minLength: 1
+          maxLength: 30
+        email:
+          type: string
+          format: email
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+          maxLength: 500
+        value:
+          type: integer
+          minimum: 1
+          maximum: 1000
+        date:
+          type: string
+        is_good_boy:
+          type: boolean
+          default: false
+          
+    'entry':
+      type: object
+      additionalProperties: false
+      required:
+        - entry
+      properties:
+        entry:
+          type: string
+    
+    'response_401':
+      type: object
+      properties:
+        message:
+          type: string
+          example:
+            "Unauthorized"
+          
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
