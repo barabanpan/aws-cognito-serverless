@@ -29,6 +29,6 @@ cookiecutter <path_to_template_here>
 ```
 
 Choose parameters. Better write entity_name in plural from. No pressure though:)
-> project_name should match the next pattern should "[a-zA-Z][0-9a-zA-Z-]+$"
+> project_name should match the next pattern "[a-zA-Z][0-9a-zA-Z-]+$"
 
 4. For further steps see README.md inside of {{cookiecutter.project_name}} folder.
