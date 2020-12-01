@@ -68,7 +68,7 @@ custom:
 
 functions:
   sign_up:
-    handler: code/auth/sign_up.handler
+    handler: code/auth/sign_up/sign_up.handler
     layers:
       - Ref: BasicLambdaLayer
       - Ref: PythonRequirementsLambdaLayer
