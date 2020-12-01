@@ -3,7 +3,7 @@ from marshmallow import ValidationError
 
 from constants import DATE_FORMAT, DEFAULT_IS_GOOD_BOY
 from db_manager import EntityDatabaseManager
-from utils import bad_request, Entity, EntitySchema, response
+from utils import bad_request, Entity, EntitySchema, response_201
 
 
 db = EntityDatabaseManager()
@@ -12,8 +12,8 @@ db = EntityDatabaseManager()
 def handler(event, context):
     try:
         new_entity = json.loads(event.get("body", dict()))
-    except Exception:
-        return bad_request("Invalid request body")
+    except json.decoder.JSONDecodeError as e:
+        return bad_request("Invalid request body: {0}".format(str(e)))
 
     # validation
     try:
@@ -22,13 +22,16 @@ def handler(event, context):
     except ValidationError as ve:
         return bad_request(str(ve.messages))
 
-    try:
-        entity = Entity(new_entity["username"], new_entity["email"],
-                        new_entity["description"], new_entity["value"],
-                        new_entity["date"].strftime(DATE_FORMAT),
-                        new_entity.get("is_good_boy", DEFAULT_IS_GOOD_BOY))
-        db.add_new_entity(entity)
-    except Exception as e:
-        return bad_request(repr(e))
+    entity = Entity(new_entity["username"], new_entity["email"],
+                    new_entity["description"], new_entity["value"],
+                    new_entity["date"].strftime(DATE_FORMAT),
+                    new_entity.get("is_good_boy", DEFAULT_IS_GOOD_BOY))
 
-    return response(201, {"message": "Added successfully."})
+    # check if entity already exists
+    existing_entity = db.get_entity(entity.username)
+    if existing_entity:
+        return bad_request("Entity with this username already exists!")
+
+    db.add_new_entity(entity)
+
+    return response_201()

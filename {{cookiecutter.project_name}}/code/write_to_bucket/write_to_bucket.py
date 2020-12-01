@@ -19,7 +19,7 @@ def handler(event, context):
 
     try:
         obj = s3.get_object(Bucket=WRITE_TO_BUCKET_NAME, Key=FILE_NAME)
-        body = obj["Body"].read().decode("utf-8") + "\n\n"
+        body = obj["Body"].read().decode("utf-8") + "\n\n"  # add chunks in case of a big file?
     except (s3.exceptions.NoSuchKey, KeyError):
         body = ""
     except s3.exceptions.NoSuchBucket:
