@@ -30,4 +30,11 @@ def handler(event, context):
 
     s3.put_object(Body=str.encode(body), Bucket=WRITE_TO_BUCKET_NAME, Key=FILE_NAME)
 
-    return response(200, {"message": "New entry was added"})
+    # return last 10 records from file
+    body = body.split('\n')
+    last_records = []
+    for i, record in enumerate(body[-10:]):
+        last_records.append({"id": i + 1, "text": record})
+
+    return response(200, {"message": "New entry was added",
+                          "last_records": last_records})

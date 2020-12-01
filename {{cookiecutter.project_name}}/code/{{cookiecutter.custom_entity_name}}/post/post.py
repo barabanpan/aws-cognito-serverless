@@ -1,6 +1,5 @@
 import json
 from marshmallow import ValidationError
-import uuid
 
 from constants import DATE_FORMAT, DEFAULT_IS_GOOD_BOY
 from db_manager import EntityDatabaseManager
