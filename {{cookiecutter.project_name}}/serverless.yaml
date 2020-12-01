@@ -68,52 +68,52 @@ custom:
 
 functions:
   sign_up:
-    handler: code/sign_up/sign_up.handler
+    handler: code/auth/sign_up.handler
     layers:
       - Ref: BasicLambdaLayer
       - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
-          path: /sign_up
+          path: /auth/sign_up
           method: post
           cors: true
     package:
       exclude:
         - ./**
       include:
-        - code/sign_up/**
+        - code/auth/sign_up/**
 
   sign_in:
-    handler: code/tokens/sign_in/sign_in.handler
+    handler: code/auth/sign_in/sign_in.handler
     layers:
       - Ref: BasicLambdaLayer
       - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
-          path: /tokens/sign_in
+          path: /auth/sign_in
           method: get
           cors: true
     package:
       exclude:
         - ./**
       include:
-        - code/tokens/sign_in/**
+        - code/auth/sign_in/**
 
   refresh_token:
-    handler: code/tokens/refresh/refresh.handler
+    handler: code/auth/refresh/refresh.handler
     layers:
       - Ref: BasicLambdaLayer
       - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
-          path: /tokens/refresh
+          path: /auth/refresh
           method: get
           cors: true
     package:
       exclude:
         - ./**
       include:
-        - code/tokens/refresh/**
+        - code/auth/refresh/**
 
   custom_message:
     handler: code/custom_verification_message/custom_message.handler

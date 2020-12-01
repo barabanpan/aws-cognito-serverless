@@ -8,7 +8,7 @@ servers:
 tags:
   - name: Health check
   - name: Sign up
-  - name: Tokens
+  - name: Auth
   - name: Secret resource
   - name: CRUD
   - name: Write to s3
@@ -22,7 +22,7 @@ paths:
         '200': 
           description: Successful Health Check
                 
-  /sign_up:
+  /auth/sign_up:
     post:
       tags:
         - Sign up 
@@ -68,10 +68,10 @@ paths:
               example: 
                 message: 'An account with the given email already exists.'
   
-  /tokens/sign_in:
+  /auth/sign_in:
     get:
       tags:
-        - Tokens
+        - Auth
       summary: 'Get access and refresh tokens'
       description: "Operation requires authorization header (Basic email:password)"
       responses:
@@ -94,10 +94,10 @@ paths:
       security:
         - basicAuth: []
         
-  /tokens/refresh:
+  /auth/refresh:
     get:
       tags:
-        - Tokens
+        - Auth
       summary: "Refresh access token"
       description: "Operation requires authorization header (Bearer)"
       responses:
