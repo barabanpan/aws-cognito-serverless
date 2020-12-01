@@ -1,7 +1,11 @@
 {
     "project_name": "serverless-project",
     "aws_region": "eu-central-1",
-    "crud_entity_name": "crud",
+    "custom_entity_name": "entities",
     "s3_bucket_name": "bucket_for_writing",
-    "s3_file_name": "diary"
+    "s3_file_name": "diary",
+    "_copy_without_render": [
+    	"swagger_s3_bucket",
+    	".github"
+    ]
 }

@@ -55,7 +55,7 @@ custom:
   cognitoUserPoolDomainName: domain-example-1984-${self:custom.currentStage}
   customEntityName: {{cookiecutter.custom_entity_name}}  # for crud
   customEntityTableName: ${self:custom.customEntityName}-${self:custom.currentStage}
-  bucketForWriting: {{cookiecutter.s3_bucket_name}}-${self:custom.currentStage}"
+  bucketForWriting: {{cookiecutter.s3_bucket_name}}-${self:custom.currentStage}
   pythonRequirements:  # for layer with python requirements
     dockerizePip: non-linux
     useDownloadCache: true

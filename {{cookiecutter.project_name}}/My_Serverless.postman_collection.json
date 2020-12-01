@@ -191,12 +191,12 @@
 			"response": []
 		},
 		{
-			"name": "test get all: {{cookiecutter.crud_entity_name}}",
+			"name": "test get all: {{cookiecutter.custom_entity_name}}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.crud_entity_name}}",
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.custom_entity_name}}",
 					"protocol": "https",
 					"host": [
 						"f9rtsy4jmi",
@@ -207,19 +207,19 @@
 					],
 					"path": [
 						"dev",
-						"{{cookiecutter.crud_entity_name}}"
+						"{{cookiecutter.custom_entity_name}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "test get a particular {{cookiecutter.crud_entity_name}}",
+			"name": "test get a particular {{cookiecutter.custom_entity_name}}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.crud_entity_name}}/Larry",
+					"raw": "https://f9rtsy4jmi.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.custom_entity_name}}/Larry",
 					"protocol": "https",
 					"host": [
 						"f9rtsy4jmi",
@@ -230,7 +230,7 @@
 					],
 					"path": [
 						"dev",
-						"{{cookiecutter.crud_entity_name}}",
+						"{{cookiecutter.custom_entity_name}}",
 						"Larry"
 					]
 				}
@@ -238,7 +238,7 @@
 			"response": []
 		},
 		{
-			"name": "test add {{cookiecutter.crud_entity_name}}",
+			"name": "test add {{cookiecutter.custom_entity_name}}",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -252,7 +252,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.crud_entity_name}}",
+					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.custom_entity_name}}",
 					"protocol": "https",
 					"host": [
 						"iitmuuu105",
@@ -263,19 +263,19 @@
 					],
 					"path": [
 						"dev",
-						"{{cookiecutter.crud_entity_name}}"
+						"{{cookiecutter.custom_entity_name}}"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "test delete a particular {{cookiecutter.crud_entity_name}}",
+			"name": "test delete a particular {{cookiecutter.custom_entity_name}}",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.crud_entity_name}}/Larryy",
+					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.custom_entity_name}}/Larryy",
 					"protocol": "https",
 					"host": [
 						"iitmuuu105",
@@ -286,7 +286,7 @@
 					],
 					"path": [
 						"dev",
-						"{{cookiecutter.crud_entity_name}}",
+						"{{cookiecutter.custom_entity_name}}",
 						"Larryy"
 					]
 				}
