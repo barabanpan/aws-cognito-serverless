@@ -25,7 +25,7 @@ pip istall cookiecutter
 
 3. Create project from template (in a folder, seperate from template):
 ```
-cookiecutter <path_to_template_here>
+cookiecutter https://github.com/barabanpan/aws-cognito-serverless.git
 ```
 
 Choose parameters. Better write entity_name in plural from. No pressure though:)
