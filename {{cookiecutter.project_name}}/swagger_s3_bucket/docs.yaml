@@ -10,7 +10,7 @@ tags:
   - name: Sign up
   - name: Auth
   - name: Secret resource
-  - name: CRUD
+  - name: Custom entity
   - name: Write to s3
 paths:
   /health_check:
@@ -135,7 +135,7 @@ paths:
   /entities:
     get: 
       tags:
-        - CRUD
+        - Custom entity
       summary: Get all entities
       responses:
         '200': 
@@ -149,19 +149,25 @@ paths:
                   description: List of entities
     post:
       tags:
-        - CRUD
+        - Custom entity
       summary: Add a new entity
       requestBody:
         required: true
         description: |
-          Creates a new entity if there is no entity with the same username. </br> </br>
-          Otherwise re-writes the existing entity.
+          Creates a new entity.</br> </br>
+          __Table 1.__  Request body structure:
+            | Field | Description |
+            | ------- | -------- |
+            | `email*` | Required. Entity's email. |
+            | `description*`| Required. Entity's description. Min length is 1, max length is 500. |
+            | `value*` | Required numberic that describes entity. |
+            | `date*` | Required string date in format YYYY-MM-DD. |
+            | `is_good_boy` | Non-required boolean that describes entity. Default value is false.|
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/entity'      
             example:
-              username: Donny
               email: donny@example.com
               description: Good enough as well
               value: 21
@@ -173,65 +179,65 @@ paths:
           content:
             application/json:
               example:
-                message: Added successfully.
+                uid: "some-uid-here"
   
   
-  /entities/{username}:
+  /entities/{uid}:
     get: 
       tags:
-        - CRUD
+        - Custom entity
       summary: Get one entity by username
       parameters:
         - in: path
-          name: username
+          name: uid
           schema:
             type: string
           required: true
-          description: String username that is case-sensitive
+          description: String uid that is case-sensitive
       responses:
         '200': 
           description: |
             Successful Operation </br> 
-            __Table 1.__  Successfull response structure:
+            __Table 2.__  Successfull response structure:
             | Field | Description |
             | ------- | -------- |
-            | `username*` | Required string parameter. Defines an entity. |
-            | `email*` | Required. Entity's email. |
-            | `description*`| Required. Entity's description. Min length is 1, max length is 500. |
-            | `value*` | Required numberic that describes entity. |
-            | `date*` | Required string date in format YYYY-MM-DD. |
-            | `is_good_boy` | Non-required boolean that describes entity. Default value is false.|
+            | `uid` | String that defines an entity. |
+            | `email` | Entity's email. |
+            | `description`| Entity's description. Min length is 1, max length is 500. |
+            | `value` | Numberic that describes entity. |
+            | `date` | String date in format YYYY-MM-DD. |
+            | `is_good_boy` | Boolean that describes entity. Default value is false.|
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/entity'
               example:
-                username: Larry
+                uid: "some-uid-here"
                 email: larry@example.com
                 description: Good enough
                 value: 22
                 date: "1991-10-22"
                 is_good_boy: true
         '404':
-          description: Entity with given username was not found.
+          description: Entity with given uid was not found.
           content: 
             application/json:
               example:
                 message: No such entity.
     delete:  
       tags:
-        - CRUD
+        - Custom entity
       summary: Delete one entity
       parameters:
         - in: path
-          name: username
+          name: uid
           schema:
             type: string
           required: true
-          description: String username that is case-sensitive
+          description: String uid that is case-sensitive
       responses:
         '200': 
-          description: Successful Cancellation
+          description: Successful Deletion
           content:
             application/json:
               example:
@@ -258,16 +264,11 @@ components:
       type: object
       additionalProperties: false
       required:
-        - username
         - email
         - description
         - value
         - date
       properties:
-        username:
-          type: string
-          minLength: 1
-          maxLength: 30
         email:
           type: string
           format: email

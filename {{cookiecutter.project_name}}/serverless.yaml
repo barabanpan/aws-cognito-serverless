@@ -198,7 +198,7 @@ functions:
           method: get
           cors: true
       - http:
-          path: /{{cookiecutter.custom_entity_name}}/{username}
+          path: /{{cookiecutter.custom_entity_name}}/{uid}
           method: get
           cors: true
     package:
@@ -241,7 +241,7 @@ functions:
       - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
-          path: /{{cookiecutter.custom_entity_name}}/{username}
+          path: /{{cookiecutter.custom_entity_name}}/{uid}
           method: delete
           cors: true
           authorizer:
@@ -282,10 +282,10 @@ resources:
       Properties:
         TableName: ${self:custom.customEntityTableName}
         AttributeDefinitions:
-          - AttributeName: username
+          - AttributeName: uid
             AttributeType: S
         KeySchema:
-          - AttributeName: username
+          - AttributeName: uid
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 5

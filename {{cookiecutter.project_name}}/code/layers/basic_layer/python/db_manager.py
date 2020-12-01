@@ -1,10 +1,11 @@
 import boto3
 import time
 import os
+import uuid
 
 
 USERS_TABLE_NAME = os.environ.get("USERS_TABLE_NAME")
-ENTITY_TABLE_NAME = os.environ.get("CRUD_ENTITY_TABLE_NAME")
+ENTITY_TABLE_NAME = os.environ.get("CUSTOM_ENTITY_TABLE_NAME")
 
 
 class UsersDatabaseManager:
@@ -28,9 +29,10 @@ class EntityDatabaseManager:
         self.table = dynamodb.Table(ENTITY_TABLE_NAME)
 
     def add_new_entity(self, entity):
+        uid = str(uuid.uuid4())
         self.table.put_item(
             Item={
-                "username": entity.username,  # key
+                "uid": uid,  # key
                 "email": entity.email,
                 "description": entity.description,
                 "value": entity.value,
@@ -38,9 +40,10 @@ class EntityDatabaseManager:
                 "is_good_boy": entity.is_good_boy
             }
         )
+        return uid
 
-    def get_entity(self, username):
-        entity = self.table.get_item(Key={"username": username}).get("Item")
+    def get_entity(self, uid):
+        entity = self.table.get_item(Key={"uid": uid}).get("Item")
         if not entity:
             return None
         return self.__prettify_response(entity)
@@ -49,26 +52,12 @@ class EntityDatabaseManager:
         all_entities = self.table.scan()["Items"]
         return [self.__prettify_response(response) for response in all_entities]
 
-    def update_entity(self, entity):
-        self.table.update_item(
-            Key={"username": entity.username},  # чи можна міняти ключ??
-            UpdateExpression="set username=:u, email=:e, description=:d, value=:v, date=:t, is_good_boy=:b",
-            ExpressionAttributeValues={
-                ":u": entity.username,
-                ":e": entity.email,
-                ":d": entity.description,
-                ":v": entity.value,
-                ":t": entity.date,
-                ":b": entity.is_good_boy
-            }
-        )
-
-    def delete_entity(self, username):
-        self.table.delete_item(Key={"username": username})
+    def delete_entity(self, uid):
+        self.table.delete_item(Key={"uid": uid})
 
     def __prettify_response(self, response):
         return {
-            "username": response["username"],
+            "uid": response["uid"],
             "email": response["email"],
             "description": response["description"],
             "value": int(response["value"]),

@@ -7,7 +7,7 @@ db = EntityDatabaseManager()
 
 def handler(event, context):
     params = event.get("pathParameters", dict()) or dict()  # event can have it as None
-    username = params.get("username", None)
+    uid = params.get("uid", None)
 
-    db.delete_entity(username)
+    db.delete_entity(uid)
     return response(200, {"message": "Deleted succesfully."})

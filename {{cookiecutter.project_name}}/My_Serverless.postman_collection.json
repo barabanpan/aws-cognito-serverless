@@ -244,7 +244,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"Donny2\",\n    \"description\": \"good enough\",\n    \"email\": \"Donny@example.com\",\n    \"value\": 22,\n    \"date\": \"1991-12-30\",\n    \"is_good_boy\": true\n}",
+					"raw": "{\n    \"description\": \"good enough\",\n    \"email\": \"Donny@example.com\",\n    \"value\": 22,\n    \"date\": \"1991-12-30\",\n    \"is_good_boy\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -275,7 +275,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.custom_entity_name}}/Larryy",
+					"raw": "https://iitmuuu105.execute-api.eu-central-1.amazonaws.com/dev/{{cookiecutter.custom_entity_name}}/Larry",
 					"protocol": "https",
 					"host": [
 						"iitmuuu105",
@@ -287,7 +287,7 @@
 					"path": [
 						"dev",
 						"{{cookiecutter.custom_entity_name}}",
-						"Larryy"
+						"Larry"
 					]
 				}
 			},

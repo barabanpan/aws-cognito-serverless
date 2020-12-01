@@ -8,9 +8,9 @@ In one button press creates a small project with
  - URL for writing entries to s3 bucket file.
 
 For CRUD operations:
- - get all (entities/) and get by username (entities/{username}),
+ - get all (entities/) and get by uid (entities/{uid}),
  - post a new entity (entities/),
- - delete by username (entities/{username}).
+ - delete by uid (entities/{uid}).
 
 **TODO**: add s3 bucket with Swagger documentation.
 

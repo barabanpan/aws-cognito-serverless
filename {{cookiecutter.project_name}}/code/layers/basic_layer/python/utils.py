@@ -15,17 +15,12 @@ def response(code, body):
             "body": json.dumps(body)}
 
 
-def response_201():
-    return response(201, {"message": "Added successfully."})
-
-
 def bad_request(message):
     return response(400, {"message": message})
 
 
 class Entity:
-    def __init__(self, username, email, description, value, date, is_good_boy):
-        self.username = username
+    def __init__(self, email, description, value, date, is_good_boy):
         self.email = email
         self.description = description
         self.value = value
@@ -35,7 +30,6 @@ class Entity:
 
 # schema for marshmallow validation
 class EntitySchema(Schema):
-    username = fields.String(required=True, validate=validate.Length(min=1, max=30))
     email = fields.Email(required=True)
     description = fields.String(required=True, validate=validate.Length(min=1, max=500))
     value = fields.Integer(required=True, validate=validate.Range(min=1, max=1000))
