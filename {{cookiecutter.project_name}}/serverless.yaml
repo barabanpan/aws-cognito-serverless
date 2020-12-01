@@ -305,10 +305,10 @@ resources:
         UserPoolName: ${self:custom.userPoolName}
         EmailConfiguration: 
           EmailSendingAccount: DEVELOPER  # other option - COGNITO_DEFAULT
-          From: nataliia.dyshko@ukr.net
+          From: {{ cookiecutter.ses_email }}
           #arn:aws:ses:us-east-1:1234567890:identity/john@myemail.com - like that for DEVELOPER
           #SourceArn: # sourceARN to verified email address in SES
-          SourceArn: arn:aws:ses:eu-west-1:343179190615:identity/nataliia.dyshko@ukr.net
+          SourceArn: arn:aws:ses:{{ cookiecutter.ses_region }}:{{ cookiecutter.aws_account_id }}:identity/{{ cookiecutter.ses_email }} # noqa
         Policies:
           PasswordPolicy:
             MinimumLength: 8
