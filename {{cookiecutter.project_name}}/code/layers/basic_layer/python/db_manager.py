@@ -40,13 +40,10 @@ class EntityDatabaseManager:
         )
 
     def get_entity(self, username):
-        try:
-            response = self.table.get_item(Key={"username": username})["Item"]
-        except Exception as e:
-            print(repr(e))
+        entity = self.table.get_item(Key={"username": username}).get("Item")
+        if not entity:
             return None
-        else:
-            return self.__prettify_response(response)
+        return self.__prettify_response(entity)
 
     def get_all(self):
         all_entities = self.table.scan()["Items"]

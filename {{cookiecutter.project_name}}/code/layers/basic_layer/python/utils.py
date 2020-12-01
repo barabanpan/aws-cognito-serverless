@@ -15,6 +15,10 @@ def response(code, body):
             "body": json.dumps(body)}
 
 
+def response_201():
+    return response(201, {"message": "Added successfully."})
+
+
 def bad_request(message):
     return response(400, {"message": message})
 
