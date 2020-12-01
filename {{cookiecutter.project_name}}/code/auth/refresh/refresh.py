@@ -1,5 +1,6 @@
 import boto3
 import os
+import logging
 
 from utils import bad_request, response
 
@@ -19,7 +20,7 @@ def handler(event, context):
             }
         )
     except Exception as e:
-        print("-----------EXCEPTION:", e)
+        logging.warning("-----------EXCEPTION:", e)
         return bad_request(repr(e))
 
         # Common exceptions:
