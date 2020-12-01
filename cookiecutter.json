@@ -4,6 +4,9 @@
     "custom_entity_name": "entities",
     "s3_bucket_name": "bucket-for-writing",
     "s3_file_name": "diary",
+    "ses_region": "us-east-1",
+    "ses_email": "john@myemail.com",
+    "aws_account_id": "1234567890",
     "_copy_without_render": [
     	"*.js",
     	"*.map",
