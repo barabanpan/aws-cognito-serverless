@@ -52,7 +52,7 @@ custom:
   usersTableName: users-${self:custom.currentStage}  # for users' information
   userPoolName: user-pool-${self:custom.currentStage}
   userPoolClientName: user-pool-client-${self:custom.currentStage}
-  cognitoUserPoolDomainName: domain-example-{{ cookiecutter.cognito_domain_name }}-${self:custom.currentStage}
+  cognitoUserPoolDomainName: {{ cookiecutter.project_name }}-{{ cookiecutter.random_suffix }}-${self:custom.currentStage}
   customEntityName: {{cookiecutter.custom_entity_name}}  # for crud
   customEntityTableName: ${self:custom.customEntityName}-${self:custom.currentStage}
   bucketForWriting: {{cookiecutter.s3_bucket_name}}-${self:custom.currentStage}
