@@ -30,7 +30,7 @@ paths:
         required: true
         description: |
           Creates a new user if there is no user with the same email. </br> </br>
-          Takes email and password as a request body. 
+          Takes email and password as a request body.
         content:
           application/json:
             schema:
@@ -49,7 +49,8 @@ paths:
                   minLength: 1            
             examples:
               'Valid sign up':
-                description: Creates a user with these email and password and sends a verification letter to this email.
+                description: |
+                  Creates a user with these email and password and sends a verification letter to this email.
                 value:
                   email: your.email@example.com
                   password: SomeGoodPass1234
@@ -72,7 +73,8 @@ paths:
       tags:
         - Auth
       summary: 'Get access and refresh tokens'
-      description: "Operation requires authorization header (Basic email:password)"
+      description: |
+        Operation requires authorization header (Basic email:password)
       responses:
         "200":
           description: Successful Operation
@@ -98,17 +100,17 @@ paths:
       tags:
         - Auth
       summary: "Refresh access token"
-      description: "Operation requires authorization header (Bearer)"
+      description: |
+        Operation requires authorization header (Bearer) with `RefreshToken` from `SignIn` responce
       responses:
         "200":
           description: Successful Operation
-            Returns new `AccessToken`, `ExpiresIn`, `RefreshToken`, and `TokenType`.
+            Returns new `AccessToken`, `ExpiresIn` and `TokenType`.
           content:
             application/json:
               example: 
                 AccessToken: some.long.string
                 ExpiresIn: 3600
-                RefreshToken: other.long.string
                 TokenType: Bearer
         '401':
           description: Authorization header is missing or invalid.
