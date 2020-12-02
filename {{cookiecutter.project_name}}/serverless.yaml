@@ -69,7 +69,7 @@ custom:
   # bucketForSwaggerDocs: swagger-docs-{{cookiecutter.project_name}}-${self:custom.currentStage}
   s3Sync:
     # A simple configuration for copying static assets
-    - bucketName: openapi-docs-${self:custom.currentStage} # required
+    - bucketName: {{cookiecutter.project_name}}-{{cookiecutter.random_suffix}}-docs-${self:custom.currentStage} # required
       localDir: ./swagger_s3_bucket # required
       acl: public-read
       defaultContentType: text/html # optional

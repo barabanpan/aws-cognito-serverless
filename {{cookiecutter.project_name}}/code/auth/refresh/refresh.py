@@ -34,7 +34,6 @@ def handler(event, context):
     res = {
         "AccessToken": auth_result.get("AccessToken", ""),
         "ExpiresIn": auth_result.get("ExpiresIn", ""),
-        "RefreshToken": auth_result.get("RefreshToken", ""),
         "TokenType": auth_result.get("TokenType", ""),
     }
     return response(200, res)
