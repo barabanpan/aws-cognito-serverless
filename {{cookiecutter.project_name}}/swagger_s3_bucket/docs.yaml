@@ -253,15 +253,23 @@ paths:
       tags:
         - Write to s3
       summary: Add an entry to the file from s3 bucket
+      requestBody:
+        required: true
+        description: |
+          Writes a new entry to a file in s3 bucket.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/entry'      
+            example:
+              entry: This is my first entry!
       responses:
         '200': 
           description:  Successful Operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/entry'
               example:
-                entry: This is my first entry!
+                message: Added successfully
         
 components:
   schemas:
