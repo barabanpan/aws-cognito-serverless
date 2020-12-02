@@ -180,6 +180,8 @@ paths:
             application/json:
               example:
                 uid: "some-uid-here"
+      security:
+        - bearerAuth: []
   
   
   /entities/{uid}:
@@ -242,6 +244,8 @@ paths:
             application/json:
               example:
                 message: "Deleted succesfully."
+      security:
+        - bearerAuth: []
   
   /write_to_bucket:
     post: 
