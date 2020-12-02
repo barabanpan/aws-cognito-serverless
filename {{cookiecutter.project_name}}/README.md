@@ -15,19 +15,25 @@ For CRUD operations:
 **TODO**: add s3 bucket with Swagger documentation.
 
 ## How To Run It
-1. Install things:)
-1.1. Install npm.
+1. Install node.js LTS version & dependencies:
+
+1.1. Install or check npm (npm -v) 
+
 1.2. Install Serverless:
+
 ```
 npm install -g serverless
 ```
+
   > If there is an error with "node<10.00", first run:
   > `apt-get install nodejs:i386`
 
 1.3. Install plugin for python requirements:
+
 ```
-sls plugin install -n serlverless-python-requirements
+sls plugin install -n serverless-python-requirements
 ```
+
 2. Set your AWS credentials:
 ```
 export AWS_ACCESS_KEY_ID=<your_key_id_here>
