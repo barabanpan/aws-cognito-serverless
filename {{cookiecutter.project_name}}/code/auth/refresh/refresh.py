@@ -11,7 +11,8 @@ CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
 
 def handler(event, context):
     try:
-        refresh_token = event["headers"]["Authorization"].split()[1]  # to get rid of "Bearer"
+        # to get rid of "Bearer"
+        refresh_token = event["headers"]["Authorization"].split()[1]
         res = client.initiate_auth(
             AuthFlow="REFRESH_TOKEN",
             ClientId=CLIENT_ID,
@@ -19,22 +20,18 @@ def handler(event, context):
                 "REFRESH_TOKEN": refresh_token
             }
         )
+    except client.exceptions.NotAuthorizedException:
+        err_msg = "Invalid Refresh Token"
+        logging.warning(f"!!! NotAuthorizedException: {err_msg}")
+        return bad_request(err_msg)
     except Exception as e:
-        logging.warning("-----------EXCEPTION:", e)
+        logging.warning(f"!!! Other Exception: {e}")
         return bad_request(repr(e))
 
-        # Common exceptions:
-        # (NotAuthorizedException) when calling the InitiateAuth operation: Invalid Refresh Token
-        #
-        # KeyError
-        #
-    else:
-        res = {
-            "AccessToken": res["AuthenticationResult"]["AccessToken"],
-            "ExpiresIn": res["AuthenticationResult"]["ExpiresIn"],
-            # "IdToken": res["AuthenticationResult"]["IdToken"],
-            # if we need IdToken, we can just do res = res["AuthenticationResult"]
-            "RefreshToken": res["AuthenticationResult"]["RefreshToken"],
-            "TokenType": res["AuthenticationResult"]["TokenType"]
-        }
-        return response(200, res)
+    res = {
+        "AccessToken": res["AuthenticationResult"]["AccessToken"],
+        "ExpiresIn": res["AuthenticationResult"]["ExpiresIn"],
+        "RefreshToken": res["AuthenticationResult"]["RefreshToken"],
+        "TokenType": res["AuthenticationResult"]["TokenType"]
+    }
+    return response(200, res)
