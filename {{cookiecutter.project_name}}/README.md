@@ -28,9 +28,10 @@ npm install -g serverless
   > If there is an error with "node<10.00", first run:
   > `apt-get install nodejs:i386`
 
-1.3. Install plugin for python requirements:
+1.3. Install serverless plugins:
 
 ```
+sls plugin install -n serverless-s3-sync
 sls plugin install -n serverless-python-requirements
 ```
 

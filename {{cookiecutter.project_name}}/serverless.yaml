@@ -9,6 +9,7 @@ package:
   individually: true  # for each lambda to be packaged individually
 
 plugins:
+  - serverless-s3-sync
   - serverless-python-requirements
 
 provider:
@@ -65,7 +66,18 @@ custom:
       compatibleRuntimes:
         - python3.7
         - python3.8
-  bucketForSwaggerDocs: swagger-docs-{{cookiecutter.project_name}}-${self:custom.currentStage}
+  # bucketForSwaggerDocs: swagger-docs-{{cookiecutter.project_name}}-${self:custom.currentStage}
+  s3Sync:
+    # A simple configuration for copying static assets
+    - bucketName: openapi-docs-${self:custom.currentStage} # required
+      localDir: ./swagger_s3_bucket # required
+      acl: public-read
+      defaultContentType: text/html # optional
+      params: # optional
+        - "index.html":
+            CacheControl: 'no-cache'
+        - "*.js":
+            CacheControl: 'public, max-age=31536000'
 
 functions:
   sign_up:
@@ -299,47 +311,46 @@ resources:
         VersioningConfiguration: 
           Status: Suspended  # no versioning, other option - Enabled
 
-    BucketForSwaggerDocs:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:custom.bucketForSwaggerDocs}
-        VersioningConfiguration: 
-          Status: Suspended  # no versioning, other option - Enabled
-        CorsConfiguration:
-          CorsRules:
-            - AllowedHeaders: [ "*" ]
-              AllowedMethods: [ GET ]
-              AllowedOrigins: [ "*" ]
-        PublicAccessBlockConfiguration:
-          BlockPublicAcls: False
-          BlockPublicPolicy: False
-          IgnorePublicAcls: False
-          RestrictPublicBuckets: False
-        WebsiteConfiguration:
-          IndexDocument: index.html
-          ErrorDocument: error.html
+    # BucketForSwaggerDocs:
+    #   Type: AWS::S3::Bucket
+    #   Properties:
+    #     BucketName: ${self:custom.bucketForSwaggerDocs}
+    #     VersioningConfiguration: 
+    #       Status: Suspended  # no versioning, other option - Enabled
+    #     CorsConfiguration:
+    #       CorsRules:
+    #         - AllowedHeaders: [ "*" ]
+    #           AllowedMethods: [ GET ]
+    #           AllowedOrigins: [ "*" ]
+    #     PublicAccessBlockConfiguration:
+    #       BlockPublicAcls: False
+    #       BlockPublicPolicy: False
+    #       IgnorePublicAcls: False
+    #       RestrictPublicBuckets: False
+    #     WebsiteConfiguration:
+    #       IndexDocument: index.html
+    #       ErrorDocument: error.html
 
-
-    BucketPolicyForSwaggerDocs:
-      Type: AWS::S3::BucketPolicy
-      Properties: 
-        Bucket: 
-          Ref: BucketForSwaggerDocs
-        PolicyDocument: {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Sid": "PublicRead",
-              "Effect": "Allow",
-              "Principal": "*",
-              "Action": [
-                  "s3:GetObject",
-                  "s3:GetObjectVersion"
-              ],
-              "Resource": "arn:aws:s3:::${self:custom.bucketForSwaggerDocs}/*"
-            }
-          ]
-        }
+    # BucketPolicyForSwaggerDocs:
+    #   Type: AWS::S3::BucketPolicy
+    #   Properties: 
+    #     Bucket: 
+    #       Ref: BucketForSwaggerDocs
+    #     PolicyDocument: {
+    #       "Version": "2012-10-17",
+    #       "Statement": [
+    #         {
+    #           "Sid": "PublicRead",
+    #           "Effect": "Allow",
+    #           "Principal": "*",
+    #           "Action": [
+    #               "s3:GetObject",
+    #               "s3:GetObjectVersion"
+    #           ],
+    #           "Resource": "arn:aws:s3:::${self:custom.bucketForSwaggerDocs}/*"
+    #         }
+    #       ]
+    #     }
 
     CognitoUserPool:
       Type: "AWS::Cognito::UserPool"
@@ -391,6 +402,15 @@ resources:
         Domain: ${self:custom.cognitoUserPoolDomainName}
         UserPoolId:
           Ref: CognitoUserPool
+
+    OpenApiDocsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: openapi-docs-${self:custom.currentStage}
+        AccessControl: PublicRead
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
 
 layers:
   basic:
