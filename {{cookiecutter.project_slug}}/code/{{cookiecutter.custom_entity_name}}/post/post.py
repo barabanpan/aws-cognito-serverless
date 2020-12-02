@@ -1,38 +1,32 @@
 import json
+
 from marshmallow import ValidationError
 
-from constants import DATE_FORMAT, DEFAULT_IS_GOOD_BOY
 from db_manager import EntityDatabaseManager
-from utils import bad_request, Entity, EntitySchema, response
+from schemas import EntitySchema
+from utils import bad_request, response
 
 
 db = EntityDatabaseManager()
 
 
 def handler(event, context):
+    """Create new custom entity."""
+
+    new_entity = None
+
     try:
-        new_entity = json.loads(event.get("body", dict()))
+        new_entity = json.loads(event.get("body"))
     except json.decoder.JSONDecodeError as e:
         return bad_request("Invalid request body: {0}".format(str(e)))
 
-    # validation
     try:
         new_entity = EntitySchema().load(new_entity)
-        # if value is '21', it will be a number in new_entity
-    except ValidationError as ve:
-        return bad_request(str(ve.messages))
+    except ValidationError as err:
+        return response(400, err.messages)
 
-    entity = Entity(new_entity["email"],
-                    new_entity["description"],
-                    new_entity["value"],
-                    new_entity["date"].strftime(DATE_FORMAT),
-                    new_entity.get("is_good_boy", DEFAULT_IS_GOOD_BOY))
+    if new_entity:
+        entity = db.create_or_update(item=new_entity)
+        return response(201, entity)
 
-    # check if entity already exists
-    # existing_entity = db.get_entity(entity.username)
-    # if existing_entity:
-    #    return bad_request("Entity with this username already exists!")
-
-    uid = db.add_new_entity(entity)
-
-    return response(201, {"uid": uid})
+    return bad_request("Something went wrong")

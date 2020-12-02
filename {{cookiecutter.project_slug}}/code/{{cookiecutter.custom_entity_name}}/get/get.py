@@ -1,4 +1,7 @@
+from marshmallow import ValidationError
+
 from db_manager import EntityDatabaseManager
+from schemas import EntitySchema
 from utils import response
 
 
@@ -6,14 +9,28 @@ db = EntityDatabaseManager()
 
 
 def handler(event, context):
-    params = event.get("pathParameters", dict()) or dict()  # event can have it as None
-    uid = params.get("uid", None)
-    if not uid:
-        all_entities = db.get_all()
-        return response(200, all_entities)
+    """Return items list or one item of uid is set in params."""
+    params = event.get("pathParameters") or dict()
+    uid = params.get("uid")
 
-    entity = db.get_entity(uid)
+    if not uid:
+        entities = db.all()
+        try:
+            entities = EntitySchema().dump(entities, many=True)
+        except ValidationError as err:
+            return response(400, err.messages)
+        except Exception as e:
+            return response(400, repr(e))
+        return response(200, entities)
+
+    entity = db.get_one(uid)
+
     if not entity:
         return response(404, {"message": "No such entity."})
 
-    return response(200, {uid: entity})
+    try:
+        entity = EntitySchema().dump(entity)
+    except ValidationError as err:
+        return response(400, err.messages)
+
+    return response(200, entity)

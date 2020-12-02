@@ -12,7 +12,6 @@ CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
 def handler(event, context):
     res = {}
     try:
-        # to get rid of "Bearer"
         refresh_token = event["headers"]["Authorization"].split()[1]
         res = client.initiate_auth(
             AuthFlow="REFRESH_TOKEN",
