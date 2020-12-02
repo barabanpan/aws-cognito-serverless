@@ -7,7 +7,6 @@ servers:
   - url: 'https://wkioy46s54.execute-api.eu-central-1.amazonaws.com/dev'
 tags:
   - name: Health check
-  - name: Sign up
   - name: Auth
   - name: Secret resource
   - name: Custom entity
@@ -25,7 +24,7 @@ paths:
   /auth/sign_up:
     post:
       tags:
-        - Sign up 
+        - Auth
       summary: "Sign up"
       requestBody:
         required: true
