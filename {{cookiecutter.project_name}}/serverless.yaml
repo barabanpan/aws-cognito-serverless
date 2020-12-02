@@ -1,7 +1,7 @@
 # For full config options, check the docs:
 # https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
 
-service: {{cookiecutter.project_name}}
+service: {{cookiecutter.project_slug}}
 
 frameworkVersion: '2'
 
@@ -53,7 +53,7 @@ custom:
   usersTableName: users-${self:custom.currentStage}  # for users' information
   userPoolName: user-pool-${self:custom.currentStage}
   userPoolClientName: user-pool-client-${self:custom.currentStage}
-  cognitoUserPoolDomainName: {{ cookiecutter.project_name }}-{{ cookiecutter.random_suffix }}-${self:custom.currentStage}
+  cognitoUserPoolDomainName: {{ cookiecutter.project_slug }}-{{ cookiecutter.random_suffix }}-${self:custom.currentStage}
   customEntityName: {{cookiecutter.custom_entity_name}}  # for crud
   customEntityTableName: ${self:custom.customEntityName}-${self:custom.currentStage}
   bucketForWriting: {{cookiecutter.s3_bucket_name}}-${self:custom.currentStage}
@@ -68,7 +68,7 @@ custom:
         - python3.8
   s3Sync:
     # A simple configuration for copying static assets
-    - bucketName: {{cookiecutter.project_name}}-{{cookiecutter.random_suffix}}-docs-${self:custom.currentStage} # required
+    - bucketName: {{cookiecutter.project_slug}}-{{cookiecutter.random_suffix}}-docs-${self:custom.currentStage} # required
       localDir: ./swagger_s3_bucket # required
       acl: public-read
       defaultContentType: text/html # optional
@@ -318,8 +318,7 @@ resources:
         EmailConfiguration: 
           EmailSendingAccount: DEVELOPER  # other option - COGNITO_DEFAULT
           From: {{ cookiecutter.ses_email }}
-          #arn:aws:ses:us-east-1:1234567890:identity/john@myemail.com - like that for DEVELOPER
-          #SourceArn: # sourceARN to verified email address in SES
+          #arn:aws:ses:us-east-1:1234567890:identity/john@myemail.com - sourceARN to verified email address in SES
           SourceArn: arn:aws:ses:{{ cookiecutter.ses_region }}:{{ cookiecutter.aws_account_id }}:identity/{{ cookiecutter.ses_email }} # noqa
         Policies:
           PasswordPolicy:

@@ -1,4 +1,5 @@
-# Create API using AWS API Gateway, Lambda, Cognito, DynamoDB and Serverless
+# {{cookiecutter.project_name }}
+
 
 In one button press creates a small project with 
  - sign up, 
@@ -12,7 +13,6 @@ For CRUD operations:
  - post a new entity (entities/),
  - delete by uid (entities/{uid}).
 
-**TODO**: add s3 bucket with Swagger documentation.
 
 ## How To Run It
 1. Install node.js LTS version & dependencies:
@@ -42,6 +42,7 @@ export AWS_ACCESS_KEY_ID=<your_key_id_here>
 ```
 export AWS_SECRET_ACCESS_KEY=<your_secret_key_here>
 ```
+
 3. Go here ([AWS SES configuration](https://eu-west-1.console.aws.amazon.com/ses/home?region=eu-west-1#verified-senders-email:)) to create and verify an email address.
 
 Replace `From` and `SourceArn` with your email address and its arn in `serverless.yaml` file (Resources.CognitoUserPool.Properties.EmailConfiguration)
@@ -59,3 +60,6 @@ Running the command again with a different name will create a seperate API.
 
 5. Use Postman collection to test API.
 For sign up better use a real email to receive a verification message.
+
+
+Licence: {{cookiecutter.license }}
