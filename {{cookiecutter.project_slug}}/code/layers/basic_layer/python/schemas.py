@@ -6,10 +6,6 @@ from marshmallow import (
 )
 
 from constants import DATE_FORMAT
-from db_manager import EntityDatabaseManager
-
-
-db = EntityDatabaseManager()
 
 
 class EntitySchema(Schema):
@@ -50,12 +46,4 @@ class EntitySchema(Schema):
         except ValueError:
             raise ValidationError(
                 "String does not match existed date"
-            )
-
-    @validates("email")
-    def validate_email(self, value):
-        items = db.find_by_email(value)
-        if items:
-            raise ValidationError(
-                f"Record with email '{value}' already exists"
             )
