@@ -1,9 +1,9 @@
 import boto3
+from botocore.exceptions import ClientError
 import os
-import logging
 
-from basic_auth import decode  # , DecodeError
-from utils import bad_request, response
+from basic_auth import decode, DecodeError
+from utils import unauthorized, response
 
 
 client = boto3.client("cognito-idp")
@@ -22,26 +22,13 @@ def handler(event, context):
                 "PASSWORD": password
             }
         )
-    except Exception as e:
-        logging.warning("-----------EXCEPTION:", e)
-        return bad_request(str(e))
+    except (DecodeError, ClientError):
+        return unauthorized()
 
-# Common exceptions:
-# (UserNotFoundException) when calling the InitiateAuth operation: User does not exist
-#
-# DecodeError
-# (InvalidParameterException) when calling the InitiateAuth operation: Missing required parameter PASSWORD / USERNAME
-# KeyError
-# All mean mallformed something:)
-#
-# (UserNotConfirmedException) when calling the InitiateAuth operation: User is not confirmed
-    else:
-        res = {
-            "AccessToken": res["AuthenticationResult"]["AccessToken"],
-            "ExpiresIn": res["AuthenticationResult"]["ExpiresIn"],
-            # "IdToken": res["AuthenticationResult"]["IdToken"],
-            # if we need IdToken, we can just do res = res["AuthenticationResult"]
-            "RefreshToken": res["AuthenticationResult"]["RefreshToken"],
-            "TokenType": res["AuthenticationResult"]["TokenType"]
-        }
+    res = {
+        "AccessToken": res["AuthenticationResult"]["AccessToken"],
+        "ExpiresIn": res["AuthenticationResult"]["ExpiresIn"],
+        "RefreshToken": res["AuthenticationResult"]["RefreshToken"],
+        "TokenType": res["AuthenticationResult"]["TokenType"]
+    }
     return response(200, res)

@@ -6,7 +6,7 @@ CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
 REDIRECT_URL = os.environ.get("URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION")
 
 
-def lambda_handler(event, context):
+def handler(event, context):
     params = event.get("queryStringParameters") or dict()  # can be None in event
     email, code = params.get("email"), params.get("code")
 

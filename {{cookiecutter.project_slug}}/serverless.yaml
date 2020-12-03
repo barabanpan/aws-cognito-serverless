@@ -146,10 +146,10 @@ functions:
   verify_and_redirect:
     handler: code/custom_verification/verify_and_redirect/redirect.handler
     events:
-      - cognitoUserPool:
-          pool: ${self:custom.userPoolName}
-          trigger: CustomMessage
-          existing: true
+      - http:
+          path: /custom-verification/redirect
+          method: get
+          cors: true
     package:
       exclude:
         - ./**
