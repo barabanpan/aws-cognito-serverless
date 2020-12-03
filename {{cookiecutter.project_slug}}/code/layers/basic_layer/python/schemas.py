@@ -1,9 +1,11 @@
 import re
+from datetime import datetime
 
 from marshmallow import (
     Schema, fields, validate, validates, EXCLUDE, ValidationError,
 )
 
+from constants import DATE_FORMAT
 from db_manager import EntityDatabaseManager
 
 
@@ -42,6 +44,12 @@ class EntitySchema(Schema):
         if not re.match(date_regex, value):
             raise ValidationError(
                 "String does not match expected pattern: YYYY-MM-DD"
+            )
+        try:
+            datetime.strptime(value, DATE_FORMAT)
+        except ValueError:
+            raise ValidationError(
+                "String does not match existed date"
             )
 
     @validates("email")
