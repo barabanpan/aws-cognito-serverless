@@ -26,7 +26,6 @@ def handler(event, context):
         return response(400, err.messages)
 
     if new_entity:
-
         # Validate if records with current email already exist
         email = new_entity.get("email")
         items = db.find_by_email(email)

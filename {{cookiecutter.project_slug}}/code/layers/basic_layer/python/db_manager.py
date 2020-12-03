@@ -1,9 +1,9 @@
+import boto3
 import time
 import os
 import uuid
 from datetime import datetime
 
-import boto3
 from boto3.dynamodb.conditions import Attr
 
 from constants import DATETIME_FORMAT
@@ -37,8 +37,9 @@ class EntityDatabaseManager:
     def _create(self, item):
         """Create new db record."""
         created = False
+        uid = str(uuid.uuid4())
         extra_fields = {
-            "uid": str(uuid.uuid4()),
+            "uid": uid,
             "created_at": datetime.now().astimezone().strftime(
                 DATETIME_FORMAT),
             "updated_at": datetime.now().astimezone().strftime(
@@ -48,47 +49,84 @@ class EntityDatabaseManager:
         if item:
             item.update(extra_fields)
             created = self.table.put_item(Item=item)
-            if created:
-                item.update({"success": True})
-        return item
+        return item, bool(created)
 
     def _update(self, uid, item):
         """Update existed item."""
-        # TODO
-        updated = self.table.update_item(
-            Key={'uid': 'uid'},
-            UpdateExpression='SET updated_at = :val1',
-            ExpressionAttributeValues={
-                ':val1': datetime.now().strftime(DATETIME_FORMAT)
-            }
-        )
-        print("!!! updated", updated)
-        return updated
+        updated = False
+        prev_fields = self.get_one(uid)
+        if prev_fields:
+            new_fields = dict(item)
+            new_fields.update({
+                "updated_at": datetime.now().astimezone().strftime(
+                    DATETIME_FORMAT
+                ),
+            })
+            prev_fields.update(new_fields)
+            updated = self.table.put_item(Item=prev_fields)
+            item = self.get_one(uid)
+        return item, bool(updated)
 
     def create_or_update(self, item=None, uid=None):
+        """Create new or update existed record."""
         if not uid:
-            item = self._create(item=item)
+            item, success = self._create(item=item)
         else:
-            item = self._update(uid=uid, item=item)
-        return item
+            item, success = self._update(uid=uid, item=item)
+        return item, success
 
     def get_one(self, uid):
+        """Retrieve one record from db by uid field."""
         entity = self.table.get_item(Key={"uid": uid}).get("Item")
         if not entity:
             return None
         return entity
 
-    def all(self):
-        all_entities = self.table.scan()["Items"]
-        return list(all_entities)
+    def all(self, active_only=True):
+        """Retrieve all records or select only active."""
+        if active_only:
+            response = self.table.scan(
+                FilterExpression=Attr('is_active').eq(True)
+            )
+            entities = response.get('Items', [])
+        else:
+            entities = self.table.scan()["Items"]
+        return list(entities)
 
-    def delete_entity(self, uid):
-        self.table.delete_item(Key={"uid": uid})
+    def delete(self, uid, deactivate_only=True):
+        """Delete or deactivate current item."""
+        deleted = False
+        if deactivate_only:
+            item = self.get_one(uid)
+            if item:
+                expression = "SET updated_at = :val1, is_active = :val2"
+                deleted = self.table.update_item(
+                    Key={"uid": uid},
+                    UpdateExpression=expression,
+                    ExpressionAttributeValues={
+                        ':val1': datetime.now().astimezone().strftime(
+                            DATETIME_FORMAT
+                        ),
+                        ':val2': False
+                    }
+                )
+                deleted = True
+        else:
+            deleted = self.table.delete_item(Key={"uid": uid})
+        return bool(deleted)
+
+    def find_by_fieldname(self, name, value):
+        """Get items selected by current field's name & value."""
+        response = self.table.scan(
+            FilterExpression=Attr(name).eq(value)
+        )
+        items = response.get("Items", [])
+        return items
 
     def find_by_email(self, email):
         """Get all items selected by email field."""
         response = self.table.scan(
             FilterExpression=Attr('email').eq(email)
         )
-        items = response['Items']
+        items = response.get('Items', [])
         return items

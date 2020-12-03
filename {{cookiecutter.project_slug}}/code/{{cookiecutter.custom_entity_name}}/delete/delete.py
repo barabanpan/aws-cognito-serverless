@@ -6,8 +6,13 @@ db = EntityDatabaseManager()
 
 
 def handler(event, context):
-    params = event.get("pathParameters", dict()) or dict()  # event can have it as None
+    """Delete or deactivate entity."""
+    params = event.get("pathParameters", dict()) or dict()
     uid = params.get("uid", None)
 
-    db.delete_entity(uid)
-    return response(200, {"message": "Deleted succesfully."})
+    is_deleted = db.delete(uid)
+
+    if is_deleted:
+        return response(204, {})
+
+    return response(404, {"status": "Not Found"})
