@@ -86,9 +86,9 @@ class EntityDatabaseManager:
         """Retrieve all records or select only active."""
         if active_only:
             response = self.table.scan(
-                FilterExpression=Attr('is_active').eq(True)
+                FilterExpression=Attr("is_active").eq(True)
             )
-            entities = response.get('Items', [])
+            entities = response.get("Items", [])
         else:
             entities = self.table.scan()["Items"]
         return list(entities)
@@ -104,10 +104,10 @@ class EntityDatabaseManager:
                     Key={"uid": uid},
                     UpdateExpression=expression,
                     ExpressionAttributeValues={
-                        ':val1': datetime.now().astimezone().strftime(
+                        ":val1": datetime.now().astimezone().strftime(
                             DATETIME_FORMAT
                         ),
-                        ':val2': False
+                        ":val2": False
                     }
                 )
                 deleted = True
@@ -126,7 +126,7 @@ class EntityDatabaseManager:
     def find_by_email(self, email):
         """Get all items selected by email field."""
         response = self.table.scan(
-            FilterExpression=Attr('email').eq(email)
+            FilterExpression=Attr("email").eq(email)
         )
-        items = response.get('Items', [])
+        items = response.get("Items", [])
         return items
