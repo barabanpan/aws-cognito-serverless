@@ -255,12 +255,32 @@ functions:
                 - Arn
             scopes:  # can be table1.write or table2.read
               - aws.cognito.signin.user.admin
-              # Cognito checks if access token includes these scopes
     package:
       exclude:
         - ./**
       include:
         - code/{{cookiecutter.custom_entity_name}}/post/**
+
+  {{cookiecutter.custom_entity_name}}_update:
+    handler: code/{{cookiecutter.custom_entity_name}}/update/update.handler
+    layers:
+      - Ref: BasicLambdaLayer
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - http:
+          path: /{{cookiecutter.custom_entity_name}}/{uid}
+          method: put
+          cors: true
+          authorizer:
+            name: cognito_authorizer
+            identitySource: method.request.header.Authorization
+            type: COGNITO_USER_POOLS
+            arn:
+              Fn::GetAtt:
+                - CognitoUserPool
+                - Arn
+            scopes:
+              - aws.cognito.signin.user.admin
 
   {{cookiecutter.custom_entity_name}}_delete:
     handler: code/{{cookiecutter.custom_entity_name}}/delete/delete.handler
@@ -282,7 +302,6 @@ functions:
                 - Arn
             scopes:  # can be table1.write or table2.read
               - aws.cognito.signin.user.admin
-              # Cognito checks if access token includes these scopes
     package:
       exclude:
         - ./**
