@@ -11,8 +11,10 @@ In one button press creates a small project with
 For CRUD operations:
  - get all (entities/) and get by uid (entities/{uid}),
  - post a new entity (entities/),
+ - put by uid (entities/{uid}),
  - delete by uid (entities/{uid}).
 
+**TODO**: add either ApiGatewayRestApi to serverless.yaml or makefile to avoid step 4.
 
 ## How To Run It
 1. Install node.js LTS version & dependencies:
@@ -43,20 +45,20 @@ export AWS_ACCESS_KEY_ID=<your_key_id_here>
 export AWS_SECRET_ACCESS_KEY=<your_secret_key_here>
 ```
 
-3. Go here ([AWS SES configuration](https://eu-west-1.console.aws.amazon.com/ses/home?region=eu-west-1#verified-senders-email:)) to create and verify an email address.
-
-Replace `From` and `SourceArn` with your email address and its arn in `serverless.yaml` file (Resources.CognitoUserPool.Properties.EmailConfiguration)
-
-It's needed for sending verification emails and usually email looks like *no-reply@ourcompanyname.com*.
-For tests you can use your own email.
-You only need one email for all stages. 
-
-4. Run with:
+3. Run with:
 ```
 sls deploy --stage dev
 ```
 or whatever stage name you want.
 Running the command again with a different name will create a seperate API.
+
+4. Copy your API URL from cmd. It'll look like this https://ab12cd34e5.execute-api.eu-central-1.amazonaws.com/dev and insert it into:
+ - code/custom_verification/verification_message/custom_message.py instead of "your-api-url"
+ - swagger_s3_bucket/docs.yaml in servers.url
+To deploy changes, run again: 
+```
+sls deploy --stage dev
+```
 
 5. Use Postman collection to test API.
 For sign up better use a real email to receive a verification message.
