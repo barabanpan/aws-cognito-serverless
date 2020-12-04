@@ -25,7 +25,7 @@ provider:
     WRITE_TO_BUCKET_NAME: ${self:custom.bucketForWriting}
     COGNITO_CLIENT_ID: 
       Ref: CognitoUserPoolClient
-    URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION: https://www.google.com
+    URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION: http://${self:custom.openApiDocsBucketName}.s3-website.{{cookiecutter.aws_region}}.amazonaws.com
   iamRoleStatements:
     - Effect: Allow  # for writing users' info
       Action:
