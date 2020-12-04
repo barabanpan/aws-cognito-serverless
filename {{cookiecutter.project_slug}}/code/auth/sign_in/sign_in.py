@@ -23,7 +23,7 @@ def handler(event, context):
             }
         )
     except Exception as e:
-        logging.warning("-----------EXCEPTION:", e)
+        logging.warning(repr(e))
         return bad_request(str(e))
 
 # Common exceptions:
