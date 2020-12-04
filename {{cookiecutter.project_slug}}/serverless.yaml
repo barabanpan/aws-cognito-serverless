@@ -25,6 +25,7 @@ provider:
     WRITE_TO_BUCKET_NAME: ${self:custom.bucketForWriting}
     COGNITO_CLIENT_ID: 
       Ref: CognitoUserPoolClient
+    URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION: https://www.google.com
   iamRoleStatements:
     - Effect: Allow  # for writing users' info
       Action:
@@ -130,7 +131,7 @@ functions:
         - code/auth/refresh/**
 
   custom_message:
-    handler: code/custom_verification_message/custom_message.handler
+    handler: code/custom_verification/verification_message/custom_message.handler
     events:
       - cognitoUserPool:
           pool: ${self:custom.userPoolName}
@@ -140,7 +141,20 @@ functions:
       exclude:
         - ./**
       include:
-        - code/custom_verification_message/**
+        - code/custom_verification/verification_message/**
+
+  verify_and_redirect:
+    handler: code/custom_verification/verify_and_redirect/redirect.handler
+    events:
+      - http:
+          path: /custom-verification/redirect
+          method: get
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/custom_verification/verify_and_redirect/**
 
   write_to_bucket:
     handler: code/write_to_bucket/write_to_bucket.handler
@@ -318,7 +332,7 @@ resources:
         MfaConfiguration: OFF
         UserPoolName: ${self:custom.userPoolName}
         EmailConfiguration: 
-          EmailSendingAccount: DEVELOPER  # other option - COGNITO_DEFAULT
+          EmailSendingAccount: DEVELOPER  # for custom message, other option - COGNITO_DEFAULT
           From: {{ cookiecutter.ses_email }}
           #arn:aws:ses:us-east-1:1234567890:identity/john@myemail.com - sourceARN to verified email address in SES
           SourceArn: arn:aws:ses:{{ cookiecutter.ses_region }}:{{ cookiecutter.aws_account_id }}:identity/{{ cookiecutter.ses_email }} # noqa
@@ -340,7 +354,7 @@ resources:
         UsernameConfiguration:
           CaseSensitive: False
         VerificationMessageTemplate:
-          DefaultEmailOption: CONFIRM_WITH_LINK  # for verify_email link
+          DefaultEmailOption: CONFIRM_WITH_CODE
         
     CognitoUserPoolClient:
       Type: "AWS::Cognito::UserPoolClient"

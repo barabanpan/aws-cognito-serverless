@@ -1,6 +1,6 @@
 {
     "project_name": "serverless-project",
-    "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+    "project_slug": "{{ cookiecutter.project_name|lower|replace(' ', '-')|replace('_', '-') }}",
     "aws_region": "eu-central-1",
     "custom_entity_name": "entities",
     "s3_bucket_name": "bucket-for-writing",

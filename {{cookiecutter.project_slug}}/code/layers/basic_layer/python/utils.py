@@ -17,3 +17,7 @@ def response(code, body):
 
 def bad_request(message):
     return response(400, {"message": message})
+
+
+def unauthorized():
+    return response(401, {"message": "Unauthorized"})
