@@ -8,7 +8,7 @@ def handler(event, context):
     email = event["request"]["userAttributes"]["email"]
     code = event["request"]["codeParameter"]
 
-    my_url = "your-url/redirect"
+    my_url = "your-api-url/custom-verification/redirect"
 
     link = '<a href="{0}?code={1}&email={2}" target="_blank">Click here to verify</a>'.format(  # noqa
         my_url, code, urllib.parse.quote(email)
