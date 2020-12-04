@@ -163,7 +163,7 @@ paths:
             | `message*`| Required. Entity's description. Min length is 1, max length is 500. |
             | `rating*` | Required numeric between 1 and 10. |
             | `birthdate*` | Required string date in format YYYY-MM-DD. |
-            | `need_feedback` | Non-required boolean that describes entity. Default value is false.|
+            | `need_feedback*` | Required boolean that describes entity. Default value is false.|
         content:
           application/json:
             schema:
@@ -210,11 +210,11 @@ paths:
             __Table 2.__  Successfull response structure:
             | Field | Description |
             | ------- | -------- |
-            | `email*` | Required. Entity's email. |
-            | `message*`| Required. Entity's description. Min length is 1, max length is 500. |
-            | `rating*` | Required numeric between 1 and 10. |
-            | `birthdate*` | Required string date in format YYYY-MM-DD. |
-            | `need_feedback` | Non-required boolean that describes entity. Default value is false.|
+            | `email` | Entity's email. |
+            | `message`| Entity's description. Min length is 1, max length is 500. |
+            | `rating` | Numeric between 1 and 10. |
+            | `birthdate` | String date in format YYYY-MM-DD. |
+            | `need_feedback` | Boolean that describes entity. |
           content:
             application/json:
               schema:
@@ -232,6 +232,49 @@ paths:
             application/json:
               example:
                 message: No such entity.
+    put:  
+      tags:
+        - Custom entity
+      summary: Update one entity
+      parameters:
+        - in: path
+          name: uid
+          schema:
+            type: string
+          required: true
+          description: String uid that is case-sensitive
+      requestBody:
+        required: true
+        description: |
+          Updates an existing entity.</br> </br>
+          __Table 1.__  Request body structure:
+            | Field | Description |
+            | ------- | -------- |
+            | `email*` | Required. Entity's email. |
+            | `message*`| Required. Entity's description. Min length is 1, max length is 500. |
+            | `rating*` | Required numeric between 1 and 10. |
+            | `birthdate*` | Required string date in format YYYY-MM-DD. |
+            | `need_feedback*` | Required boolean that describes entity. |
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/entity'      
+            example:
+              email: donny@example.com
+              message: Hi, you all!
+              rating: 10
+              birthdate: "1992-08-17"
+              need_feedback: true
+      responses:
+        '200': 
+          description: Successful Update
+          content:
+            application/json:
+              example:
+                uid: "some-uid-here"
+      security:
+        - bearerAuth: []
+        
     delete:  
       tags:
         - Custom entity
