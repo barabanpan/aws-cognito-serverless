@@ -4,7 +4,7 @@ info:
   description: API description
   version: 1.0.0
 servers:
-  - url: 'https://wkioy46s54.execute-api.eu-central-1.amazonaws.com/dev'
+  - url: 'https://dg99v7cpjl.execute-api.eu-central-1.amazonaws.com/d'
 tags:
   - name: Health check
   - name: Auth
@@ -133,7 +133,7 @@ paths:
       security:
         - bearerAuth: []
     
-  /{{cookiecutter.custom_entity_name}}:
+  /doggos:
     get: 
       tags:
         - Custom entity
@@ -160,20 +160,20 @@ paths:
             | Field | Description |
             | ------- | -------- |
             | `email*` | Required. Entity's email. |
-            | `description*`| Required. Entity's description. Min length is 1, max length is 500. |
-            | `value*` | Required numberic that describes entity. |
-            | `date*` | Required string date in format YYYY-MM-DD. |
-            | `is_good_boy` | Non-required boolean that describes entity. Default value is false.|
+            | `message*`| Required. Entity's description. Min length is 1, max length is 500. |
+            | `rating*` | Required numeric between 1 and 10. |
+            | `birthdate*` | Required string date in format YYYY-MM-DD. |
+            | `need_feedback` | Non-required boolean that describes entity. Default value is false.|
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/entity'      
             example:
               email: donny@example.com
-              description: Good enough as well
-              value: 21
-              date: "1992-08-17"
-              is_good_boy: true
+              message: Hi, you all!
+              rating: 9
+              birthdate: "1992-08-17"
+              need_feedback: true
       responses:
         '201': 
           description: Successful Operation
@@ -181,11 +181,17 @@ paths:
             application/json:
               example:
                 uid: "some-uid-here"
+        '400': 
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                email: "Record with email 'donny@example.com' already exists"
       security:
         - bearerAuth: []
   
   
-  /{{cookiecutter.custom_entity_name}}/{uid}:
+  /doggos/{uid}:
     get: 
       tags:
         - Custom entity
@@ -204,12 +210,11 @@ paths:
             __Table 2.__  Successfull response structure:
             | Field | Description |
             | ------- | -------- |
-            | `uid` | String that defines an entity. |
-            | `email` | Entity's email. |
-            | `description`| Entity's description. Min length is 1, max length is 500. |
-            | `value` | Numberic that describes entity. |
-            | `date` | String date in format YYYY-MM-DD. |
-            | `is_good_boy` | Boolean that describes entity. Default value is false.|
+            | `email*` | Required. Entity's email. |
+            | `message*`| Required. Entity's description. Min length is 1, max length is 500. |
+            | `rating*` | Required numeric between 1 and 10. |
+            | `birthdate*` | Required string date in format YYYY-MM-DD. |
+            | `need_feedback` | Non-required boolean that describes entity. Default value is false.|
           content:
             application/json:
               schema:
@@ -286,17 +291,17 @@ components:
           type: string
           format: email
           minLength: 1
-        description:
+        message:
           type: string
           minLength: 1
           maxLength: 500
-        value:
+        rating:
           type: integer
           minimum: 1
-          maximum: 1000
-        date:
+          maximum: 10
+        birthdate:
           type: string
-        is_good_boy:
+        need_feedback:
           type: boolean
           default: false
           
