@@ -53,13 +53,14 @@ provider:
 
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
-  usersTableName: users-${self:custom.currentStage}  # for users' information
-  userPoolName: user-pool-${self:custom.currentStage}
-  userPoolClientName: user-pool-client-${self:custom.currentStage}
+  usersTableName: users-{{cookiecutter.project_slug}}-${self:custom.currentStage}  # for users' information
+  userPoolName: user-pool-{{cookiecutter.project_slug}}-${self:custom.currentStage}
+  userPoolClientName: user-pool-client-{{cookiecutter.project_slug}}-${self:custom.currentStage}
   cognitoUserPoolDomainName: {{ cookiecutter.project_slug }}-{{ cookiecutter.random_suffix }}-${self:custom.currentStage}
   customEntityName: {{cookiecutter.custom_entity_name}}  # for crud
-  customEntityTableName: ${self:custom.customEntityName}-${self:custom.currentStage}
-  bucketForWriting: {{cookiecutter.s3_bucket_name}}-${self:custom.currentStage}
+  customEntityTableName: ${self:custom.customEntityName}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
+  bucketForWriting: {{cookiecutter.s3_bucket_name}}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
+  openApiDocsBucketName: {{cookiecutter.project_slug}}-{{cookiecutter.random_suffix}}-docs-${self:custom.currentStage}
   pythonRequirements:  # for layer with python requirements
     dockerizePip: non-linux
     useDownloadCache: true
@@ -71,7 +72,7 @@ custom:
         - python3.8
   s3Sync:
     # A simple configuration for copying static assets
-    - bucketName: {{cookiecutter.project_slug}}-{{cookiecutter.random_suffix}}-docs-${self:custom.currentStage} # required
+    - bucketName: ${self:custom.openApiDocsBucketName} # required
       localDir: ./swagger_s3_bucket # required
       acl: public-read
       defaultContentType: text/html # optional
@@ -281,6 +282,11 @@ functions:
                 - Arn
             scopes:
               - aws.cognito.signin.user.admin
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/{{cookiecutter.custom_entity_name}}/update/**
 
   {{cookiecutter.custom_entity_name}}_delete:
     handler: code/{{cookiecutter.custom_entity_name}}/delete/delete.handler
@@ -398,7 +404,7 @@ resources:
     OpenApiDocsBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: openapi-docs-${self:custom.currentStage}
+        BucketName: ${self:custom.openApiDocsBucketName}
         AccessControl: PublicRead
         WebsiteConfiguration:
           IndexDocument: index.html
