@@ -1,6 +1,7 @@
 import boto3
 from botocore.exceptions import ClientError
 import os
+import logging
 
 from basic_auth import decode, DecodeError
 from utils import unauthorized, response
@@ -22,13 +23,15 @@ def handler(event, context):
                 "PASSWORD": password
             }
         )
-    except (DecodeError, ClientError):
+    except (DecodeError, ClientError) as err:
+        logging.warning(repr(err))
         return unauthorized()
-
+ 
+    auth_result = res.get("AuthenticationResult", {})
     res = {
-        "AccessToken": res["AuthenticationResult"]["AccessToken"],
-        "ExpiresIn": res["AuthenticationResult"]["ExpiresIn"],
-        "RefreshToken": res["AuthenticationResult"]["RefreshToken"],
-        "TokenType": res["AuthenticationResult"]["TokenType"]
+        "AccessToken": auth_result.get("AccessToken", ""),
+        "ExpiresIn": auth_result.get("ExpiresIn", ""),
+        "RefreshToken": auth_result.get("RefreshToken", ""),
+        "TokenType": auth_result.get("TokenType", ""),
     }
     return response(200, res)
