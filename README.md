@@ -21,7 +21,7 @@ For CRUD operations:
 
 2. Install cookiecutter:
 ```
-python3 -m pip istall -U cookiecutter
+python3 -m pip install -U cookiecutter
 ```
 
 3. Go here ([AWS SES configuration](https://eu-west-1.console.aws.amazon.com/ses/home?region=eu-west-1#verified-senders-email:)) to create and verify an email address.
@@ -41,4 +41,4 @@ cookiecutter https://github.com/barabanpan/aws-cognito-serverless.git
 Choose parameters. Better write entity_name in plural from. No pressure though:)
 > project_name should match the next pattern "[a-zA-Z][0-9a-zA-Z-]+$"
 
-5. For further steps see README.md inside of {{cookiecutter.project_name}} folder.
+5. For further steps see README.md inside of {{cookiecutter.project_slug}} folder.
