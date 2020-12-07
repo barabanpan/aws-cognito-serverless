@@ -14,7 +14,7 @@ For CRUD operations:
  - put by uid (entities/{uid}),
  - delete by uid (entities/{uid}).
 
-**TODO**: add either ApiGatewayRestApi to serverless.yaml or makefile to avoid step 4.
+**TODO**: add Cognito groups or RBAC.
 
 ## How To Run It
 1. Install node.js LTS version & dependencies:
@@ -52,9 +52,7 @@ sls deploy --stage dev
 or whatever stage name you want.
 Running the command again with a different name will create a seperate API.
 
-4. Copy your API URL from cmd. It'll look like this https://ab12cd34e5.execute-api.eu-central-1.amazonaws.com/dev and insert it into:
- - code/custom_verification/verification_message/custom_message.py instead of "your-api-url"
- - swagger_s3_bucket/docs.yaml in servers.url
+4. Copy your API URL from cmd. It'll look like this https://ab12cd34e5.execute-api.eu-central-1.amazonaws.com/dev and insert it into swagger_s3_bucket/docs.yaml in servers.url
 To deploy changes, run again: 
 ```
 sls deploy --stage dev
