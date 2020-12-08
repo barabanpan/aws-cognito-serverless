@@ -29,7 +29,7 @@ def handler(event, context):
         "If this wasn’t you, please ignore this email.",
     ]
 
-    event["response"]["emailSubject"] = "{{cookiecutter.project_name}} Please verify your email address."
+    event["response"]["emailSubject"] = "[{{cookiecutter.project_name}}] Please verify your email address."
     event["response"]["emailMessage"] = "<br>".join(email_lines)
 
     return event

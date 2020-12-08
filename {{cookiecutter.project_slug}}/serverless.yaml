@@ -25,6 +25,15 @@ provider:
     WRITE_TO_BUCKET_NAME: ${self:custom.bucketForWriting}
     COGNITO_CLIENT_ID: 
       Ref: CognitoUserPoolClient
+    API_ID:
+      Ref: ApiGatewayRestApi
+    URL_TO_LAMBDA_FOR_REDIRECT: 
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: ApiGatewayRestApi
+          - .execute-api.{{cookiecutter.aws_region}}.amazonaws.com/
+          - ${self:custom.currentStage}/custom-verification/redirect
     URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION: http://${self:custom.openApiDocsBucketName}.s3-website.{{cookiecutter.aws_region}}.amazonaws.com
   iamRoleStatements:
     - Effect: Allow  # for writing users' info
@@ -394,12 +403,17 @@ resources:
           - ALLOW_REFRESH_TOKEN_AUTH
         PreventUserExistenceErrors: ENABLED  # recommended option
 
-    CognitoUserPoolDomain:  # for verification link instead of code
-      Type: AWS::Cognito::UserPoolDomain
+    #CognitoUserPoolDomain:  # for verification link instead of code
+    #  Type: AWS::Cognito::UserPoolDomain
+    #  Properties:
+    #    Domain: ${self:custom.cognitoUserPoolDomainName}
+    #    UserPoolId:
+    #      Ref: CognitoUserPool
+
+    ApiGatewayRestApi:
+      Type: AWS::ApiGateway::RestApi
       Properties:
-        Domain: ${self:custom.cognitoUserPoolDomainName}
-        UserPoolId:
-          Ref: CognitoUserPool
+        Name: {{cookiecutter.project_slug}}-${self:custom.currentStage}
 
     OpenApiDocsBucket:
       Type: AWS::S3::Bucket
