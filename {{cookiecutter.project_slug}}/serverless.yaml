@@ -33,7 +33,7 @@ provider:
         - - https://
           - Ref: ApiGatewayRestApi
           - .execute-api.{{cookiecutter.aws_region}}.amazonaws.com/
-          - ${self:custom.currentStage}
+          - ${self:custom.currentStage}/custom-verification/redirect
     URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION: http://${self:custom.openApiDocsBucketName}.s3-website.{{cookiecutter.aws_region}}.amazonaws.com
   iamRoleStatements:
     - Effect: Allow  # for writing users' info
