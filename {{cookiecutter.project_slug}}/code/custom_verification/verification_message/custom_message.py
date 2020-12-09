@@ -1,4 +1,5 @@
 import urllib
+import os
 
 
 def handler(event, context):
@@ -8,7 +9,7 @@ def handler(event, context):
     email = event["request"]["userAttributes"]["email"]
     code = event["request"]["codeParameter"]
 
-    my_url = "your-api-url/custom-verification/redirect"
+    my_url = os.environ.get("URL_TO_LAMBDA_FOR_REDIRECT")
 
     link = '<a href="{0}?code={1}&email={2}" target="_blank">Click here to verify</a>'.format(  # noqa
         my_url, code, urllib.parse.quote(email)
@@ -25,7 +26,7 @@ def handler(event, context):
         "<b>Thank you!</b>",
         "",
         "",
-        "You’re receiving this email because you recently created a new pst account.",
+        "You’re receiving this email because you recently created a new {{cookiecutter.project_name}} account.",
         "If this wasn’t you, please ignore this email.",
     ]
 
