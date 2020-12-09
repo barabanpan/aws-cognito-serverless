@@ -35,6 +35,7 @@ npm install -g serverless
 ```
 sls plugin install -n serverless-s3-sync
 sls plugin install -n serverless-python-requirements
+sls plugin install -n serverless-iam-roles-per-function
 ```
 
 2. Set your AWS credentials:

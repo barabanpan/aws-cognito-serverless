@@ -11,6 +11,7 @@ package:
 plugins:
   - serverless-s3-sync
   - serverless-python-requirements
+  - serverless-iam-roles-per-function
 
 provider:
   name: aws
@@ -35,31 +36,7 @@ provider:
           - .execute-api.{{cookiecutter.aws_region}}.amazonaws.com/
           - ${self:custom.currentStage}/custom-verification/redirect
     URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION: http://${self:custom.openApiDocsBucketName}.s3-website.{{cookiecutter.aws_region}}.amazonaws.com
-  iamRoleStatements:
-    - Effect: Allow  # for writing users' info
-      Action:
-        - dynamodb:PutItem
-      Resource:
-        Fn::GetAtt: [UsersTable, Arn]
-    - Effect: Allow  # for CRUD
-      Action:
-        - dynamodb:Scan
-        - dynamodb:Query
-        - dynamodb:GetItem 
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource:
-        Fn::GetAtt: [CustomEntityTable, Arn]
-    - Effect: Allow
-      Action:
-        - s3:ListBucket  # for Read
-        - s3:GetObject
-        - s3:PutObject
-      Resource:
-        - Fn::Join: [ '/', [ Fn::GetAtt: [BucketForWriting, Arn], '*' ] ]  # for Write
-        - Fn::GetAtt: [BucketForWriting, Arn] 
-
+  
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
   usersTableName: users-{{cookiecutter.project_slug}}-${self:custom.currentStage}  # for users' information
@@ -69,7 +46,7 @@ custom:
   customEntityName: {{cookiecutter.custom_entity_name}}  # for crud
   customEntityTableName: ${self:custom.customEntityName}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
   bucketForWriting: {{cookiecutter.s3_bucket_name}}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
-  openApiDocsBucketName: {{cookiecutter.project_slug}}-{{cookiecutter.random_suffix}}-docs-${self:custom.currentStage}
+  openApiDocsBucketName: {{cookiecutter.project_slug}}-docs-${self:custom.currentStage}
   pythonRequirements:  # for layer with python requirements
     dockerizePip: non-linux
     useDownloadCache: true
@@ -107,6 +84,12 @@ functions:
         - ./**
       include:
         - code/auth/sign_up/**
+    iamRoleStatements:
+      - Effect: Allow  # for writing users' info
+        Action:
+          - dynamodb:PutItem
+        Resource:
+          Fn::GetAtt: [UsersTable, Arn]
 
   sign_in:
     handler: code/auth/sign_in/sign_in.handler
@@ -181,6 +164,15 @@ functions:
         - ./**
       include:
         - code/write_to_bucket/**
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:ListBucket  # for Read
+          - s3:GetObject
+          - s3:PutObject
+        Resource:
+          - Fn::Join: [ '/', [ Fn::GetAtt: [BucketForWriting, Arn], '*' ] ]  # for Write
+          - Fn::GetAtt: [BucketForWriting, Arn] 
 
   health_check:
     handler: code/health_check/health_check.handler
@@ -244,6 +236,13 @@ functions:
         - ./**
       include:
         - code/{{cookiecutter.custom_entity_name}}/get/**
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Scan
+          - dynamodb:GetItem 
+        Resource:
+          Fn::GetAtt: [CustomEntityTable, Arn]
           
   {{cookiecutter.custom_entity_name}}_post:
     handler: code/{{cookiecutter.custom_entity_name}}/post/post.handler
@@ -270,6 +269,14 @@ functions:
         - ./**
       include:
         - code/{{cookiecutter.custom_entity_name}}/post/**
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Scan
+          - dynamodb:GetItem 
+          - dynamodb:PutItem
+        Resource:
+          Fn::GetAtt: [CustomEntityTable, Arn]
 
   {{cookiecutter.custom_entity_name}}_update:
     handler: code/{{cookiecutter.custom_entity_name}}/update/update.handler
@@ -296,6 +303,13 @@ functions:
         - ./**
       include:
         - code/{{cookiecutter.custom_entity_name}}/update/**
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem 
+          - dynamodb:PutItem
+        Resource:
+          Fn::GetAtt: [CustomEntityTable, Arn]
 
   {{cookiecutter.custom_entity_name}}_delete:
     handler: code/{{cookiecutter.custom_entity_name}}/delete/delete.handler
@@ -322,6 +336,14 @@ functions:
         - ./**
       include:
         - code/{{cookiecutter.custom_entity_name}}/delete/**
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+          - dynamodb:UpdateItem
+          - dynamodb:DeleteItem
+        Resource:
+          Fn::GetAtt: [CustomEntityTable, Arn]
 
 resources:
   Resources:
@@ -402,14 +424,7 @@ resources:
           - ALLOW_USER_PASSWORD_AUTH
           - ALLOW_REFRESH_TOKEN_AUTH
         PreventUserExistenceErrors: ENABLED  # recommended option
-
-    #CognitoUserPoolDomain:  # for verification link instead of code
-    #  Type: AWS::Cognito::UserPoolDomain
-    #  Properties:
-    #    Domain: ${self:custom.cognitoUserPoolDomainName}
-    #    UserPoolId:
-    #      Ref: CognitoUserPool
-
+   
     ApiGatewayRestApi:
       Type: AWS::ApiGateway::RestApi
       Properties:
