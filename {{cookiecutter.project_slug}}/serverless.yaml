@@ -46,7 +46,7 @@ custom:
   customEntityName: {{cookiecutter.custom_entity_name}}  # for crud
   customEntityTableName: ${self:custom.customEntityName}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
   bucketForWriting: {{cookiecutter.s3_bucket_name}}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
-  openApiDocsBucketName: {{cookiecutter.project_slug}}-docs-${self:custom.currentStage}
+  openApiDocsBucketName: {{cookiecutter.project_slug}}-{{cookiecutter.random_suffix}}-docs-${self:custom.currentStage}
   pythonRequirements:  # for layer with python requirements
     dockerizePip: non-linux
     useDownloadCache: true
