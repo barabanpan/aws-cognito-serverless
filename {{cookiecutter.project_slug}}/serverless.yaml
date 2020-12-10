@@ -425,6 +425,22 @@ resources:
           - ALLOW_REFRESH_TOKEN_AUTH
         PreventUserExistenceErrors: ENABLED  # recommended option
    
+    ReadGroup:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: Read entities
+        GroupName: reader
+        Precedence: 0
+        UserPoolId: !Ref CognitoUserPool
+
+    ModifyGroup:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: Read, add, update, delete entities
+        GroupName: modifier
+        Precedence: 0
+        UserPoolId: !Ref CognitoUserPool
+
     ApiGatewayRestApi:
       Type: AWS::ApiGateway::RestApi
       Properties:
