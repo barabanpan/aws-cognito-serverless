@@ -125,6 +125,12 @@ paths:
       responses:
         '200': 
           description: Successful Operation
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
       security:
         - bearerAuth: []
     
@@ -143,6 +149,12 @@ paths:
                 items:
                   type: object
                   description: List of entities
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
     post:
       tags:
         - Custom entity
@@ -182,6 +194,12 @@ paths:
             application/json:
               example:
                 email: "Record with email 'donny@example.com' already exists"
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
       security:
         - bearerAuth: []
   
@@ -221,6 +239,12 @@ paths:
                 value: 22
                 date: "1991-10-22"
                 is_good_boy: true
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
         '404':
           description: Entity with given uid was not found.
           content: 
@@ -267,6 +291,12 @@ paths:
             application/json:
               example:
                 uid: "some-uid-here"
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
       security:
         - bearerAuth: []
         
@@ -288,6 +318,12 @@ paths:
             application/json:
               example:
                 message: "Deleted succesfully."
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
       security:
         - bearerAuth: []
   
