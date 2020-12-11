@@ -21,6 +21,7 @@ provider:
   apiGateway:
     shouldStartNameWithService: true
   environment:
+    REGION: ${self:provider.region}
     USERS_TABLE_NAME: ${self:custom.usersTableName}
     CUSTOM_ENTITY_TABLE_NAME: ${self:custom.customEntityTableName}
     WRITE_TO_BUCKET_NAME: ${self:custom.bucketForWriting}
@@ -257,16 +258,6 @@ functions:
           path: /{{cookiecutter.custom_entity_name}}
           method: post
           cors: true
-          authorizer:
-            name: cognito_authorizer
-            identitySource: method.request.header.Authorization
-            type: COGNITO_USER_POOLS  # use TOKEN for custom authorizer
-            arn:
-              Fn::GetAtt:
-                - CognitoUserPool
-                - Arn
-            scopes:  # can be table1.write or table2.read
-              - aws.cognito.signin.user.admin
     package:
       exclude:
         - ./**
@@ -291,16 +282,6 @@ functions:
           path: /{{cookiecutter.custom_entity_name}}/{uid}
           method: put
           cors: true
-          authorizer:
-            name: cognito_authorizer
-            identitySource: method.request.header.Authorization
-            type: COGNITO_USER_POOLS
-            arn:
-              Fn::GetAtt:
-                - CognitoUserPool
-                - Arn
-            scopes:
-              - aws.cognito.signin.user.admin
     package:
       exclude:
         - ./**
@@ -324,16 +305,6 @@ functions:
           path: /{{cookiecutter.custom_entity_name}}/{uid}
           method: delete
           cors: true
-          authorizer:
-            name: cognito_authorizer
-            identitySource: method.request.header.Authorization
-            type: COGNITO_USER_POOLS  # use TOKEN for custom authorizer
-            arn:
-              Fn::GetAtt:
-                - CognitoUserPool
-                - Arn
-            scopes:  # can be table1.write or table2.read
-              - aws.cognito.signin.user.admin
     package:
       exclude:
         - ./**

@@ -1,6 +1,7 @@
 from marshmallow import ValidationError
 
 from db_manager import EntityDatabaseManager
+from decorators import verify_JWT_token
 from schemas import EntitySchema
 from utils import response
 
@@ -8,6 +9,7 @@ from utils import response
 db = EntityDatabaseManager()
 
 
+@verify_JWT_token(group="reader")
 def handler(event, context):
     """Return items list or one item of uid is set in params."""
     params = event.get("pathParameters") or dict()
