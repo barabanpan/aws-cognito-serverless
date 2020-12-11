@@ -17,12 +17,17 @@ USER_POOL_ID = os.environ.get("COGNITO_USER_POOL_ID")
 # TODO: add marshmallow validation of input
 def handler(event, context):
     body = json.loads(event["body"])  # TODO: catch json decode error here
-    username, password, group = body.get("email"), body.get("password"), body.get("group")
+    username, password, groups = body.get("email"), body.get("password"), body.get("groups")
 
-    if not (username and password and group):
-        return bad_request("'email', 'password' or 'group' is missing")
-    if group not in COGNITO_USER_POOL_GROUPS:
-        return bad_request("Choose 'group' from: {0}".format(str(COGNITO_USER_POOL_GROUPS)))
+    if not (username and password and groups):
+        return bad_request("'email', 'password' or 'groups' is missing")
+
+    if not isinstance(groups, list):
+        return bad_request("'groups' should be a list")
+
+    for group in groups:
+        if group not in COGNITO_USER_POOL_GROUPS:
+            return bad_request("Choose 'groups' from: {0}".format(str(COGNITO_USER_POOL_GROUPS)))
 
     if not re.fullmatch(r"[^@]+@[^@]+\.[^@]+", username):
         return bad_request("Invalid email address")
@@ -38,11 +43,12 @@ def handler(event, context):
     except ParamValidationError as error:
         return bad_request(str(error.kwargs["report"]))
 
-    client.admin_add_user_to_group(
-        UserPoolId=USER_POOL_ID,
-        Username=username,
-        GroupName=group
-    )
+    for group in groups:
+        client.admin_add_user_to_group(
+            UserPoolId=USER_POOL_ID,
+            Username=username,
+            GroupName=group
+        )
 
     db = UsersDatabaseManager(username)
     db.add_new_user()

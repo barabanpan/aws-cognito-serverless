@@ -43,7 +43,7 @@ paths:
                 value:
                   email: your.email@example.com
                   password: SomeGoodPass1234
-                  group: reader
+                  groups: ["reader", "modifier"]
       responses:
         '200': 
           description: Successful sign up
@@ -394,7 +394,7 @@ components:
       required:
         - email
         - password
-        - group
+        - groups
       properties:
         email:
           type: string
@@ -403,11 +403,13 @@ components:
         password:
           type: string
           minLength: 1
-        group:
-          type: string
-          enum: 
-            - reader
-            - modifier
+        groups:
+          type: array
+          items:
+            type: string
+            enum: 
+              - reader
+              - modifier
                 
     'response_401':
       type: object
