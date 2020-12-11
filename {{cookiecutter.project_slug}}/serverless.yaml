@@ -21,13 +21,12 @@ provider:
   apiGateway:
     shouldStartNameWithService: true
   environment:
+    REGION: ${self:provider.region}
     USERS_TABLE_NAME: ${self:custom.usersTableName}
     CUSTOM_ENTITY_TABLE_NAME: ${self:custom.customEntityTableName}
     WRITE_TO_BUCKET_NAME: ${self:custom.bucketForWriting}
-    COGNITO_CLIENT_ID: 
-      Ref: CognitoUserPoolClient
-    API_ID:
-      Ref: ApiGatewayRestApi
+    COGNITO_CLIENT_ID: !Ref CognitoUserPoolClient
+    COGNITO_USER_POOL_ID: !Ref CognitoUserPool
     URL_TO_LAMBDA_FOR_REDIRECT: 
       Fn::Join:
         - ""
@@ -90,6 +89,11 @@ functions:
           - dynamodb:PutItem
         Resource:
           Fn::GetAtt: [UsersTable, Arn]
+      - Effect: Allow
+        Action:
+          - cognito-idp:AdminAddUserToGroup
+        Resource:
+          Fn::GetAtt: [CognitoUserPool, Arn]
 
   sign_in:
     handler: code/auth/sign_in/sign_in.handler
@@ -254,16 +258,6 @@ functions:
           path: /{{cookiecutter.custom_entity_name}}
           method: post
           cors: true
-          authorizer:
-            name: cognito_authorizer
-            identitySource: method.request.header.Authorization
-            type: COGNITO_USER_POOLS  # use TOKEN for custom authorizer
-            arn:
-              Fn::GetAtt:
-                - CognitoUserPool
-                - Arn
-            scopes:  # can be table1.write or table2.read
-              - aws.cognito.signin.user.admin
     package:
       exclude:
         - ./**
@@ -288,16 +282,6 @@ functions:
           path: /{{cookiecutter.custom_entity_name}}/{uid}
           method: put
           cors: true
-          authorizer:
-            name: cognito_authorizer
-            identitySource: method.request.header.Authorization
-            type: COGNITO_USER_POOLS
-            arn:
-              Fn::GetAtt:
-                - CognitoUserPool
-                - Arn
-            scopes:
-              - aws.cognito.signin.user.admin
     package:
       exclude:
         - ./**
@@ -321,16 +305,6 @@ functions:
           path: /{{cookiecutter.custom_entity_name}}/{uid}
           method: delete
           cors: true
-          authorizer:
-            name: cognito_authorizer
-            identitySource: method.request.header.Authorization
-            type: COGNITO_USER_POOLS  # use TOKEN for custom authorizer
-            arn:
-              Fn::GetAtt:
-                - CognitoUserPool
-                - Arn
-            scopes:  # can be table1.write or table2.read
-              - aws.cognito.signin.user.admin
     package:
       exclude:
         - ./**
@@ -425,6 +399,22 @@ resources:
           - ALLOW_REFRESH_TOKEN_AUTH
         PreventUserExistenceErrors: ENABLED  # recommended option
    
+    ReadGroup:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: Read entities
+        GroupName: reader
+        Precedence: 0
+        UserPoolId: !Ref CognitoUserPool
+
+    ModifyGroup:
+      Type: AWS::Cognito::UserPoolGroup
+      Properties: 
+        Description: Read, add, update, delete entities
+        GroupName: modifier
+        Precedence: 0
+        UserPoolId: !Ref CognitoUserPool
+
     ApiGatewayRestApi:
       Type: AWS::ApiGateway::RestApi
       Properties:

@@ -4,18 +4,31 @@ import json
 import os
 import re
 
+from constants import COGNITO_USER_POOL_GROUPS
 from db_manager import UsersDatabaseManager
 from utils import bad_request, response
 
 
 client = boto3.client("cognito-idp")
 CLIENT_ID = os.environ.get("COGNITO_CLIENT_ID")
+USER_POOL_ID = os.environ.get("COGNITO_USER_POOL_ID")
 
 
-# TODO: add validation of json data
+# TODO: add marshmallow validation of input
 def handler(event, context):
-    body = json.loads(event["body"])
-    username = body["email"]
+    body = json.loads(event["body"])  # TODO: catch json decode error here
+    username, password, groups = body.get("email"), body.get("password"), body.get("groups")
+
+    if not (username and password and groups):
+        return bad_request("'email', 'password' or 'groups' is missing")
+
+    if not isinstance(groups, list):
+        return bad_request("'groups' should be a list")
+
+    for group in groups:
+        if group not in COGNITO_USER_POOL_GROUPS:
+            return bad_request("Choose 'groups' from: {0}".format(str(COGNITO_USER_POOL_GROUPS)))
+
     if not re.fullmatch(r"[^@]+@[^@]+\.[^@]+", username):
         return bad_request("Invalid email address")
 
@@ -23,12 +36,19 @@ def handler(event, context):
         client.sign_up(
             ClientId=CLIENT_ID,
             Username=username,
-            Password=body["password"]
+            Password=password
         )
     except ClientError as error:
         return bad_request(error.response["Error"]["Message"])
     except ParamValidationError as error:
         return bad_request(str(error.kwargs["report"]))
+
+    for group in groups:
+        client.admin_add_user_to_group(
+            UserPoolId=USER_POOL_ID,
+            Username=username,
+            GroupName=group
+        )
 
     db = UsersDatabaseManager(username)
     db.add_new_user()

@@ -29,24 +29,13 @@ paths:
       requestBody:
         required: true
         description: |
-          Creates a new user if there is no user with the same email. </br> </br>
+          Creates a new user if there is no user with the same email. </br> 
+          Adds user to a specified cognito user group to provide access to a limited number of endpoints. </br> </br>
           Takes email and password as a request body.
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: false
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  format: email
-                  minLength: 1
-                password:
-                  type: string
-                  minLength: 1            
+              $ref: '#/components/schemas/sign_up'
             examples:
               'Valid sign up':
                 description: |
@@ -54,6 +43,7 @@ paths:
                 value:
                   email: your.email@example.com
                   password: SomeGoodPass1234
+                  groups: ["reader", "modifier"]
       responses:
         '200': 
           description: Successful sign up
@@ -65,8 +55,13 @@ paths:
           description: Bad Request
           content:
             application/json:
-              example: 
-                message: 'An account with the given email already exists.'
+              examples:
+                Account already exists:
+                  value: 
+                    message: 'An account with the given email already exists.'
+                Missing property:
+                  value: 
+                    message: "email', 'password' or 'group' is missing"
   
   /auth/sign_in:
     get:
@@ -130,6 +125,12 @@ paths:
       responses:
         '200': 
           description: Successful Operation
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
       security:
         - bearerAuth: []
     
@@ -148,6 +149,12 @@ paths:
                 items:
                   type: object
                   description: List of entities
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
     post:
       tags:
         - Custom entity
@@ -187,6 +194,12 @@ paths:
             application/json:
               example:
                 email: "Record with email 'donny@example.com' already exists"
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
       security:
         - bearerAuth: []
   
@@ -226,6 +239,12 @@ paths:
                 value: 22
                 date: "1991-10-22"
                 is_good_boy: true
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
         '404':
           description: Entity with given uid was not found.
           content: 
@@ -272,6 +291,12 @@ paths:
             application/json:
               example:
                 uid: "some-uid-here"
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
       security:
         - bearerAuth: []
         
@@ -293,6 +318,12 @@ paths:
             application/json:
               example:
                 message: "Deleted succesfully."
+        '401':
+          description: Authorization header is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_401'
       security:
         - bearerAuth: []
   
@@ -356,7 +387,30 @@ components:
       properties:
         entry:
           type: string
-    
+          
+    'sign_up':
+      type: object
+      additionalProperties: false
+      required:
+        - email
+        - password
+        - groups
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+        groups:
+          type: array
+          items:
+            type: string
+            enum: 
+              - reader
+              - modifier
+                
     'response_401':
       type: object
       properties:

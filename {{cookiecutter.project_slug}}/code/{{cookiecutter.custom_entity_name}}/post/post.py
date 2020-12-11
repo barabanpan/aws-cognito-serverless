@@ -3,6 +3,7 @@ import json
 from marshmallow import ValidationError
 
 from db_manager import EntityDatabaseManager
+from decorators import verify_JWT_token
 from schemas import EntitySchema
 from utils import bad_request, response
 
@@ -10,6 +11,7 @@ from utils import bad_request, response
 db = EntityDatabaseManager()
 
 
+@verify_JWT_token(group="modifier")
 def handler(event, context):
     """Create new custom entity."""
 
