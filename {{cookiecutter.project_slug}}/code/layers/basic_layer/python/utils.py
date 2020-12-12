@@ -21,3 +21,7 @@ def bad_request(message):
 
 def unauthorized():
     return response(401, {"message": "Unauthorized"})
+
+
+class BadRequestException(Exception):
+    pass
