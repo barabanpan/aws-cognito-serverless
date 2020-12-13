@@ -4,6 +4,7 @@ import time
 import urllib.request
 from jose import jwk, jwt
 from jose.utils import base64url_decode
+import logging
 
 from utils import response, unauthorized
 
@@ -26,7 +27,8 @@ def verify_JWT_token(group):
                 token = event["headers"]["Authorization"].split(" ")[1]  # Missing Authentication Token
                 headers = jwt.get_unverified_headers(token)
                 kid = headers.get("kid")
-            except Exception:
+            except Exception as e:
+                logging.warning(repr(e))
                 return unauthorized()
 
             key_index = -1
