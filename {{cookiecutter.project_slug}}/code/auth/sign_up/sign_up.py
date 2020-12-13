@@ -52,8 +52,6 @@ def validate_body(body):
         body = json.loads(body)
     except json.decoder.JSONDecodeError as e:
         raise BadRequestException("Invalid request body")
-    except Exception as e:
-        raise BadRequestException("What is that?", str(e))
 
     if not isinstance(body, dict):
         raise BadRequestException("Invalid request body")
