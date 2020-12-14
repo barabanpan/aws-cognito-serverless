@@ -26,7 +26,7 @@ def handler(event, context):
     except (DecodeError, ClientError) as err:
         logging.warning(repr(err))
         return unauthorized()
- 
+
     auth_result = res.get("AuthenticationResult", {})
     res = {
         "AccessToken": auth_result.get("AccessToken", ""),
