@@ -13,6 +13,7 @@ from fabric.api import local, task
 def sls_install():
     """Install serverless requirements."""
     local("npm install -g serverless")
+    local("sls plugin install -n serverless-iam-roles-per-function")
     local("sls plugin install -n serverless-s3-sync")
     local("sls plugin install -n serverless-python-requirements")
 
