@@ -13,7 +13,6 @@ For CRUD operations:
  - put by uid (entities/{uid}),
  - delete by uid (entities/{uid}).
 
-**TODO**: add s3 bucket with Swagger documentation.
 
 ## How To Run It
 
