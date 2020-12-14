@@ -410,7 +410,7 @@ resources:
     ModifyGroup:
       Type: AWS::Cognito::UserPoolGroup
       Properties: 
-        Description: Read, add, update, delete entities
+        Description: Add, update, delete entities
         GroupName: modifier
         Precedence: 0
         UserPoolId: !Ref CognitoUserPool
