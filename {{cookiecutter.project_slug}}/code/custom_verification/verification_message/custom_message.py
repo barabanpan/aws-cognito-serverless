@@ -3,7 +3,7 @@ import os
 
 
 def handler(event, context):
-    if not event["triggerSource"] == "CustomMessage_SignUp":
+    if not event["triggerSource"] in ["CustomMessage_SignUp", "CustomMessage_ResendCode"]:
         return event
 
     email = event["request"]["userAttributes"]["email"]
