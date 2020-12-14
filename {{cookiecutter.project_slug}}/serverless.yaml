@@ -50,6 +50,7 @@ custom:
     dockerizePip: non-linux
     useDownloadCache: true
     useStaticCache: true
+    staticCacheMaxVersions: 5
     layer:
       description: Python requirements lambda layer
       compatibleRuntimes:
