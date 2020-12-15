@@ -154,6 +154,27 @@ functions:
       include:
         - code/custom_verification/verify_and_redirect/**
 
+  resend_link:
+    handler: code/custom_verification/resend_link/resend_link.handler
+    layers:
+      - Ref: BasicLambdaLayer
+    events:
+      - http:
+          path: /custom-verification/resend-link
+          method: post
+          cors: true
+    package:
+      exclude:
+        - ./**
+      include:
+        - code/custom_verification/resend_link/**
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - cognito-idp:AdminGetUser
+        Resource:
+          Fn::GetAtt: [CognitoUserPool, Arn]
+
   write_to_bucket:
     handler: code/write_to_bucket/write_to_bucket.handler
     layers:
