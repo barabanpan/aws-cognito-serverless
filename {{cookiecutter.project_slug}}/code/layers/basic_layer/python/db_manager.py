@@ -57,7 +57,7 @@ class EntityDatabaseManager:
         updated = False
         prev_fields = self.get_one(uid)
         if prev_fields:
-            if prev_fields["email"] != item["email"] and len(db.find_by_email(item["email"])) != 0:
+            if prev_fields["email"] != item["email"] and len(self.find_by_email(item["email"])) != 0:
                 raise BadRequestException("Entity with given email already exists")
 
             new_fields = dict(item)
