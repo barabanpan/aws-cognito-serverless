@@ -55,7 +55,7 @@ def verify_JWT_token(group):
 
             # group is not the one - unauthorized to use this resource
             if group not in claims["cognito:groups"]:
-                return unauthorized()
+                return response(403, {"message": "Forbidden"})
 
             res = func(*args, **kwargs)
             return res

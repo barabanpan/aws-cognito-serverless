@@ -4,7 +4,7 @@ info:
   description: API description
   version: 1.0.0
 servers:
-  - url: 'https://dg99v7cpjl.execute-api.eu-central-1.amazonaws.com/d'
+  - url: 'https://h64obqsy7i.execute-api.eu-central-1.amazonaws.com/dev'
 tags:
   - name: Health check
   - name: Auth
@@ -139,6 +139,7 @@ paths:
       tags:
         - Custom entity
       summary: Get all entities
+      description: "Operation requires authorization header (Bearer). </br> User must belong to a 'reader' group. </br> Otherwise response will be 403 'Forbidden'"
       responses:
         '200': 
           description:  Successful Operation
@@ -155,10 +156,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/response_401'
+        '403':
+          description: Access to the requested resource is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_403'
+      security:
+        - bearerAuth: []
     post:
       tags:
         - Custom entity
       summary: Add a new entity
+      description: "Operation requires authorization header (Bearer). </br> User must belong to a 'modifier' group. </br> Otherwise response will be 403 'Forbidden'."
       requestBody:
         required: true
         description: |
@@ -200,6 +210,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/response_401'
+        '403':
+          description: Access to the requested resource is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_403'
       security:
         - bearerAuth: []
   
@@ -209,6 +225,7 @@ paths:
       tags:
         - Custom entity
       summary: Get one entity by username
+      description: "Operation requires authorization header (Bearer). </br> User must belong to a 'reader' group. </br> Otherwise response will be 403 'Forbidden'."
       parameters:
         - in: path
           name: uid
@@ -245,16 +262,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/response_401'
+        '403':
+          description: Access to the requested resource is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_403'
         '404':
           description: Entity with given uid was not found.
           content: 
             application/json:
               example:
                 message: No such entity.
+      security:
+        - bearerAuth: []
     put:  
       tags:
         - Custom entity
       summary: Update one entity
+      description: "Operation requires authorization header (Bearer). </br> User must belong to a 'modifier' group. </br> Otherwise response will be 403 'Forbidden'."
       parameters:
         - in: path
           name: uid
@@ -297,6 +323,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/response_401'
+        '403':
+          description: Access to the requested resource is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_403'
       security:
         - bearerAuth: []
         
@@ -304,6 +336,7 @@ paths:
       tags:
         - Custom entity
       summary: Delete one entity
+      description: "Operation requires authorization header (Bearer). </br> User must belong to a 'modifier' group. </br> Otherwise response will be 403 'Forbidden'."
       parameters:
         - in: path
           name: uid
@@ -324,6 +357,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/response_401'
+        '403':
+          description: Access to the requested resource is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_403'
       security:
         - bearerAuth: []
   
@@ -352,6 +391,29 @@ paths:
         
 components:
   schemas:
+    'sign_up':
+      type: object
+      additionalProperties: false
+      required:
+        - email
+        - password
+        - groups
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+        groups:
+          type: array
+          items:
+            type: string
+            enum: 
+              - reader
+              - modifier
+              
     'entity':
       type: object
       additionalProperties: false
@@ -387,29 +449,6 @@ components:
       properties:
         entry:
           type: string
-          
-    'sign_up':
-      type: object
-      additionalProperties: false
-      required:
-        - email
-        - password
-        - groups
-      properties:
-        email:
-          type: string
-          format: email
-          minLength: 1
-        password:
-          type: string
-          minLength: 1
-        groups:
-          type: array
-          items:
-            type: string
-            enum: 
-              - reader
-              - modifier
                 
     'response_401':
       type: object
@@ -418,6 +457,14 @@ components:
           type: string
           example:
             "Unauthorized"
+            
+    'response_403':
+      type: object
+      properties:
+        message:
+          type: string
+          example:
+            "Forbidden"
           
   securitySchemes:
     basicAuth:
