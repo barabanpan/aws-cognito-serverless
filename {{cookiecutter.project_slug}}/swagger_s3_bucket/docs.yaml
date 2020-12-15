@@ -63,7 +63,7 @@ paths:
                   value: 
                     message: "email', 'password' or 'group' is missing"
   
-  /verification-message/resend-link:
+  /custom-verification/resend-link:
     post:
       tags:
         - Auth
