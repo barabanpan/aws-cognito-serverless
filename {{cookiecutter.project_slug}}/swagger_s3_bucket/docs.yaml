@@ -63,6 +63,51 @@ paths:
                   value: 
                     message: "email', 'password' or 'group' is missing"
   
+  /verification-message/resend-link:
+    post:
+      tags:
+        - Auth
+      summary: "Resend verification link"
+      requestBody:
+        required: true
+        description: |
+          Is used when the verification link gets expired or lost and email is not verified.
+          Takes email as a request body.
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+            example:
+              email: your.email@example.com
+      responses:
+        "200": 
+          description: Successfully resent the link
+          content:
+            application/json:
+              example:
+                message: "Please check your email for verification link."
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Account does not exists:
+                  value: 
+                    message: 'An account with this email was not found.'
+                Account's email already verified:
+                  value: 
+                    message: "The account's email is already verified."
+                Missing property:
+                  value: 
+                    message: "email' is missing"
+
   /auth/sign_in:
     get:
       tags:
@@ -96,7 +141,7 @@ paths:
         - Auth
       summary: "Refresh access token"
       description: |
-        Operation requires authorization header (Bearer) with `RefreshToken` from `SignIn` responce
+        Operation requires authorization header (Bearer) with `RefreshToken` from `SignIn` response
       responses:
         "200":
           description: Successful Operation
