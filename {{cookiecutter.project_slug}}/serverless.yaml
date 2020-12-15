@@ -291,6 +291,7 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
+          - dynamodb:Scan
           - dynamodb:GetItem 
           - dynamodb:PutItem
         Resource:

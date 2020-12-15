@@ -5,7 +5,7 @@ from marshmallow import ValidationError
 from db_manager import EntityDatabaseManager
 from decorators import verify_JWT_token
 from schemas import EntitySchema
-from utils import bad_request, response
+from utils import bad_request, BadRequestException, response
 
 
 db = EntityDatabaseManager()
@@ -30,9 +30,13 @@ def handler(event, context):
         return response(400, err.messages)
 
     if entity and uid:
-        entity, ok = db.create_or_update(item=entity, uid=uid)
+        try:
+            entity, ok = db.create_or_update(item=entity, uid=uid)
+        except BadRequestException as e:
+            return bad_request(str(e))
+
         if ok:
-            # If entity updated successfylly then return it in responce
+            # If entity updated successfully then return it in responce
             try:
                 entity = EntitySchema().dump(entity)
             except ValidationError as err:

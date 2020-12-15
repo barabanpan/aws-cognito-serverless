@@ -139,7 +139,8 @@ paths:
       tags:
         - Custom entity
       summary: Get all entities
-      description: "Operation requires authorization header (Bearer). </br> User must belong to a 'reader' group. </br> Otherwise response will be 403 'Forbidden'"
+      description: "Operation requires authorization header (Bearer). </br> User must belong to a 'reader' group. </br> Otherwise response will be 403 'Forbidden'.
+      </br></br>Returns only those entities that have `is_active` set to true."
       responses:
         '200': 
           description:  Successful Operation
@@ -245,6 +246,9 @@ paths:
             | `rating` | Numeric between 1 and 10. |
             | `birthdate` | String date in format YYYY-MM-DD. |
             | `need_feedback` | Boolean that describes entity. |
+            | `created_at` | String, date and time of creation. |
+            | `updated_at` | String, date and time of last update. |
+            | `is_active` | Boolean, indicates if entity was deleted. |
           content:
             application/json:
               schema:
@@ -276,7 +280,7 @@ paths:
                 message: No such entity.
       security:
         - bearerAuth: []
-    put:  
+    put:
       tags:
         - Custom entity
       summary: Update one entity
@@ -292,7 +296,7 @@ paths:
         required: true
         description: |
           Updates an existing entity.</br> </br>
-          __Table 1.__  Request body structure:
+          __Table 3.__  Request body structure:
             | Field | Description |
             | ------- | -------- |
             | `email*` | Required. Entity's email. |
@@ -336,7 +340,8 @@ paths:
       tags:
         - Custom entity
       summary: Delete one entity
-      description: "Operation requires authorization header (Bearer). </br> User must belong to a 'modifier' group. </br> Otherwise response will be 403 'Forbidden'."
+      description: "Operation requires authorization header (Bearer). </br> User must belong to a 'modifier' group. </br> Otherwise response will be 403 'Forbidden'.
+      </br></br>Deletion changes `is_active` to false, but does not delete entity from database completely."
       parameters:
         - in: path
           name: uid
