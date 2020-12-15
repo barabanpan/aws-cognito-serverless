@@ -7,6 +7,7 @@ from datetime import datetime
 from boto3.dynamodb.conditions import Attr
 
 from constants import DATETIME_FORMAT
+from utils import BadRequestException
 
 
 USERS_TABLE_NAME = os.environ.get("USERS_TABLE_NAME")
@@ -56,6 +57,9 @@ class EntityDatabaseManager:
         updated = False
         prev_fields = self.get_one(uid)
         if prev_fields:
+            if prev_fields["email"] != item["email"] and len(db.find_by_email(item["email"])) != 0:
+                raise BadRequestException("Entity with given email already exists")
+
             new_fields = dict(item)
             new_fields.update({
                 "updated_at": datetime.now().astimezone().strftime(
