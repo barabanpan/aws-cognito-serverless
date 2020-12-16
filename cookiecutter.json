@@ -4,7 +4,7 @@
     "aws_region": "eu-central-1",
     "custom_entity_name": "entities",
     "s3_bucket_name": "bucket-for-writing",
-    "s3_file_name": "diary",
+    "s3_file_name": "journal",
     "ses_region": ["eu-west-1", "us-east-1", "us-west-2"],
     "ses_email": "john@myemail.com",
     "aws_account_id": "1234567890",
