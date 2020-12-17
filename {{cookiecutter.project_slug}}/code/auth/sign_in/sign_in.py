@@ -23,7 +23,7 @@ def handler(event, context):
                 "PASSWORD": password
             }
         )
-    except (DecodeError, ClientError) as err:
+    except (DecodeError, ClientError, KeyError) as err:
         logging.warning(repr(err))
         return unauthorized()
 
