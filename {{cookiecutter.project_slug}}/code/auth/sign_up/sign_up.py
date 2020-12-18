@@ -26,6 +26,8 @@ def handler(event, context):
             Username=username,
             Password=password
         )
+    except client.exceptions.CodeDeliveryFailureException:
+        return bad_request("This email does not exist.")
     except ClientError as error:
         return bad_request(error.response["Error"]["Message"])
     except ParamValidationError as error:
