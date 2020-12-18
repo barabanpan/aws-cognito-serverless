@@ -49,8 +49,8 @@ custom:
   customEntityTableName: ${self:custom.customEntityName}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
   bucketForWriting: {{cookiecutter.s3_bucket_name}}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
   openApiDocsBucketName: {{cookiecutter.project_slug}}-{{cookiecutter.random_suffix}}-docs-${self:custom.currentStage}
-  cognitoAccessTokenValidity: 15  # in minutes | 5 minutes – 1 day
-  cognitoRefreshTokenValidity: 24  # in hours | 1 hour – 3,650 days
+  cognitoAccessTokenValidity: 1  # in hours by default | min: 5 minutes – max: 1 day
+  cognitoRefreshTokenValidity: 1  # in days by default | min: 1 hour – max: 3,650 days
   pythonRequirements:  # for layer with python requirements
     dockerizePip: non-linux
     useDownloadCache: true
