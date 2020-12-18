@@ -11,10 +11,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://rxpack9lpb.execute-api.eu-central-1.amazonaws.com/dev/health_check",
+					"raw": "https://9leohz92hc.execute-api.eu-central-1.amazonaws.com/dev/health_check",
 					"protocol": "https",
 					"host": [
-						"rxpack9lpb",
+						"9leohz92hc",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
@@ -35,7 +35,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"email\": \"email@example.com\",\n  \"password\": \"GoodPass1234\"\n}",
+					"raw": "{\n  \"email\": \"example@email.com\",\n  \"password\": \"Secret1234\",\n  \"groups\": [\"reader\", \"modifier\"]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -43,10 +43,10 @@
 					}
 				},
 				"url": {
-					"raw": "https://tq3b34kvp9.execute-api.eu-central-1.amazonaws.com/dev/auth/sign_up",
+					"raw": "https://9leohz92hc.execute-api.eu-central-1.amazonaws.com/dev/auth/sign_up",
 					"protocol": "https",
 					"host": [
-						"tq3b34kvp9",
+						"9leohz92hc",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
@@ -62,6 +62,39 @@
 			"response": []
 		},
 		{
+			"name": "test resend link",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"example@email.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://9leohz92hc.execute-api.eu-central-1.amazonaws.com/dev/custom-verification/resend-link",
+					"protocol": "https",
+					"host": [
+						"9leohz92hc",
+						"execute-api",
+						"eu-central-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"custom-verification",
+						"resend-link"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "test sign in (get both tokens)",
 			"request": {
 				"auth": {
@@ -69,12 +102,12 @@
 					"basic": [
 						{
 							"key": "username",
-							"value": "email@example.com",
+							"value": "example@email.com",
 							"type": "string"
 						},
 						{
 							"key": "password",
-							"value": "GoodPass1234",
+							"value": "Secret1234",
 							"type": "string"
 						}
 					]
@@ -82,10 +115,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://tq3b34kvp9.execute-api.eu-central-1.amazonaws.com/dev/auth/sign_in",
+					"raw": "https://9leohz92hc.execute-api.eu-central-1.amazonaws.com/dev/auth/sign_in",
 					"protocol": "https",
 					"host": [
-						"tq3b34kvp9",
+						"9leohz92hc",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
@@ -111,7 +144,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.Bd_RlqD40w6BZz6ufoQ6w0_DpRzEHENJPf5J98xX1Gr-Dqg7y8-2gsxtKRAPmAMGynXXZ-9IwnmBXPPbBfVoW5D2wo4v94gL-wJ7FZVMuEJT66GkT7IfTcwXLnMUEB3loD-GGjTuQQJs8Bv1z763Smua9EgH2jlv5iitDD4gCDHwNE-m7iesUYFfwyjie-w0-JrknC0I10Zc6ehntOUNuAfcMHwcWAoHSNgSXPIcJ9oQ6tfTlA3hp5qHO8fsWDF4pwvrxeoNzubJeqqQWh-QUCwJQ5ZPC3KW5Ls9R-JAwSmgrkc_n2P10QPYxKQK96dGf1g5dnKWBjZdt9LeJHgfAA.Hqi5ZYHjPvlZpKq0.6StspMfYh5kpqkb4UlYh65kjz_dVYS-l0rFHIduaToKDnTkjBXVC-Es9Id5H8WKEkoblj1XfAqLbj_kpoSKfuEbIeVPLmxq2SPHjKtjtbylrVkKrFSg-CWflwBVWkKrfbIND4U9EbpLtUrWsV_OwrOuyKA8fWtwFysVgiZ4-Tqxj46Al3ivnuf6KSy7wS5Tmu1NB_pT8Ykdt5OCvB_Iu--eCn3J9gqKLCu7UVmm3kfDSGr2M_Xae8itOfDxPbLRx49tQxrbbv6U0VX9cfJbn8uAAfi8bVZkp1XQKwaYWivmf3Yz6NVCHndwZwzp3bag1y9_U_m0i2NW647MumL9AOJb14TS6qcrL_KitXDre-L1MqoqhAkwW6o_2RCGmZYmYYTtDOeGKUf38Fqsao3QSIgg4DLtMhHxtVmipHVydNo8zqa4Z5K4uviiIEBawDhHrof_DEuGXx2OHsJ0gTn7k0b72jScnMGywjIvH5dD2ZEqg2d91fQlLm_GCM3RBFT0SrBAbM5MF-hZlAfqNd8p_WzM25itkPDwg0U9_gLO-8xQZqmS_AS-0seZicLe1k5Z7fNJi6vkoR5SjZ5EbSZyih1zj05M3QCN_gx-j3l66aM7Hxppab5lIKpENhJVhP2086oG4aABKmYR2rJi5BsYLp21Zhyk4FkpC6IfxCRmqaeWvWqYyxj5QklDye0P9R5UwuPO73qXP2qAxI3pu2IKe5O_KUIwWKFN0j72zJb7u_RjM0YoPn2ZPelBThSgOBkuPof2cQsMhUka4twroRelEhAUX0LERSbfKVSchih54ixHfQ3ah0cgJxsSvYnI62Jd_2fhuU0ieEbQ3K1TCdZgtOC_XBNEGcZ6HaNFFwd7eBWgsrfOhloeRYivhOmH7aVbx3jt-oIsOqGXJpHQs_Trfru_H-esr_rpJSlXYbfWyIWf54KQrBjLWOcKVt8SvAwspK79iZCdmw5fphyRITomH7QShJw5KsckUwe-KzJ9rhr_ZjDgkMZPd2R0GQOjwSxksXbt80Yiv2hMm3-5Ec9t9q-cgb_YUJ5ljqBLAvo1TO7l0yp0Lp0Mz1qsQU5GGa_qBHXo3DRqXbCIsJAOv6uh3l5DdmH5RbL5JnB5RRD3oDXI-Hhtdoq3_YaH6bfLE4u6naNCh6MVBxBzBslovZGeFQBrirkeDM-r-yBbCDNsSeN4klveSFb7TaoA7rtJEYiAUPTbE5n3p427mYQzYTecxy6YV4VbTF5aPIkxzyUkd7VYoqrWR--EdoWamrZEEWK8FG1WZiZ9wK7KeyXO-Smi9mxzk_GhmMW70oeTq4y7UX7fY4GhqAGw_mNU6lgJM3NL_70t8.FZLlTA5tBXhGC73HTMB5zg",
+							"value": "eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.Bd_RlqD40w6BZz6ufoQ6w0_DpRzEHENJPf5J98xX1Gr-Dqg7y8-2gsxtKRAPmAMGynXXZ-9IwnmBXPPbBfVoW5D2wo4v94gL-wJ7FZVMuEJT66GkT7IfTcwXLnMUEB3loD-GGjTuQQJs8Bv1z72s4mua9EgH2jlv5iitDD4gCDHwNE-m7iesUYFfwyjie-w0-JrknC0I10Zc6ehntOUNuAfcMHwcWAoHSNgSXPIcJ9oQ6tfTlA3hp5qHO8fsWDF4pwvrxeoNzubJeqqQWh-QUCwJQ5ZPC3KW5Ls9R-JAwSmgrkc_n2P10QPYxKQK96dGf1g5dnKWBjZdt9LeJHgfAA.Hqi5ZYHjPvlZpKq0.6StspMfYh5kpqkb4UlYh65kjz_dVYS-l0rFHIduaToKDnTkjBXVC-Es9Id5H8WKEkoblj1XfAqLbj_kpoSKfuEbIeVPLmxq2SPHjKtjtbylrVkKrFSg-CWflwBVWkKrfbIND4U9EbpLtUrWsV_OwrOuyKA8fWtwFysVgiZ4-Tqxj46Al3ivnuf6KSy7wS5Tmu1NB_pT8Ykdt5OCvB_Iu--eCn3J9gqKLCu7UVmm3kfDSGr2M_Xae8itOfDxPbLRx49tQxrbbv6U0VX9cfJbn8uAAfi8bVZkp1XQKwaYWivmf3Yz6NVCHndwZwzp3bag1y9_U_m0i2NW647MumL9AOJb14TS6qcrL_KitXDre-L1MqoqhAkwW6o_2RCGmZYmYYTtDOeGKUf38Fqsao3QSIgg4DLtMhHxtVmipHVydNo8zqS6la4Z5K4uviiIEBawDhHrof_DEuGXx2OHsJ0gTn7k0b72jScnMGywjIvH5dD2ZEqg2d91fQlLm_GCM3RBFT0SrBAbM5MF-hZlAfqNd8p_WzM25itkPDwg0U9_gLO-8xQZqmS_AS-0seZicLe1k5Z7fNJi6vkoR5SjZ5EbSZyih1zj05M3QCN_gx-j3l66aM7Hxppab5lIKpENhJVhP2086oG4aABKmYR2rJi5BsYLp21Zhyk4FkpC6IfxCRmqaeWvWqYyxj5QklDye0P9R5UwuPO73qXP2qAxI3pu2IKe5O_KUIwWKFN0j72zJb7u_RjM0YoPn2ZPelBThSgOBkuPof2cQsMhUka4twroRelEhAUX0LERSbfKVSchih54ixHfQ3ah0cgJxsSvYnI62Jd_2fhuU0ieEbQ3K1TCdZgtOC_XBNEGcZ6HaNFFwd7eBWgsrfOhloeRYivhOmH7aVbx3jt-oIsOqGXJpHQs_Trfru_H-esr_rpJSlXYbfWyIWf54KQrBjLWOct8SvAwspK79iZCdmw5fphyRITomH7QShJw5KsckUwe-KzJ9rhr_ZjDgkMZPd2R0GQOjwSxksXbt80Yiv2hMm3-5Ec9t9q-cgb_YUJ5ljqBLAvo1TO7l0yp0Lp0Mz1qsQU5GGa_qBHXo3DRqXbCIsJAOv6uh3l5DdmH5RbLn5JnB5RRD3oDXI-Hhtdoq3_YaH6bfLE4u6naNCh6MVBxBzBslovZGeFQBrirkeDM-r-yBbCDNsSeN4klveSFb7TaoA7rtJEYiAUPTbE5n3p427mYQzYTecxy6YV4VbTF5aPIkxzyUkd7VYoqrWR--EdoWamrZEEWK8FG1WZiZ9wK7KeyXO-Smi9mxzk_GhmMW70oeTq4y7UX7fY4GhqAGw_mNU6lgJM3NL_70t8.FZLlTA5tBXhGC73HTMB5zg",
 							"type": "string"
 						}
 					]
@@ -128,17 +161,17 @@
 					}
 				},
 				"url": {
-					"raw": "https://6y15fzbhki.execute-api.eu-central-1.amazonaws.com/b/auth/refresh",
+					"raw": "https://9leohz92hc.execute-api.eu-central-1.amazonaws.com/dev/auth/refresh",
 					"protocol": "https",
 					"host": [
-						"6y15fzbhki",
+						"9leohz92hc",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"b",
+						"dev",
 						"auth",
 						"refresh"
 					]
@@ -157,7 +190,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJraWQiOiJLUjN4cTM3aUtuTkZUMEFra0kyem03dEppa2ZZclNnXC96bWxQbkNRa3A0WT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0MzdiNzY3Ny00OTc0LTRmZjAtODQ0Mi04NGI2MGMwYmE2NTQiLCJldmVudF9pZCI6ImUxOTkyN2ZhLTM2MTMtNDg2ZS05ZDA5LTQ1ZTUyMjQ0ODMxYyIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDcyNzYyOTAsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX0I1QXlLS1o5TyIsImV4cCI6MTYwNzI3OTg5MCwiaWF0IjoxNjA3Mjc2MjkwLCJqdGkiOiI1M2I1Y2NjOS1mMGFlLTQwMjktOTliOC03MDA0YTJiOGZjNTgiLCJjbGllbnRfaWQiOiIzaWZkcWFhYTY3bG8wZWpiMmM0dGFmcWppOSIsInVzZXJuYW1lIjoiNDM3Yjc2NzctNDk3NC00ZmYwLTg0NDItODRiNjBjMGJhNjU0In0.lxp44FiNBymnp4I9Hq4pqkK0z5zQBumw2HP-8qzl-cjYEEK_CCqOGtDgqNLBNfIIPpXhVcUTBl3fFXevKc0-h3K2Kp8XZNtJ_GxW7zWydreIso3K_a4TLXK3Qv5ysOX__L2hBBE7_6Hwtomp7HmqrWk0F0A3jCsr_Vq_7or78xfscTQG0e-m7fLjcbb8iKz6XXTdDbIGRsWKlx9hp1fsMiHGC3gq-6iTI0y1FiOGGJeB8XBLwc9Od1s7BfsRsdCNb3OPY9LQGp3j2pMHihsdGuj8gKuRoRYnXfoMi92zjM8lAhuWmrbRsqTUFFtdEO-XnyW34FCA53xI3FxcZx7ng",
+							"value": "eyJraWQiOiJkM0c0YWZwdzlzZlFoZDV3RmRJczNxK1N4U0xNRmNcL2NqUm80SDhCVlwvVkU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJjZTJlYzg3ZC1kNDQyLTQ4OTEtYmU0ZC1mYTY4ZTcwNGRjMGIiLCJjb2duaXRvOmdyb3VwcyI6WyJtb2RpZmllciJdLCJldmVudF9pZCI6ImMyM2UyMTA4LWJkOTEtNDdkNC1hMjc2LTA1M2MxZGM5YjYzOCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDc2NTU3MDMsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX3R2VU5IY0dVcCIsImV4cCI6MTYwNzY1OTMwMywiaWF0IjoxNjA3NjU1NzAzLCJqdGkiOiJkYWM0MWFjZS1hZGIzLTRjMGEtOGYxNi04NGJlMDlkYzY3YWMiLCJjbGllbnRfaWQiOiI2Z2FyODVxdG1yOXRvdW04NGMwYzc5YWVsaSIsInVzZXJuYW1lIjoiY2UyZWM4N2QtZDQ0Mi00ODkxLWJlNGQtZmE2OGU3MDRkYzBiIn0.UzqElhMIpg6MvPjYU0eq-NChJ_m-0z2OQdGFhILkiOJGtkj1ajXhwkrYlq4HDlH0LM6XRD12sJJD6G6BvqTlWZwnIKRk_Gyae1f5wpkps4wLI2sjO754Q0LYDkds-M0VD3jvEjesBmz6zjrIkjd2AAMgu-Q7IOFUqwrNwRcqaEQRgMLWRWW0y05ZegCg3f0VCtTfGNEaW-Svs5E-IyXtTT6hgwNKSmiR87y6xJhwdHvHDEI8TDHsbukdcX1Mh9bOo-JMMBnofMpTqKNVgpxYhZU7V-jzsamh-0J4WNuuWJSQWR0_WCYcexFiD0S_v7WblOWg45q5Ll0xVVEM7_A",
 							"type": "string"
 						}
 					]
@@ -174,10 +207,10 @@
 					}
 				},
 				"url": {
-					"raw": "https://tq3b34kvp9.execute-api.eu-central-1.amazonaws.com/dev/secret_resource",
+					"raw": "https://h64obqsy7i.execute-api.eu-central-1.amazonaws.com/dev/secret_resource",
 					"protocol": "https",
 					"host": [
-						"tq3b34kvp9",
+						"h64obqsy7i",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
@@ -194,21 +227,31 @@
 		{
 			"name": "test get all entities",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "d",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://dg99v7cpjl.execute-api.eu-central-1.amazonaws.com/d/{{cookiecutter.custom_entity_name}}",
+					"raw": "https://9leohz92hc.execute-api.eu-central-1.amazonaws.com/dev/entities",
 					"protocol": "https",
 					"host": [
-						"dg99v7cpjl",
+						"9leohz92hc",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"d",
-						"{{cookiecutter.custom_entity_name}}"
+						"dev",
+						"entities"
 					]
 				}
 			},
@@ -220,7 +263,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://6dwn45r9qj.execute-api.eu-central-1.amazonaws.com/uidd/{{cookiecutter.custom_entity_name}}/5d07b4a3-f83e-4ce6-830b-fc96ed7d0034",
+					"raw": "https://6dwn45r9qj.execute-api.eu-central-1.amazonaws.com/dev/entities/5d07b4a3-f83e-4ce6-830b-fc96ed7d0034",
 					"protocol": "https",
 					"host": [
 						"6dwn45r9qj",
@@ -230,8 +273,8 @@
 						"com"
 					],
 					"path": [
-						"uidd",
-						"{{cookiecutter.custom_entity_name}}",
+						"dev",
+						"entities",
 						"5d07b4a3-f83e-4ce6-830b-fc96ed7d0034"
 					]
 				}
@@ -246,7 +289,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJraWQiOiJTQWhRR0RcL2ZZcFl6ZHhBaE9oUzJ5QUVSQ0w3ZnJZeFlRbEFRNGJwVlc3MD0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJmNThiYTdiMS0wNTZiLTRkYjctOWQxZC03MTI5OTljNzk1NmIiLCJldmVudF9pZCI6Ijc5MTE1NDg1LTRlNTItNGRjMC1iZGQ0LTk2NWQwYTBkMTA1ZSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDcwNzU2ODUsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX200MktyMVdEaSIsImV4cCI6MTYwNzA3OTI4NSwiaWF0IjoxNjA3MDc1Njg1LCJqdGkiOiI2YTg5NzIyYy02ZDk2LTRjMzItYTQyNC01NDkxYTU3ODZlZTUiLCJjbGllbnRfaWQiOiIzbTJiYWY3ZTFzZXRyZzJzNmh1a3U3YjRsZiIsInVzZXJuYW1lIjoiZjU4YmE3YjEtMDU2Yi00ZGI3LTlkMWQtNzEyOTk5Yzc5NTZiIn0.o-OpiECzRd7BJjp7Snte1xPs3G87fCmeyBBiMmDsfZHGk3ImC7ePo7N5mlf6Ck2oQXrYkySAkave50grKVSfacnAckyvkWkQ4Ve833PhctuDnxy46-A0G2OeaIu8iPrqyQc7efs7xkpleNjCGkMTMr-b_HKwDwnT2IvSSCE52VpbTn5g2aHD6p6RZK2Jxh1BkuDBu3jGAbbnyZU9ZWoxXQqRhDmx02-N99rwW2tNGG3bMhOYBAMR6aifYFrMXSKTWOTvqteqHY-DRc3K1BHmhjxIGaMTEQY8SYHdMvEq9clkXEYJywIrRK9F9uOtP_ucQ6F49lU_u57QReAsKE9jw",
+							"value": "eyJraWQiOiJkM0c0YWZwdzlzZlFoZDV3RmRJczNxK1N4U0xNRmNcL2NqUm80SDhCVlwvVkU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI4NWViNmM5MS04N2ZhLTRhZGYtYjMzYy01MzEwOWEzNzdmNTUiLCJjb2duaXRvOmdyb3VwcyI6WyJyZWFkZXIiLCJtb2RpZmllciJdLCJldmVudF9pZCI6ImI5NDNlNjEwLWJkYjgtNDU2OC04NGIxLWFhN2YxODcwNmFhMCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDgwMjg2MjYsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX3R2VU5IY0dVcCIsImV4cCI6MTYwODAzMjIyNiwiaWF0IjoxNjA4MDI4NjI2LCJqdGkiOiJmNDM4OTY0OS0zNjFjLTQxNjMtOWNjMy00M2MxNjNmNGI4ZGUiLCJjbGllbnRfaWQiOiI2Z2FyODVxdG1yOXRvdW04NGMwYzc5YWVsaSIsInVzZXJuYW1lIjoiODVlYjZjOTEtODdmYS00YWRmLWIzM2MtNTMxMDlhMzc3ZjU1In0.U3-zvb2DIFE4doCqdbkA3J5gVgxJZXwW22WEznffeb6lIb9xsYxK2d4bo34Oq66X_8oUNGEcOhCiSRQhwkCTgPJRO1uBG3NXxplVZgJoPYXDFjFauLGXiOFlSntQAUfDq4q9gleN8htyPkINFbbxBkkyxz8UVFhXd2JgCCttiD-QKjWdsxvmM8BgHyGCnY81XYqM0KYw1Slu4JJt3hyJkQo_rQvtrljHVFEvZlHSjpP3sVQi5KRrSYOjCUtS82svmcxc1YYb8JR70jO-JGxw7CJLBVcUmOPDsiJSapY9aVT6Ftg7ujogEvrre1wYsIYJsogYY6lmRzV4k7bnKFQg",
 							"type": "string"
 						}
 					]
@@ -255,7 +298,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"message\": \"good enough\",\n    \"email\": \"Donny6@example.com\",\n    \"rating\": 9,\n    \"birthdate\": \"1991-12-30\",\n    \"need_feedback\": true\n}",
+					"raw": "{\n    \"message\": \"good enough\",\n    \"email\": \"Donny7@example.com\",\n    \"rating\": 9,\n    \"birthdate\": \"1991-12-30\",\n    \"need_feedback\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -263,18 +306,18 @@
 					}
 				},
 				"url": {
-					"raw": "https://dg99v7cpjl.execute-api.eu-central-1.amazonaws.com/d/{{cookiecutter.custom_entity_name}}",
+					"raw": "https://h64obqsy7i.execute-api.eu-central-1.amazonaws.com/dev/entities",
 					"protocol": "https",
 					"host": [
-						"dg99v7cpjl",
+						"h64obqsy7i",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"d",
-						"{{cookiecutter.custom_entity_name}}"
+						"dev",
+						"entities"
 					]
 				}
 			},
@@ -283,11 +326,21 @@
 		{
 			"name": "test update entity",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJkM0c0YWZwdzlzZlFoZDV3RmRJczNxK1N4U0xN23rcL2NqUm80SDhCVlwvVkU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI4NWViNmM5MS04N2ZhLTRhZGYtYjMzYy01MzEwOWEzNzdmNTUiLCJjb2duaXRvOmdyb3VwcyI6WyJyZWFkZXIiLCJtb2RpZmllciJdLCJldmVudF9pZCI6ImI5NDNlNjEwLWJkYjgtNDU2OC04NGIxLWFhN2YxODcwNmFhMCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDgwMjg2MjYsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX3R2VU5IY0dVcCIsImV4cCI6MTYwODAzMjIyNiwiaWF0IjoxNjA4MDI4NjI2LCJqdGkiOiJmNDM4OTY0OS0zNjFjLTQxNjMtOWNjMy00M2MxNjNmNGI4ZGUiLCJjbGllbnRfaWQiOiI2Z2FyODVxdG1yOXRvdW04NGMwYzc5YWVsaSIsInVzZXJuYW1lIjoiODVlYjZjOTEtODdmYS00YWRmLWIzM2MtNTMxMDlhMzc3ZjU1In0.U3-zvb2DIFE4doCqdbkA3J5gVgxJZXwW22WEznffeb6lIb9xsYxKjAZbo34Oq66X_8oUNGEcOhCiSRQhwkCTgPJRO1uBG3NXxplVZgJoPYXDFjFauLGXiOFlSntQAUfDq4q9gleN8htyPkINFbbxBkkyxz8UVFhXd2JgCCttiD-QKjWdsxvmM8BgHyGCnY81XYqM0KYw1Slu4JJt3hyJkQo_rQvtrljHVFEvZlHSjpP3sVQi5KRrSYOjCUtS82svmcxc1YYb8JR70jO-JGxw7CJLBVcUmOPDsiJSapY9aVT6Ftg7ujogEvrre1wYsIYJs0kogYmRzV4k7bnKFQg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"message\": \"very good\",\n    \"email\": \"Donny6@example.com\",\n    \"rating\": 9,\n    \"birthdate\": \"1991-12-30\",\n    \"need_feedback\": true\n}",
+					"raw": "{\n    \"message\": \"very good\",\n    \"email\": \"Donny6@example.com\",\n    \"rating\": 10,\n    \"birthdate\": \"1991-12-30\",\n    \"need_feedback\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -295,18 +348,19 @@
 					}
 				},
 				"url": {
-					"raw": "https://6dwn45r9qj.execute-api.eu-central-1.amazonaws.com/uidd/{{cookiecutter.custom_entity_name}}",
+					"raw": "https://h64obqsy7i.execute-api.eu-central-1.amazonaws.com/dev/entities/ce9a5cfb-7558-4f3e-945a-f43bbb614034",
 					"protocol": "https",
 					"host": [
-						"6dwn45r9qj",
+						"h64obqsy7i",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"uidd",
-						"{{cookiecutter.custom_entity_name}}"
+						"gr",
+						"entities",
+						"ce9a5cfb-7558-4f3e-945a-f43bbb614034"
 					]
 				}
 			},
@@ -320,7 +374,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJraWQiOiJmSXBobnJ6ODRURzBQak5aSnBpbzNMSTlzdWNZUnlDSlRleGxjKzRxXC8yTT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1NDNmNmMwYi05YjgzLTQ3NGItODdiZS00OGE5NDRhNzZiNTgiLCJldmVudF9pZCI6ImY3YmIxZjUyLWQ5ZWMtNGRkNi04ZWRmLTYwMzhkMjQzMmUwZiIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDY4MjI5MTgsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX2FVUzVHM01NaiIsImV4cCI6MTYwNjgyNjUxOCwiaWF0IjoxNjA2ODIyOTE4LCJqdGkiOiIxODIwZDAyMi1iYzk0LTQ4NmMtODk1NC1hYWUxZDI2OGUzN2IiLCJjbGllbnRfaWQiOiI1bjVlbmxxanBhYjQwdnRsajIzYmVlcGJlayIsInVzZXJuYW1lIjoiNTQzZjZjMGItOWI4My00NzRiLTg3YmUtNDhhOTQ0YTc2YjU4In0.ZqjCU_ABQa4nkkJHKrC8TsftE0CG05rhY1YeG8T2qnqTFSWvpK2zaLlMeIU53WnDU0wGL9OiqSwF7QV-e_uX3kxXYskE5gjFeiu5ixIbvuxI2KZGtJ4cyG4SBFuG7m8whaj66iPT46EjCXRCHn1RtRjiHduTGEXf3Muw4kzaM6r6d9vTZ5zwmfehjscipfRbWRA1u2qUeguC_2MOhL8AErr03gMSQo4ipC1BuC5LCsi28Fjjh5ZxnAAWuFmin-z2-SVRuTgw9OgOkww76Ua5mor0ebJtkcjIl1-fvN3UlXXJB6ju95C_K-qMK2uPKdofE-sb61s-jiXZhO3TLuUmQ",
+							"value": "eyJraWQiOiJkM0c0YWZwdzlzZlFoZDV3RmRJczNxK1N4U0xNRmNcL2NqUm80SDhCVlwvVkU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIsWViNmM5MS04N2ZhLTRhZGYtYjMzYy01MzEwOWEzNzdmNTUiLCJjb2duaXRvOmdyb3VwcyI6WyJyZWFkZXIiLCJtb2RpZmllciJdLCJldmVudF9pZCI6ImZiNTU0YTExLTZkMmYtNDY2Yi04Y2MzLTcwYTczMWVkYTIzYyIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MDc2NjQyMzksImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbVwvZXUtY2VudHJhbC0xX3R2VU5IY0dVcCIsImV4cCI6MTYwNzY2NzgzOSwiaWF0IjoxNjA3NjY0MjM5LCJqdGkiOiJmMjM3ZGVmOC00MGE2LTRkYjUtYjEwOS1iNDRhMjhlZTM3OTYiLCJjbGllbnRfaWQiOiI2Z2FyODVxdG1yOXRvdW04NGMwYzc5YWVsaSIsInVzZXJuYW1lIjoiODVlYjZjOTEtODdmYS00YWRmLWIzM2MtNTMxMDlhMzc3ZjU1In0.O1xgQVpHBcxBn-nS0iGWg-McjSLuC0Y02_jBcAcmESEDHYWceXoBlAE485pryUbht9onhIJZwMBFmRl-wlAmxFw2d6fsOqe01krac6zyv5_jElZsDsM8EeRCE2aQmlP_dslMVe_aMOr3p-OqAMoykc8YXdfbz49IsVpKHvSL24NNEJNtawbBWTtXprS7IBD3QcG8eU5IAPZ7UEg7BfeXGOD7dAP0Fu3d_z-M7g7mTZ7DlmW5159QF-mzzM4m2BSpefIDvBuYGd_Oub6CQqYoJXEq_bl3iN855uIU9HuII7f7kKYMlmfJ0TIqsgnSTNEQxQtWGbLZPrP5VisxAQRw",
 							"type": "string"
 						}
 					]
@@ -328,19 +382,19 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://6dwn45r9qj.execute-api.eu-central-1.amazonaws.com/uidd/entities/5d07b4a3-f83e-4ce6-830b-fc96ed7d0034",
+					"raw": "https://h64obqsy7i.execute-api.eu-central-1.amazonaws.com/dev/entities/4c38bdc1-f767-40e1-9ecb-e321dada2523",
 					"protocol": "https",
 					"host": [
-						"6dwn45r9qj",
+						"h64obqsy7i",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"uidd",
-						"{{cookiecutter.custom_entity_name}}",
-						"5d07b4a3-f83e-4ce6-830b-fc96ed7d0034"
+						"dev",
+						"entities",
+						"4c38bdc1-f767-40e1-9ecb-e321dada2523"
 					]
 				}
 			},
@@ -353,7 +407,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"entry\": \"Here is my first entry!\"\n}",
+					"raw": "{\n    \"entry\": \"Here is my first entry!\" \n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -361,17 +415,17 @@
 					}
 				},
 				"url": {
-					"raw": "https://7p044d1fta.execute-api.eu-central-1.amazonaws.com/uid-new/write_to_bucket",
+					"raw": "https://9leohz92hc.execute-api.eu-central-1.amazonaws.com/dev/write_to_bucket",
 					"protocol": "https",
 					"host": [
-						"7p044d1fta",
+						"9leohz92hc",
 						"execute-api",
 						"eu-central-1",
 						"amazonaws",
 						"com"
 					],
 					"path": [
-						"uid-new",
+						"dev",
 						"write_to_bucket"
 					]
 				}
