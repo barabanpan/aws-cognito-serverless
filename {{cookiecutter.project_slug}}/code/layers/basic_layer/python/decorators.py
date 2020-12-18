@@ -51,7 +51,7 @@ def verify_JWT_token(group):
                 return unauthorized()
 
             if time.time() > claims["exp"]:
-                return response(401, {"message": "Token has expired"})
+                return response(401, {"message": "The incoming token has expired"})
 
             # group is not the one - unauthorized to use this resource
             if group not in claims["cognito:groups"]:
