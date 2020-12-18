@@ -25,3 +25,17 @@ def unauthorized():
 
 class BadRequestException(Exception):
     pass
+
+
+def redirect_to(redirect_url):
+    return {
+        "statusCode": 302,
+        "headers": {
+            "Location": redirect_url,
+            "X-Requested-With": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Credentials": "true"
+        }
+    }
