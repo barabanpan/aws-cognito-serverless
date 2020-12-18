@@ -438,6 +438,12 @@ paths:
             application/json:
               example:
                 message: Added successfully
+        '400': 
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                email: "There is no 'entry' in request body!"
         
 components:
   schemas:
