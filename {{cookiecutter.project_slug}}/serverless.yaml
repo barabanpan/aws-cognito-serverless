@@ -443,6 +443,18 @@ resources:
       Properties:
         Name: {{cookiecutter.project_slug}}-${self:custom.currentStage}
 
+    # there should be a parameter in ApiGateway that fixes it all without this seperate response
+    Response401:   # to fix "Failed to fetch" at secret_resource for 401 returned from authorizer
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties: 
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'DELETE,GET,OPTIONS,PUT'"
+        ResponseType: UNAUTHORIZED
+        RestApiId: !Ref ApiGatewayRestApi
+        StatusCode: '401'
+
     OpenApiDocsBucket:
       Type: AWS::S3::Bucket
       Properties:
