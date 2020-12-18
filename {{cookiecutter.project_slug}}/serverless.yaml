@@ -46,6 +46,8 @@ custom:
   customEntityTableName: ${self:custom.customEntityName}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
   bucketForWriting: {{cookiecutter.s3_bucket_name}}-{{cookiecutter.project_slug}}-${self:custom.currentStage}
   openApiDocsBucketName: {{cookiecutter.project_slug}}-{{cookiecutter.random_suffix}}-docs-${self:custom.currentStage}
+  cognitoAccessTokenValidity: 15  # in minutes | 5 minutes – 1 day
+  cognitoRefreshTokenValidity: 24  # in hours | 1 hour – 3,650 days
   pythonRequirements:  # for layer with python requirements
     dockerizePip: non-linux
     useDownloadCache: true
@@ -421,6 +423,8 @@ resources:
           - ALLOW_USER_PASSWORD_AUTH
           - ALLOW_REFRESH_TOKEN_AUTH
         PreventUserExistenceErrors: ENABLED  # recommended option
+        AccessTokenValidity: ${self:custom.cognitoAccessTokenValidity}
+        RefreshTokenValidity: ${self:custom.cognitoRefreshTokenValidity}
    
     ReadGroup:
       Type: AWS::Cognito::UserPoolGroup
