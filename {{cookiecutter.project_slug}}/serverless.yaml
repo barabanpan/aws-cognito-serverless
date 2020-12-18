@@ -34,8 +34,11 @@ provider:
           - Ref: ApiGatewayRestApi
           - .execute-api.{{cookiecutter.aws_region}}.amazonaws.com/
           - ${self:custom.currentStage}/custom-verification/redirect
+    # change those:     
     URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION: http://${self:custom.openApiDocsBucketName}.s3-website.{{cookiecutter.aws_region}}.amazonaws.com
-  
+    URL_FOR_REDIRECT_IF_CODE_IS_EXIPIRED: ${self:provider.environment.URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION}
+    URL_FOR_REDIRECT_IF_ALREADY_VERIFIED: ${self:provider.environment.URL_FOR_REDIRECT_AFTER_COGNITO_VERIFICATION}
+
 custom:
   currentStage: ${opt:stage, self:provider.stage, 'dev'}
   usersTableName: users-{{cookiecutter.project_slug}}-${self:custom.currentStage}  # for users' information
@@ -153,6 +156,12 @@ functions:
         - ./**
       include:
         - code/custom_verification/verify_and_redirect/**
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - cognito-idp:AdminGetUser
+        Resource:
+          Fn::GetAtt: [CognitoUserPool, Arn]
 
   resend_link:
     handler: code/custom_verification/resend_link/resend_link.handler
