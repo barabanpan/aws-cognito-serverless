@@ -437,7 +437,11 @@ paths:
           content:
             application/json:
               example:
-                message: Added successfully
+                message: New entry was added
+                last_records: 
+                  - id: 1
+                    created_at: 18.12.2020 14:13
+                    text: This is my first entry!
         '400': 
           description: Bad Request
           content:
