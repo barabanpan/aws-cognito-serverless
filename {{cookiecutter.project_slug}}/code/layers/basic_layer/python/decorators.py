@@ -54,7 +54,7 @@ def verify_JWT_token(group):
                 return response(401, {"message": "The incoming token has expired"})
 
             # group is not the one - unauthorized to use this resource
-            if group not in claims["cognito:groups"]:
+            if group not in claims.get("cognito:groups", list()):
                 return response(403, {"message": "Forbidden"})
 
             res = func(*args, **kwargs)
