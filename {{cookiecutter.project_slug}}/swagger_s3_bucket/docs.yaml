@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: ExampleAPI 
+  title: {{cookiecutter.project_name}} API 
   description: API description
   version: 1.0.0
 servers:
@@ -196,6 +196,16 @@ paths:
                 items:
                   type: object
                   description: List of entities
+              example:
+                uid: some-uid-here
+                email: donny@example.com
+                birthdate: 1992-08-17
+                message: Hi, you all!
+                rating: 9
+                need_feedback: true
+                created_at: 2020/12/18 14:08:45 UTC
+                updated_at: 2020/12/18 14:08:45 UTC
+                is_active: true
         '401':
           description: Authorization header is missing or invalid.
           content:
@@ -242,8 +252,19 @@ paths:
           description: Successful Operation
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/entity_returned'
               example:
-                uid: "some-uid-here"
+                uid: some-uid-here
+                email: donny@example.com
+                birthdate: "1992-08-17"
+                message: Hi, you all!
+                rating: 9
+                need_feedback: true
+                created_at: 2020/12/18 14:08:45 UTC
+                updated_at: 2020/12/18 14:08:45 UTC
+                is_active: true
+                success: true
         '400': 
           description: Bad Request
           content:
@@ -264,7 +285,6 @@ paths:
                 $ref: '#/components/schemas/response_403'
       security:
         - bearerAuth: []
-  
   
   /{{cookiecutter.custom_entity_name}}/{uid}:
     get: 
@@ -299,12 +319,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/entity'
               example:
-                uid: "some-uid-here"
-                email: larry@example.com
-                description: Good enough
-                value: 22
-                date: "1991-10-22"
-                is_good_boy: true
+                uid: some-uid-here
+                email: donny@example.com
+                birthdate: "1992-08-17"
+                message: Hi, you all!
+                rating: 9
+                need_feedback: true
+                created_at: 2020/12/18 14:08:45 UTC
+                updated_at: 2020/12/18 14:08:45 UTC
+                is_active: true
         '401':
           description: Authorization header is missing or invalid.
           content:
@@ -364,8 +387,19 @@ paths:
           description: Successful Update
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/entity_returned'
               example:
-                uid: "some-uid-here"
+                uid: some-uid-here
+                email: donny@example.com
+                birthdate: "1992-08-17"
+                message: Hi, you all!
+                rating: 10
+                need_feedback: true
+                created_at: 2020/12/18 14:08:45 UTC
+                updated_at: 2020/12/18 14:08:45 UTC
+                is_active: true
+                success: true
         '401':
           description: Authorization header is missing or invalid.
           content:
@@ -395,12 +429,8 @@ paths:
           required: true
           description: String uid that is case-sensitive
       responses:
-        '200': 
+        '204': 
           description: Successful Deletion
-          content:
-            application/json:
-              example:
-                message: "Deleted succesfully."
         '401':
           description: Authorization header is missing or invalid.
           content:
@@ -500,6 +530,39 @@ components:
         need_feedback:
           type: boolean
           default: false
+          
+    'entity_returned':
+      type: object
+      additionalProperties: false
+      properties:
+        uid:
+          type: string
+        email:
+          type: string
+          format: email
+          minLength: 1
+        message:
+          type: string
+          minLength: 1
+          maxLength: 500
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 10
+        birthdate:
+          type: string
+        need_feedback:
+          type: boolean
+          default: false
+        created_at: 
+          type: string
+        updated_at: 
+          type: string
+        is_active:
+          type: boolean
+        success: 
+          type: boolean
+          description: Indicates if entity was created successfully
           
     'entry':
       type: object
