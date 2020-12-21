@@ -4,7 +4,7 @@ import json
 import os
 import re
 
-from constants import COGNITO_USER_POOL_GROUPS
+from constants import COGNITO_DEFAULT_GROUP, COGNITO_USER_POOL_GROUPS
 from db_manager import UsersDatabaseManager
 from utils import bad_request, BadRequestException, response
 
@@ -58,7 +58,7 @@ def validate_body(body):
     if not isinstance(body, dict):
         raise BadRequestException("Invalid request body")
 
-    username, password, groups = body.get("email"), body.get("password"), body.get("groups")
+    username, password, groups = body.get("email"), body.get("password"), body.get("groups", list())
 
     if not (username and password and groups):
         raise BadRequestException("'email', 'password' or 'groups' is missing")
@@ -69,6 +69,9 @@ def validate_body(body):
     for group in groups:
         if group not in COGNITO_USER_POOL_GROUPS:
             raise BadRequestException("Choose 'groups' from: {0}".format(str(COGNITO_USER_POOL_GROUPS)))
+
+    if COGNITO_DEFAULT_GROUP not in groups:
+        groups.append(COGNITO_DEFAULT_GROUP)
 
     if not re.fullmatch(r"[^@]+@[^@]+\.[^@]+", username):
         raise BadRequestException("Invalid email address")
