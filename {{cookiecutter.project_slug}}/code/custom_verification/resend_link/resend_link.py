@@ -30,10 +30,13 @@ def handler(event, context):
     if email_verified == "true":
         return bad_request("The account's email is already verified.")
 
-    client.resend_confirmation_code(
-        ClientId=COGNITO_CLIENT_ID,
-        Username=email
-    )
+    try:
+        client.resend_confirmation_code(
+            ClientId=COGNITO_CLIENT_ID,
+            Username=email
+        )
+    except client.exceptions.CodeDeliveryFailureException:
+        return bad_request("This email does not exist.")
 
     return response(200, {"message": "Please check your email for verification link."})
 
