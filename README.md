@@ -37,6 +37,6 @@ You only need one email for all stages.
 cookiecutter https://github.com/barabanpan/aws-cognito-serverless.git
 ```
 
-Choose parameters. Better write entity_name in plural from. No pressure though:)
+Choose parameters. Better write entity_name in plural form. No pressure though:)
 
 5. For further steps see README.md inside of {{cookiecutter.project_slug}} folder.
