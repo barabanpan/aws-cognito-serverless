@@ -38,6 +38,5 @@ cookiecutter https://github.com/barabanpan/aws-cognito-serverless.git
 ```
 
 Choose parameters. Better write entity_name in plural from. No pressure though:)
-> project_name should match the next pattern "[a-zA-Z][0-9a-zA-Z-]+$"
 
 5. For further steps see README.md inside of {{cookiecutter.project_slug}} folder.
