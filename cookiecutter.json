@@ -14,5 +14,6 @@
     	"*.map",
     	"*.css",
     	".github"
-    ]
+    ],
+    "_extensions": ["cookiecutter.extensions.RandomStringExtension"]
 }
