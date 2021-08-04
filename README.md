@@ -22,7 +22,9 @@ For CRUD operations:
 ```
 python3 -m pip install -U cookiecutter
 ```
-
+```
+sudo apt install cookiecutter
+```
 3. Go here ([AWS SES configuration](https://eu-west-1.console.aws.amazon.com/ses/home?region=eu-west-1#verified-senders-email:)) to create and verify an email address.
 
 Note your SES region and your email, you'll need them in step 4.
