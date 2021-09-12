@@ -31,7 +31,9 @@ Note your SES region and your email, you'll need them in step 4.
 
 It's needed for sending verification emails and usually email looks like *no-reply@ourcompanyname.com*.
 For tests you can use your own email.
-You only need one email for all stages. 
+You only need one email for all stages.
+
+> By default the user pool is in a sandbox, where you only can send emails to other verified email addresses. To move out of sandbox and use full power of AWS SES, read this: [Moving out of the Amazon SES sandbox](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html).
 
 
 4. Create project from template (in a folder, seperate from template):
